@@ -32,23 +32,6 @@
                     <li class="nav-item">
                         <a class="nav-link active" href="?page=beranda"><i class="bi bi-house-door"></i> Beranda</a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="capaianDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-file-text"></i> Capaian
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="capaianDropdown">
-                            <li>
-                                <a class="dropdown-item" href="?page=capaian_penyelesaian_perkara">
-                                    Persentase Penyelesaian Perkara Tepat Waktu
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="?page=capaian_salinan">
-                                    Persentase Pengiriman Salinan Tepat Waktu
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
                 </ul>
             </div>
         </div>

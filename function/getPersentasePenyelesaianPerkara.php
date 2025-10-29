@@ -92,10 +92,3 @@ class getPersentasePenyelesaianPerkara
         return $resultArray;
     }
 }
-
-// Contoh penggunaan:
-// $persen = new Persentase();
-// echo $persen->getPenyelesaianPerkara();
-// echo $persen->getPersentasePerkaraMinutasi();
-// echo $persen->getPersentasePenyelesaianPidana();
-// echo $persen->getPersentasePenyelesaianPerdata();

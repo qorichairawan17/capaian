@@ -1,3 +1,33 @@
+<?php
+// Data menu cards
+$menuCards = [
+    [
+        'icon' => 'bi-file-earmark-check',
+        'title' => 'Penyelesaian Perkara',
+        'text' => 'Monitoring capaian persentase penyelesaian perkara tepat waktu',
+        'href' => '?page=capaian_penyelesaian_perkara'
+    ],
+    [
+        'icon' => 'bi-send-check',
+        'title' => 'Pengiriman Salinan Putusan',
+        'text' => 'Monitoring capaian persentase Pengiriman Salinan Putusan tepat waktu',
+        'href' => '?page=capaian_pengiriman_salinan_putusan'
+    ],
+    [
+        'icon' => 'bi-folder-check',
+        'title' => 'Putusan Pengadilan Pada Direktori',
+        'text' => 'Monitoring capaian persentase Putusan Pengadilan Pada Direktori Putusan',
+        'href' => '?page=capaian_putusan_pengadilan'
+    ],
+    [
+        'icon' => 'bi-file-earmark',
+        'title' => 'Pendaftaran Perkara Pada Ecourt',
+        'text' => 'Monitoring capaian persentase Pendaftaran Perkara Perdata Pada Ecourt',
+        'href' => '?page=capaian_pendaftaran_perkara_ecourt'
+    ]
+];
+?>
+
 <!-- Beranda - Daftar Menu -->
 <div class="container py-4">
     <!-- Header -->
@@ -10,39 +40,24 @@
 
     <!-- Menu Cards -->
     <div class="row g-4">
-        <div class="col-lg-4 col-md-6 col-sm-12 animate-fade-in" style="animation-delay: 0.1s;">
-            <div class="stat-card h-100">
-                <div class="card-body text-center p-4">
-                    <div class="stat-icon mx-auto mb-3">
-                        <i class="bi bi-file-earmark-check"></i>
+        <?php foreach ($menuCards as $index => $card): ?>
+            <div class="col-lg-4 col-md-6 col-sm-12 animate-fade-in" style="animation-delay: <?= $index * 0.1 ?>s;">
+                <div class="stat-card h-100">
+                    <div class="card-body text-center p-4">
+                        <div class="stat-icon mx-auto mb-3">
+                            <i class="bi <?= $card['icon'] ?>"></i>
+                        </div>
+                        <h5 class="card-title fw-bold mb-3"><?= $card['title'] ?></h5>
+                        <p class="card-text text-muted mb-4">
+                            <?= $card['text'] ?>
+                        </p>
+                        <a href="<?= $card['href'] ?>" class="btn btn-warning-custom w-100">
+                            <i class="bi bi-arrow-right-circle"></i> Lihat Data
+                        </a>
                     </div>
-                    <h5 class="card-title fw-bold mb-3">Penyelesaian Perkara</h5>
-                    <p class="card-text text-muted mb-4">
-                        Monitoring capaian persentase penyelesaian perkara tepat waktu berdasarkan periode
-                    </p>
-                    <a href="?page=capaian_penyelesaian_perkara" class="btn btn-warning-custom w-100">
-                        <i class="bi bi-arrow-right-circle"></i> Lihat Data
-                    </a>
                 </div>
             </div>
-        </div>
-
-        <div class="col-lg-4 col-md-6 col-sm-12 animate-fade-in" style="animation-delay: 0.1s;">
-            <div class="stat-card h-100">
-                <div class="card-body text-center p-4">
-                    <div class="stat-icon mx-auto mb-3">
-                        <i class="bi bi-file-earmark-check"></i>
-                    </div>
-                    <h5 class="card-title fw-bold mb-3">Pengiriman Salinan Putusan</h5>
-                    <p class="card-text text-muted mb-4">
-                        Monitoring capaian persentase Pengiriman Salinan Putusan tepat waktu berdasarkan periode
-                    </p>
-                    <a href="?page=capaian_pengiriman_salinan_putusan" class="btn btn-warning-custom w-100">
-                        <i class="bi bi-arrow-right-circle"></i> Lihat Data
-                    </a>
-                </div>
-            </div>
-        </div>
+        <?php endforeach; ?>
     </div>
 
     <!-- Info Section -->

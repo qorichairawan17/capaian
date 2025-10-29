@@ -2,11 +2,11 @@
 // Proses filter data
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-require_once 'function/getPersentasePenyelesaianPerkara.php';
+require_once 'function/getPersentasiPerkaraPerdataEcourt.php';
 $tahunFilter = isset($_GET['tahun']) ? (int)$_GET['tahun'] : date('Y');
 
 try {
-    $persentase = new getPersentasePenyelesaianPerkara();
+    $persentase = new getPersentasiPerkaraPerdataEcourt();
     $dataTotal = $persentase->total($tahunFilter);
     $dataPerbulan = $persentase->perbulan($tahunFilter);
     $dataPertriwulan = $persentase->pertriwulan($tahunFilter);
@@ -37,7 +37,7 @@ $namaBulan = [
     <!-- Filter Section -->
     <div class="filter-card animate-fade-in">
         <form method="GET" action="">
-            <input type="hidden" name="page" value="capaian_penyelesaian_perkara">
+            <input type="hidden" name="page" value="capaian_pendaftaran_perkara_ecourt">
             <div class="row align-items-end">
                 <div class="col-md-3 mb-3">
                     <label class="form-label fw-semibold">Periode Tahun</label>
@@ -59,11 +59,11 @@ $namaBulan = [
     </div>
 
 
-    <!-- Persentase Penyelesaian Perkara Tepat Waktu -->
+    <!-- Persentase Pendaftaran Perkara e-Court -->
     <div class="row mb-4">
         <div class="col-lg-12">
             <h5 class="section-title">
-                <i class="bi bi-bar-chart-line"></i> Persentase Penyelesaian Perkara Tepat Waktu - Tahun <?php echo $tahunFilter; ?>
+                <i class="bi bi-bar-chart-line"></i> Persentase Pendaftaran Perkara e-Court - Tahun <?php echo $tahunFilter; ?>
             </h5>
         </div>
         <div class="col-xl-4 col-md-6 mb-4">
@@ -71,9 +71,9 @@ $namaBulan = [
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <div class="stat-label">Jumlah Perkara Diselesaikan Tepat Waktu</div>
-                            <div class="stat-value"><?php echo number_format($dataTotal['jlhPerkaraSelesaiTepatWaktu']); ?></div>
-                            <small class="text-success"> Selesai Tepat Waktu</small>
+                            <div class="stat-label">Jumlah Perkara e-Court</div>
+                            <div class="stat-value"><?php echo number_format($dataTotal['jlhPerkaraEcourt']); ?></div>
+                            <small class="text-success"> Perkara e-Court</small>
                         </div>
                         <div class="stat-icon">
                             <i class="bi bi-folder"></i>
@@ -88,9 +88,9 @@ $namaBulan = [
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <div class="stat-label">Jumlah Perkara Diselesaikan</div>
-                            <div class="stat-value"><?php echo number_format($dataTotal['jlhPerkaraSelesai']); ?></div>
-                            <small class="text-success"> Perkara Selesai</small>
+                            <div class="stat-label">Jumlah Perkara Total</div>
+                            <div class="stat-value"><?php echo number_format($dataTotal['jlhPerkara']); ?></div>
+                            <small class="text-success"> Perkara Total</small>
                         </div>
                         <div class="stat-icon">
                             <i class="bi bi-check-circle"></i>
@@ -122,7 +122,7 @@ $namaBulan = [
     <div class="row mb-4">
         <div class="col-lg-12">
             <h5 class="section-title">
-                <i class="bi bi-bar-chart-line"></i> Detail Penyelesaian Perkara Tepat Waktu Per Triwulan
+                <i class="bi bi-bar-chart-line"></i> Detail Pendaftaran Perkara e-Court Per Triwulan
             </h5>
         </div>
         <div class="card">
@@ -132,9 +132,9 @@ $namaBulan = [
                         <thead class="table-light">
                             <tr>
                                 <th>No</th>
-                                <th>Bulan</th>
-                                <th>Jumlah Perkara Diselesaikan Tepat Waktu</th>
-                                <th>Jumlah Perkara Diselesaikan</th>
+                                <th>Triwulan</th>
+                                <th>Jumlah Perkara e-Court</th>
+                                <th>Jumlah Perkara Total</th>
                                 <th>Persentase %</th>
                             </tr>
                         </thead>
@@ -145,8 +145,8 @@ $namaBulan = [
                                 echo "<tr>";
                                 echo "<td>{$no}</td>";
                                 echo "<td>Triwulan {$triwulan}</td>";
-                                echo "<td>" . number_format($data['jlhPerkaraSelesaiTepatWaktu']) . "</td>";
-                                echo "<td>" . number_format($data['jlhPerkaraSelesai']) . "</td>";
+                                echo "<td>" . number_format($data['jlhPerkaraEcourt']) . "</td>";
+                                echo "<td>" . number_format($data['jlhPerkara']) . "</td>";
                                 echo "<td>" . number_format($data['persentase'], 2) . "%</td>";
                                 echo "</tr>";
                                 $no++;
@@ -162,7 +162,7 @@ $namaBulan = [
     <div class="row mb-4">
         <div class="col-lg-12">
             <h5 class="section-title">
-                <i class="bi bi-bar-chart-line"></i> Detail Penyelesaian Perkara Tepat Waktu Per Bulan
+                <i class="bi bi-bar-chart-line"></i> Detail Pendaftaran Perkara e-Court Per Bulan
             </h5>
         </div>
         <div class="card">
@@ -173,8 +173,8 @@ $namaBulan = [
                             <tr>
                                 <th>No</th>
                                 <th>Bulan</th>
-                                <th>Jumlah Perkara Diselesaikan Tepat Waktu</th>
-                                <th>Jumlah Perkara Diselesaikan</th>
+                                <th>Jumlah Perkara e-Court</th>
+                                <th>Jumlah Perkara Total</th>
                                 <th>Persentase %</th>
                             </tr>
                         </thead>
@@ -185,8 +185,8 @@ $namaBulan = [
                                 echo "<tr>";
                                 echo "<td>{$no}</td>";
                                 echo "<td>{$namaBulan[$bulan]}</td>";
-                                echo "<td>" . number_format($data['jlhPerkaraSelesaiTepatWaktu']) . "</td>";
-                                echo "<td>" . number_format($data['jlhPerkaraSelesai']) . "</td>";
+                                echo "<td>" . number_format($data['jlhPerkaraEcourt']) . "</td>";
+                                echo "<td>" . number_format($data['jlhPerkara']) . "</td>";
                                 echo "<td>" . number_format($data['persentase'], 2) . "%</td>";
                                 echo "</tr>";
                                 $no++;
