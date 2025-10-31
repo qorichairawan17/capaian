@@ -2,28 +2,40 @@
 // Data menu cards
 $menuCards = [
     [
+        'icon' => 'bi-database',
+        'title' => 'Rasio Penanganan Perkara',
+        'text' => 'Monitoring rasio penanganan perkara secara keseluruhan',
+        'href' => '?page=rasio_penanganan_perkara'
+    ],
+    [
         'icon' => 'bi-file-earmark-check',
-        'title' => 'Penyelesaian Perkara',
+        'title' => '1.1 Penyelesaian Perkara',
         'text' => 'Monitoring capaian persentase penyelesaian perkara tepat waktu',
         'href' => '?page=capaian_penyelesaian_perkara'
     ],
     [
         'icon' => 'bi-send-check',
-        'title' => 'Pengiriman Salinan Putusan',
+        'title' => '1.3 Pengiriman Salinan Putusan',
         'text' => 'Monitoring capaian persentase Pengiriman Salinan Putusan tepat waktu',
         'href' => '?page=capaian_pengiriman_salinan_putusan'
     ],
     [
         'icon' => 'bi-folder-check',
-        'title' => 'Putusan Pengadilan Pada Direktori',
+        'title' => '1.6 Putusan Pengadilan Pada Direktori',
         'text' => 'Monitoring capaian persentase Putusan Pengadilan Pada Direktori Putusan',
         'href' => '?page=capaian_putusan_pengadilan'
     ],
     [
-        'icon' => 'bi-file-earmark',
-        'title' => 'Pendaftaran Perkara Pada Ecourt',
+        'icon' => 'bi-person-check',
+        'title' => '1.11 Pendaftaran Perkara Pada Ecourt',
         'text' => 'Monitoring capaian persentase Pendaftaran Perkara Perdata Pada Ecourt',
         'href' => '?page=capaian_pendaftaran_perkara_ecourt'
+    ],
+    [
+        'icon' => 'bi-person-lines-fill',
+        'title' => '1.12 Pendaftaran Perkara Pada Eberpadu',
+        'text' => 'Monitoring capaian persentase Pendaftaran Perkara Pidana Pada Eberpadu',
+        'href' => '?page=capaian_pendaftaran_perkara_eberpadu'
     ]
 ];
 ?>

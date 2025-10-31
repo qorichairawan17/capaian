@@ -141,7 +141,13 @@ $namaBulan = [
                         <tbody>
                             <?php
                             $no = 1;
+                            $totalJlhPutusanTerupload = 0;
+                            $totalJlhPerkaraMinutasi = 0;
+                            $overallPersentaseTotal = 0;
                             foreach ($dataPertriwulan as $triwulan => $data) {
+                                $totalJlhPutusanTerupload += $data['jlhPutusanTerupload'];
+                                $totalJlhPerkaraMinutasi += $data['jlhPerkaraMinutasi'];
+                                $overallPersentaseTotal += $data['persentase'];
                                 echo "<tr>";
                                 echo "<td>{$no}</td>";
                                 echo "<td>Triwulan {$triwulan}</td>";
@@ -152,6 +158,18 @@ $namaBulan = [
                                 $no++;
                             }
                             ?>
+                            <tr class="table-light fw-bold">
+                                <td colspan="2" class="text-center">Total</td>
+                                <td>
+                                    <?php echo number_format($totalJlhPutusanTerupload); ?>
+                                </td>
+                                <td>
+                                    <?php echo number_format($totalJlhPerkaraMinutasi); ?>
+                                </td>
+                                <td>
+                                    <?php echo number_format($overallPersentaseTotal, 2); ?>%
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -181,7 +199,13 @@ $namaBulan = [
                         <tbody>
                             <?php
                             $no = 1;
+                            $totalJlhPutusanTeruploadBulan = 0;
+                            $totalJlhPerkaraMinutasiBulan = 0;
+                            $overallPersentaseTotalBulan = 0;
                             foreach ($dataPerbulan as $bulan => $data) {
+                                $totalJlhPutusanTeruploadBulan += $data['jlhPutusanTerupload'];
+                                $totalJlhPerkaraMinutasiBulan += $data['jlhPerkaraMinutasi'];
+                                $overallPersentaseTotalBulan += $data['persentase'];
                                 echo "<tr>";
                                 echo "<td>{$no}</td>";
                                 echo "<td>{$namaBulan[$bulan]}</td>";
@@ -192,6 +216,18 @@ $namaBulan = [
                                 $no++;
                             }
                             ?>
+                            <tr class="table-light fw-bold">
+                                <td colspan="2" class="text-center">Total</td>
+                                <td>
+                                    <?php echo number_format($totalJlhPutusanTeruploadBulan); ?>
+                                </td>
+                                <td>
+                                    <?php echo number_format($totalJlhPerkaraMinutasiBulan); ?>
+                                </td>
+                                <td>
+                                    <?php echo number_format($overallPersentaseTotalBulan, 2); ?>%
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

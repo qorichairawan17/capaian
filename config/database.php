@@ -1,10 +1,10 @@
 <?php
 class Database
 {
-    private $host = 'localhost';
-    private $user = 'root';
-    private $pass = '';
-    private $dbname = 'db_sipp311';
+    private $host = '153.92.15.55';
+    private $user = 'u322727425_db_sipp_user';
+    private $pass = 'S1pp@123';
+    private $dbname = 'u322727425_db_sipp';
     private $conn;
 
     public function __construct()
@@ -16,7 +16,7 @@ class Database
     {
         $this->conn = new mysqli($this->host, $this->user, $this->pass, $this->dbname);
         if ($this->conn->connect_error) {
-            die('Koneksi gagal: ' . $this->conn->connect_error);
+            die('Gagal menghubungkan ke database: ' . $this->conn->connect_error);
         }
     }
 
