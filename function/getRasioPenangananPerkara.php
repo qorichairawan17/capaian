@@ -32,6 +32,19 @@ class getRasioPenangananPerkara
          * 
          * CATATAN: Query mengecualikan alur_perkara_id = 114 (perkara khusus)
          */
+        // $rasioPenangananPerkara = "SELECT C.masuk AS masuk, C.minutasi AS minutasi, C.sisa AS sisa,
+        // (SELECT VALUE FROM sys_config WHERE id = 62) AS namaPN,
+        // (SELECT VALUE FROM sys_config WHERE id = 80) AS versiSIPP,
+        // (ROUND(SUM(C.minutasi)*100/(SUM(C.masuk)+SUM(C.sisa)),2)) AS kinerjaPN,
+        // (ROUND(SUM(C.masuk)+SUM(C.sisa)-(SUM(C.minutasi)))) AS tunggakan,
+        // (CASE WHEN (ROUND(SUM(C.minutasi)*100/(SUM(C.masuk)+SUM(C.sisa)),2)) < 50.00 THEN 'red' 
+        //     WHEN (ROUND(SUM(C.minutasi)*100/(SUM(C.masuk)+SUM(C.sisa)),2)) > 90.00 THEN 'green' 
+        //     ELSE '#EFB019' END) AS warnaPN
+        // FROM (SELECT
+        // SUM(CASE WHEN YEAR(A.tanggal_pendaftaran)<='$year'-1 AND (YEAR(B.tanggal_minutasi)>='$year' OR (B.tanggal_minutasi IS NULL OR B.tanggal_minutasi='')) THEN 1 ELSE 0 END) AS sisa,
+        // SUM(CASE WHEN YEAR(A.tanggal_pendaftaran)='$year' THEN 1 ELSE 0 END) AS masuk,
+        // SUM(CASE WHEN YEAR(A.tanggal_pendaftaran)<='$year' AND YEAR(B.tanggal_minutasi)='$year' THEN 1 ELSE 0 END) AS minutasi
+        // FROM perkara AS A LEFT JOIN perkara_putusan AS B ON A.perkara_id=B.perkara_id WHERE A.alur_perkara_id <> 114) AS C;";
         $rasioPenangananPerkara = "SELECT C.masuk AS masuk, C.minutasi AS minutasi, C.sisa AS sisa,
         (SELECT VALUE FROM sys_config WHERE id = 62) AS namaPN,
         (SELECT VALUE FROM sys_config WHERE id = 80) AS versiSIPP,
@@ -44,7 +57,7 @@ class getRasioPenangananPerkara
         SUM(CASE WHEN YEAR(A.tanggal_pendaftaran)<='$year'-1 AND (YEAR(B.tanggal_minutasi)>='$year' OR (B.tanggal_minutasi IS NULL OR B.tanggal_minutasi='')) THEN 1 ELSE 0 END) AS sisa,
         SUM(CASE WHEN YEAR(A.tanggal_pendaftaran)='$year' THEN 1 ELSE 0 END) AS masuk,
         SUM(CASE WHEN YEAR(A.tanggal_pendaftaran)<='$year' AND YEAR(B.tanggal_minutasi)='$year' THEN 1 ELSE 0 END) AS minutasi
-        FROM perkara AS A LEFT JOIN perkara_putusan AS B ON A.perkara_id=B.perkara_id WHERE A.alur_perkara_id <> 114) AS C;";
+        FROM perkara AS A LEFT JOIN perkara_putusan AS B ON A.perkara_id=B.perkara_id) AS C;";
         $result = $this->conn->query($rasioPenangananPerkara);
         $row = $result->fetch_assoc();
 

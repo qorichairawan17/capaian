@@ -8,16 +8,28 @@ $menuCards = [
         'href' => '?page=rasio_penanganan_perkara'
     ],
     [
-        'icon' => 'bi-file-earmark-check',
+        'icon' => 'bi-database-check',
         'title' => '1.1 Penyelesaian Perkara',
         'text' => 'Monitoring capaian persentase penyelesaian perkara tepat waktu',
-        'href' => '?page=capaian_penyelesaian_perkara'
+        'href' => '?page=capaian_persentase_11'
+    ],
+    [
+        'icon' => 'bi-database-check',
+        'title' => '1.2 Pengiriman Salinan Putusan',
+        'text' => 'Monitoring capaian persentase Pengiriman Salinan Putusan tepat waktu',
+        'href' => '?page=capaian_persentase_12'
     ],
     [
         'icon' => 'bi-send-check',
-        'title' => '1.3 Pengiriman Salinan Putusan',
-        'text' => 'Monitoring capaian persentase Pengiriman Salinan Putusan tepat waktu',
-        'href' => '?page=capaian_pengiriman_salinan_putusan'
+        'title' => '1.3 Pemberitahuan Petikan/Amar Putusan Upaya Hukum',
+        'text' => 'Monitoring capaian persentase Pemberitahuan Petikan/Amar Putusan tepat waktu',
+        'href' => '?page=capaian_persentase_13'
+    ],
+    [
+        'icon' => 'bi-send-check',
+        'title' => '1.4 Pengiriman Salinan Putusan Upaya Hukum',
+        'text' => 'Monitoring capaian persentase Pengiriman Salinan Putusan Upaya Hukum tepat waktu',
+        'href' => '?page=capaian_pengiriman_salinan_putusan_upaya_hukum'
     ],
     [
         'icon' => 'bi-folder-check',
