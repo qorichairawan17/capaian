@@ -2,11 +2,11 @@
 // Proses filter data
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-require_once 'function/getPersentasiPerkaraPerdataEcourt.php';
+require_once 'function/getPersentase110.php';
 $tahunFilter = isset($_GET['tahun']) ? (int)$_GET['tahun'] : date('Y');
 
 try {
-    $persentase = new getPersentasiPerkaraPerdataEcourt();
+    $persentase = new GetPersentase110();
     $dataTotal = $persentase->total($tahunFilter);
     $dataPerbulan = $persentase->perbulan($tahunFilter);
     $dataPertriwulan = $persentase->pertriwulan($tahunFilter);
@@ -37,7 +37,7 @@ $namaBulan = [
     <!-- Filter Section -->
     <div class="filter-card animate-fade-in">
         <form method="GET" action="">
-            <input type="hidden" name="page" value="capaian_pendaftaran_perkara_ecourt">
+            <input type="hidden" name="page" value="capaian_persentase_110">
             <div class="row align-items-end">
                 <div class="col-md-3 mb-3">
                     <label class="form-label fw-semibold">Periode Tahun</label>

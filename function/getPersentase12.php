@@ -27,7 +27,7 @@ class GetPersentase12
 
         // Cari total perkara tingkat banding yang didaftarkan
         $totalPerkaraPutus = "SELECT COUNT(*) AS total_perkara FROM perkara LEFT JOIN perkara_putusan ON perkara.perkara_id = perkara_putusan.perkara_id
-        WHERE YEAR(perkara.tanggal_pendaftaran)='$year' AND perkara_putusan.tanggal_putusan IS NOT NULL ;";
+        WHERE YEAR(perkara.tanggal_pendaftaran)='$year' AND perkara_putusan.tanggal_putusan IS NOT NULL;";
         $resultPerkaraPutus = $this->conn->query($totalPerkaraPutus);
         $countPerkaraPutus = $resultPerkaraPutus->fetch_assoc();
         $dataPerkaraPutus = $countPerkaraPutus ? $countPerkaraPutus['total_perkara'] : 0;

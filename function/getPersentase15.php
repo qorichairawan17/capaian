@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../config/database.php';
 
-class getPersentasePutusanPadaDirektori
+class getPersentase15
 {
     private $conn;
 

@@ -29,25 +29,25 @@ $menuCards = [
         'icon' => 'bi-send-check',
         'title' => '1.4 Pengiriman Salinan Putusan Upaya Hukum',
         'text' => 'Monitoring capaian persentase Pengiriman Salinan Putusan Upaya Hukum tepat waktu',
-        'href' => '?page=capaian_pengiriman_salinan_putusan_upaya_hukum'
+        'href' => '?page=capaian_persentase_14'
     ],
     [
         'icon' => 'bi-folder-check',
-        'title' => '1.6 Putusan Pengadilan Pada Direktori',
+        'title' => '1.5 Putusan Pengadilan Pada Direktori',
         'text' => 'Monitoring capaian persentase Putusan Pengadilan Pada Direktori Putusan',
-        'href' => '?page=capaian_putusan_pengadilan'
+        'href' => '?page=capaian_persentase_15'
     ],
     [
         'icon' => 'bi-person-check',
-        'title' => '1.11 Pendaftaran Perkara Pada Ecourt',
+        'title' => '1.10 Pendaftaran Perkara Pada Ecourt',
         'text' => 'Monitoring capaian persentase Pendaftaran Perkara Perdata Pada Ecourt',
-        'href' => '?page=capaian_pendaftaran_perkara_ecourt'
+        'href' => '?page=capaian_persentase_110'
     ],
     [
         'icon' => 'bi-person-lines-fill',
-        'title' => '1.12 Pendaftaran Perkara Pada Eberpadu',
+        'title' => '1.11 Pendaftaran Perkara Pada Eberpadu',
         'text' => 'Monitoring capaian persentase Pendaftaran Perkara Pidana Pada Eberpadu',
-        'href' => '?page=capaian_pendaftaran_perkara_eberpadu'
+        'href' => '?page=capaian_persentase_111'
     ]
 ];
 ?>

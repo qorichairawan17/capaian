@@ -63,7 +63,7 @@ class GetPersentase13
         return [
             'jlhPetikanDikirim' => $totalPetikanDikirim,
             'jlhPetikanDiterima' => $totalPetikanDiterima,
-            'persentase' => ($totalPetikanDikirim == 0) ? 0 : ($totalPetikanDiterima / $totalPetikanDikirim * 100),
+            'persentase' => ($totalPetikanDikirim == 0) ? 0 : ($totalPetikanDikirim / $totalPetikanDiterima * 100),
         ];
     }
 
@@ -113,7 +113,7 @@ class GetPersentase13
             $totalPetikanDikirim = $dataPetikanBanding + $dataPetikanKasasi + $dataPetikanPK;
             $totalPetikanDiterima = $dataDiterimaBanding + $dataDiterimaKasasi + $dataDiterimaPK;
 
-            $persentase = ($totalPetikanDikirim == 0) ? 0 : ($totalPetikanDiterima / $totalPetikanDikirim * 100);
+            $persentase = ($totalPetikanDikirim == 0) ? 0 : ($totalPetikanDikirim / $totalPetikanDiterima * 100);
 
             $resultArray[$month] = [
                 'jlhPetikanDikirim' => $totalPetikanDikirim,
@@ -177,7 +177,7 @@ class GetPersentase13
             $totalPetikanDikirim = $dataPetikanBanding + $dataPetikanKasasi + $dataPetikanPK;
             $totalPetikanDiterima = $dataDiterimaBanding + $dataDiterimaKasasi + $dataDiterimaPK;
 
-            $persentase = ($totalPetikanDikirim == 0) ? 0 : ($totalPetikanDiterima / $totalPetikanDikirim * 100);
+            $persentase = ($totalPetikanDikirim == 0) ? 0 : ($totalPetikanDikirim / $totalPetikanDiterima * 100);
 
             $resultArray[$triwulan] = [
                 'jlhPetikanDikirim' => $totalPetikanDikirim,
