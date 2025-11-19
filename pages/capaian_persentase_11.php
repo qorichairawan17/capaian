@@ -119,129 +119,95 @@ $namaBulan = [
 
     </div>
 
+    <!-- Tabs Wrapper -->
     <div class="row mb-4">
-        <div class="col-lg-12">
-            <h5 class="section-title">
-                <i class="bi bi-bar-chart-line"></i> Detail Penyelesaian Perkara Tepat Waktu Per Triwulan
-            </h5>
-        </div>
-        <div class="card">
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-responsive align-middle animate-fade-in" style="animation-delay: 0.3s">
-                        <thead class="table-light">
-                            <tr>
-                                <th>No</th>
-                                <th>Bulan</th>
-                                <th>Jumlah Perkara Diselesaikan Tepat Waktu</th>
-                                <th>Jumlah Perkara Diselesaikan</th>
-                                <th>Persentase %</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            $no = 1;
-                            foreach ($dataPertriwulan as $triwulan => $data) {
-                                echo "<tr>";
-                                echo "<td>{$no}</td>";
-                                echo "<td>Triwulan {$triwulan}</td>";
-                                echo "<td>" . number_format($data['jlhPerkaraSelesaiTepatWaktu']) . "</td>";
-                                echo "<td>" . number_format($data['jlhPerkaraSelesai']) . "</td>";
-                                echo "<td>" . number_format($data['persentase'], 2) . "%</td>";
-                                echo "</tr>";
-                                $no++;
-                            }
-                            ?>
-                        </tbody>
-                    </table>
+        <div class="col-12">
+            <h5 class="section-title mb-3"><i class="bi bi-bar-chart-line"></i> Detail Penyelesaian & Jenis Perkara</h5>
+            <ul class="nav nav-tabs" id="pers11Tabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="triwulan-tab" data-bs-toggle="tab" data-bs-target="#triwulan" type="button" role="tab">Per Triwulan</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="bulan-tab" data-bs-toggle="tab" data-bs-target="#bulan" type="button" role="tab">Per Bulan</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="jenis-tab" data-bs-toggle="tab" data-bs-target="#jenis" type="button" role="tab">Jenis Perkara</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="grafik-tab" data-bs-toggle="tab" data-bs-target="#grafik" type="button" role="tab">Grafik</button>
+                </li>
+            </ul>
+            <div class="tab-content border border-top-0 p-3 bg-white rounded-bottom shadow-sm">
+                <div class="tab-pane fade show active" id="triwulan" role="tabpanel">
+                    <div class="table-responsive">
+                        <table class="table table-responsive align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>No</th>
+                                    <th>Triwulan</th>
+                                    <th>Jumlah Perkara Diselesaikan Tepat Waktu</th>
+                                    <th>Jumlah Perkara Diselesaikan</th>
+                                    <th>Persentase %</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php $no = 1;
+                                foreach ($dataPertriwulan as $triwulan => $data) {
+                                    echo "<tr><td>{$no}</td><td>Triwulan {$triwulan}</td><td>" . number_format($data['jlhPerkaraSelesaiTepatWaktu']) . "</td><td>" . number_format($data['jlhPerkaraSelesai']) . "</td><td>" . number_format($data['persentase'], 2) . "%</td></tr>";
+                                    $no++;
+                                } ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="bulan" role="tabpanel">
+                    <div class="table-responsive">
+                        <table class="table table-responsive align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>No</th>
+                                    <th>Bulan</th>
+                                    <th>Jumlah Perkara Diselesaikan Tepat Waktu</th>
+                                    <th>Jumlah Perkara Diselesaikan</th>
+                                    <th>Persentase %</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php $no = 1;
+                                foreach ($dataPerbulan as $bulan => $data) {
+                                    echo "<tr><td>{$no}</td><td>{$namaBulan[$bulan]}</td><td>" . number_format($data['jlhPerkaraSelesaiTepatWaktu']) . "</td><td>" . number_format($data['jlhPerkaraSelesai']) . "</td><td>" . number_format($data['persentase'], 2) . "%</td></tr>";
+                                    $no++;
+                                } ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="jenis" role="tabpanel">
+                    <div class="table-responsive">
+                        <table class="table table-responsive align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>No</th>
+                                    <th>Jenis Perkara</th>
+                                    <th>Jumlah Perkara Diputus</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php $no = 1;
+                                foreach ($dataTotal['detailJenisPerkara'] as $jenis) {
+                                    $namaJenis = !empty($jenis['jenis_perkara_text']) ? $jenis['jenis_perkara_text'] : $jenis['jenis_perkara_nama'];
+                                    echo "<tr><td>{$no}</td><td>{$namaJenis}</td><td>" . number_format($jenis['total_jenis_perkara']) . "</td></tr>";
+                                    $no++;
+                                } ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="grafik" role="tabpanel">
+                    <div class="chart-container"><canvas id="barChart"></canvas></div>
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="row mb-4">
-        <div class="col-lg-12">
-            <h5 class="section-title">
-                <i class="bi bi-bar-chart-line"></i> Detail Penyelesaian Perkara Tepat Waktu Per Bulan
-            </h5>
-        </div>
-        <div class="card">
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-responsive align-middle animate-fade-in" style="animation-delay: 0.3s">
-                        <thead class="table-light">
-                            <tr>
-                                <th>No</th>
-                                <th>Bulan</th>
-                                <th>Jumlah Perkara Diselesaikan Tepat Waktu</th>
-                                <th>Jumlah Perkara Diselesaikan</th>
-                                <th>Persentase %</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            $no = 1;
-                            foreach ($dataPerbulan as $bulan => $data) {
-                                echo "<tr>";
-                                echo "<td>{$no}</td>";
-                                echo "<td>{$namaBulan[$bulan]}</td>";
-                                echo "<td>" . number_format($data['jlhPerkaraSelesaiTepatWaktu']) . "</td>";
-                                echo "<td>" . number_format($data['jlhPerkaraSelesai']) . "</td>";
-                                echo "<td>" . number_format($data['persentase'], 2) . "%</td>";
-                                echo "</tr>";
-                                $no++;
-                            }
-                            ?>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Charts Section -->
-    <div class="row mb-4">
-        <div class="col-lg-12">
-            <h5 class="section-title">
-                <i class="bi bi-bar-chart-line"></i> Detail Jenis Perkara yang Diputus
-            </h5>
-        </div>
-        <div class="card">
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-responsive align-middle animate-fade-in" style="animation-delay: 0.3s">
-                        <thead class="table-light">
-                            <tr>
-                                <th>No</th>
-                                <th>Jenis Perkara</th>
-                                <th>Jumlah Perkara Diputus</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            $no = 1;
-                            foreach ($dataTotal['detailJenisPerkara'] as $jenis) {
-                                $namaJenis = !empty($jenis['jenis_perkara_text']) ? $jenis['jenis_perkara_text'] : $jenis['jenis_perkara_nama'];
-                                echo "<tr>";
-                                echo "<td>{$no}</td>";
-                                echo "<td>{$namaJenis}</td>";
-                                echo "<td>" . number_format($jenis['total_jenis_perkara']) . "</td>";
-                                echo "</tr>";
-                                $no++;
-                            }
-                            ?>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="chart-container animate-fade-in">
-        <h5 class="section-title">
-            <i class="bi bi-bar-chart-fill"></i> Grafik Jenis Perkara yang Diputus (Teratas 20)
-        </h5>
-        <canvas id="barChart"></canvas>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -323,6 +289,10 @@ $namaBulan = [
                     }
                 }
             }
+        });
+        // Resize saat tab grafik ditampilkan
+        document.getElementById('grafik-tab').addEventListener('shown.bs.tab', () => {
+            barChart.resize();
         });
     </script>
 

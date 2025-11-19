@@ -119,81 +119,54 @@ $namaBulan = [
 
     </div>
 
+    <!-- Tabs Wrapper -->
     <div class="row mb-4">
-        <div class="col-lg-12">
-            <h5 class="section-title">
-                <i class="bi bi-bar-chart-line"></i> Detail Pengiriman Petikan Putusan Per Triwulan
-            </h5>
-        </div>
-        <div class="card">
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-responsive align-middle animate-fade-in" style="animation-delay: 0.3s">
-                        <thead class="table-light">
-                            <tr>
-                                <th>No</th>
-                                <th>Triwulan</th>
-                                <th>Jumlah Petikan Dikirim</th>
-                                <th>Jumlah Petikan Diterima</th>
-                                <th>Persentase %</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            $no = 1;
-                            foreach ($dataPertriwulan as $triwulan => $data) {
-                                echo "<tr>";
-                                echo "<td>{$no}</td>";
-                                echo "<td>Triwulan {$triwulan}</td>";
-                                echo "<td>" . number_format($data['jlhPetikanDikirim']) . "</td>";
-                                echo "<td>" . number_format($data['jlhPetikanDiterima']) . "</td>";
-                                echo "<td>" . number_format($data['persentase'], 2) . "%</td>";
-                                echo "</tr>";
-                                $no++;
-                            }
-                            ?>
-                        </tbody>
-                    </table>
+        <div class="col-12">
+            <h5 class="section-title mb-3"><i class="bi bi-bar-chart-line"></i> Detail Pengiriman Petikan</h5>
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#triwulan" type="button">Per Triwulan</button></li>
+                <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#bulan" type="button">Per Bulan</button></li>
+            </ul>
+            <div class="tab-content border border-top-0 p-3 bg-white rounded-bottom shadow-sm">
+                <div class="tab-pane fade show active" id="triwulan">
+                    <div class="table-responsive">
+                        <table class="table table-responsive align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>No</th>
+                                    <th>Triwulan</th>
+                                    <th>Jumlah Petikan Dikirim</th>
+                                    <th>Jumlah Petikan Diterima</th>
+                                    <th>Persentase %</th>
+                                </tr>
+                            </thead>
+                            <tbody><?php $no = 1;
+                                    foreach ($dataPertriwulan as $triwulan => $data) {
+                                        echo "<tr><td>{$no}</td><td>Triwulan {$triwulan}</td><td>" . number_format($data['jlhPetikanDikirim']) . "</td><td>" . number_format($data['jlhPetikanDiterima']) . "</td><td>" . number_format($data['persentase'], 2) . "%</td></tr>";
+                                        $no++;
+                                    } ?></tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row mb-4">
-        <div class="col-lg-12">
-            <h5 class="section-title">
-                <i class="bi bi-bar-chart-line"></i> Detail Pengiriman Petikan Putusan Per Bulan
-            </h5>
-        </div>
-        <div class="card">
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-responsive align-middle animate-fade-in" style="animation-delay: 0.3s">
-                        <thead class="table-light">
-                            <tr>
-                                <th>No</th>
-                                <th>Bulan</th>
-                                <th>Jumlah Petikan Dikirim</th>
-                                <th>Jumlah Petikan Diterima</th>
-                                <th>Persentase %</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            $no = 1;
-                            foreach ($dataPerbulan as $bulan => $data) {
-                                echo "<tr>";
-                                echo "<td>{$no}</td>";
-                                echo "<td>{$namaBulan[$bulan]}</td>";
-                                echo "<td>" . number_format($data['jlhPetikanDikirim']) . "</td>";
-                                echo "<td>" . number_format($data['jlhPetikanDiterima']) . "</td>";
-                                echo "<td>" . number_format($data['persentase'], 2) . "%</td>";
-                                echo "</tr>";
-                                $no++;
-                            }
-                            ?>
-                        </tbody>
-                    </table>
+                <div class="tab-pane fade" id="bulan">
+                    <div class="table-responsive">
+                        <table class="table table-responsive align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>No</th>
+                                    <th>Bulan</th>
+                                    <th>Jumlah Petikan Dikirim</th>
+                                    <th>Jumlah Petikan Diterima</th>
+                                    <th>Persentase %</th>
+                                </tr>
+                            </thead>
+                            <tbody><?php $no = 1;
+                                    foreach ($dataPerbulan as $bulan => $data) {
+                                        echo "<tr><td>{$no}</td><td>{$namaBulan[$bulan]}</td><td>" . number_format($data['jlhPetikanDikirim']) . "</td><td>" . number_format($data['jlhPetikanDiterima']) . "</td><td>" . number_format($data['persentase'], 2) . "%</td></tr>";
+                                        $no++;
+                                    } ?></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

@@ -119,117 +119,68 @@ $namaBulan = [
 
     </div>
 
+    <!-- Tabs Wrapper -->
     <div class="row mb-4">
-        <div class="col-lg-12">
-            <h5 class="section-title">
-                <i class="bi bi-bar-chart-line"></i> Detail Putusan pada Direktori Per Triwulan
-            </h5>
-        </div>
-        <div class="card">
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-responsive align-middle animate-fade-in" style="animation-delay: 0.3s">
-                        <thead class="table-light">
-                            <tr>
-                                <th>No</th>
-                                <th>Triwulan</th>
-                                <th>Jumlah Putusan Terupload</th>
-                                <th>Jumlah Perkara Minutasi</th>
-                                <th>Persentase %</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            $no = 1;
-                            $totalJlhPutusanTerupload = 0;
-                            $totalJlhPerkaraMinutasi = 0;
-                            $overallPersentaseTotal = 0;
-                            foreach ($dataPertriwulan as $triwulan => $data) {
-                                $totalJlhPutusanTerupload += $data['jlhPutusanTerupload'];
-                                $totalJlhPerkaraMinutasi += $data['jlhPerkaraMinutasi'];
-                                $overallPersentaseTotal += $data['persentase'];
-                                echo "<tr>";
-                                echo "<td>{$no}</td>";
-                                echo "<td>Triwulan {$triwulan}</td>";
-                                echo "<td>" . number_format($data['jlhPutusanTerupload']) . "</td>";
-                                echo "<td>" . number_format($data['jlhPerkaraMinutasi']) . "</td>";
-                                echo "<td>" . number_format($data['persentase'], 2) . "%</td>";
-                                echo "</tr>";
-                                $no++;
-                            }
-                            ?>
-                            <tr class="table-light fw-bold">
-                                <td colspan="2" class="text-center">Total</td>
-                                <td>
-                                    <?php echo number_format($totalJlhPutusanTerupload); ?>
-                                </td>
-                                <td>
-                                    <?php echo number_format($totalJlhPerkaraMinutasi); ?>
-                                </td>
-                                <td>
-                                    <?php echo number_format($overallPersentaseTotal, 2); ?>%
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+        <div class="col-12">
+            <h5 class="section-title mb-3"><i class="bi bi-bar-chart-line"></i> Detail Putusan Direktori</h5>
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#triwulan" type="button">Per Triwulan</button></li>
+                <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#bulan" type="button">Per Bulan</button></li>
+            </ul>
+            <div class="tab-content border border-top-0 p-3 bg-white rounded-bottom shadow-sm">
+                <div class="tab-pane fade show active" id="triwulan">
+                    <div class="table-responsive">
+                        <table class="table table-responsive align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>No</th>
+                                    <th>Triwulan</th>
+                                    <th>Jumlah Putusan Terupload</th>
+                                    <th>Jumlah Perkara Minutasi</th>
+                                    <th>Persentase %</th>
+                                </tr>
+                            </thead>
+                            <tbody><?php $no = 1;
+                                    $totalJlhPutusanTerupload = 0;
+                                    $totalJlhPerkaraMinutasi = 0;
+                                    $overallPersentaseTotal = 0;
+                                    foreach ($dataPertriwulan as $triwulan => $data) {
+                                        $totalJlhPutusanTerupload += $data['jlhPutusanTerupload'];
+                                        $totalJlhPerkaraMinutasi += $data['jlhPerkaraMinutasi'];
+                                        $overallPersentaseTotal += $data['persentase'];
+                                        echo "<tr><td>{$no}</td><td>Triwulan {$triwulan}</td><td>" . number_format($data['jlhPutusanTerupload']) . "</td><td>" . number_format($data['jlhPerkaraMinutasi']) . "</td><td>" . number_format($data['persentase'], 2) . "%</td></tr>";
+                                        $no++;
+                                    }
+                                    echo "<tr class='table-light fw-bold'><td colspan='2' class='text-center'>Total</td><td>" . number_format($totalJlhPutusanTerupload) . "</td><td>" . number_format($totalJlhPerkaraMinutasi) . "</td><td>" . number_format($overallPersentaseTotal, 2) . "%</td></tr>"; ?></tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row mb-4">
-        <div class="col-lg-12">
-            <h5 class="section-title">
-                <i class="bi bi-bar-chart-line"></i> Detail Putusan pada Direktori Per Bulan
-            </h5>
-        </div>
-        <div class="card">
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-responsive align-middle animate-fade-in" style="animation-delay: 0.3s">
-                        <thead class="table-light">
-                            <tr>
-                                <th>No</th>
-                                <th>Bulan</th>
-                                <th>Jumlah Putusan Terupload</th>
-                                <th>Jumlah Perkara Minutasi</th>
-                                <th>Persentase %</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            $no = 1;
-                            $totalJlhPutusanTeruploadBulan = 0;
-                            $totalJlhPerkaraMinutasiBulan = 0;
-                            $overallPersentaseTotalBulan = 0;
-                            foreach ($dataPerbulan as $bulan => $data) {
-                                $totalJlhPutusanTeruploadBulan += $data['jlhPutusanTerupload'];
-                                $totalJlhPerkaraMinutasiBulan += $data['jlhPerkaraMinutasi'];
-                                $overallPersentaseTotalBulan += $data['persentase'];
-                                echo "<tr>";
-                                echo "<td>{$no}</td>";
-                                echo "<td>{$namaBulan[$bulan]}</td>";
-                                echo "<td>" . number_format($data['jlhPutusanTerupload']) . "</td>";
-                                echo "<td>" . number_format($data['jlhPerkaraMinutasi']) . "</td>";
-                                echo "<td>" . number_format($data['persentase'], 2) . "%</td>";
-                                echo "</tr>";
-                                $no++;
-                            }
-                            ?>
-                            <tr class="table-light fw-bold">
-                                <td colspan="2" class="text-center">Total</td>
-                                <td>
-                                    <?php echo number_format($totalJlhPutusanTeruploadBulan); ?>
-                                </td>
-                                <td>
-                                    <?php echo number_format($totalJlhPerkaraMinutasiBulan); ?>
-                                </td>
-                                <td>
-                                    <?php echo number_format($overallPersentaseTotalBulan, 2); ?>%
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="tab-pane fade" id="bulan">
+                    <div class="table-responsive">
+                        <table class="table table-responsive align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>No</th>
+                                    <th>Bulan</th>
+                                    <th>Jumlah Putusan Terupload</th>
+                                    <th>Jumlah Perkara Minutasi</th>
+                                    <th>Persentase %</th>
+                                </tr>
+                            </thead>
+                            <tbody><?php $no = 1;
+                                    $totalJlhPutusanTeruploadBulan = 0;
+                                    $totalJlhPerkaraMinutasiBulan = 0;
+                                    $overallPersentaseTotalBulan = 0;
+                                    foreach ($dataPerbulan as $bulan => $data) {
+                                        $totalJlhPutusanTeruploadBulan += $data['jlhPutusanTerupload'];
+                                        $totalJlhPerkaraMinutasiBulan += $data['jlhPerkaraMinutasi'];
+                                        $overallPersentaseTotalBulan += $data['persentase'];
+                                        echo "<tr><td>{$no}</td><td>{$namaBulan[$bulan]}</td><td>" . number_format($data['jlhPutusanTerupload']) . "</td><td>" . number_format($data['jlhPerkaraMinutasi']) . "</td><td>" . number_format($data['persentase'], 2) . "%</td></tr>";
+                                        $no++;
+                                    }
+                                    echo "<tr class='table-light fw-bold'><td colspan='2' class='text-center'>Total</td><td>" . number_format($totalJlhPutusanTeruploadBulan) . "</td><td>" . number_format($totalJlhPerkaraMinutasiBulan) . "</td><td>" . number_format($overallPersentaseTotalBulan, 2) . "%</td></tr>"; ?></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
