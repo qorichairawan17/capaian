@@ -156,7 +156,7 @@ $totalPerkara = $dataTotal['masuk'] + $dataTotal['sisa'];
 
     <!-- Charts Section -->
     <div class="row mb-4">
-        <div class="col-lg-6 mb-4">
+        <div class="col-lg-4 mb-4">
             <div class="chart-container animate-fade-in">
                 <h5 class="section-title">
                     <i class="bi bi-pie-chart"></i> Grafik Rasio Penanganan Perkara
@@ -164,7 +164,7 @@ $totalPerkara = $dataTotal['masuk'] + $dataTotal['sisa'];
                 <canvas id="pieChart"></canvas>
             </div>
         </div>
-        <div class="col-lg-6 mb-4">
+        <div class="col-lg-8 mb-4">
             <div class="chart-container animate-fade-in">
                 <h5 class="section-title">
                     <i class="bi bi-bar-chart"></i> Grafik Perbandingan Status Perkara
