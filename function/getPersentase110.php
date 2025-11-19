@@ -16,9 +16,9 @@ class GetPersentase110
         // Rumus Indikator (Jumlah perkara perdata,perdata agama dan tata usaha negara tingkat pertama dan tingkat banding yang diajukan menggunakan e-court / Jumlah perkara perdata,perdata agama dan tata usaha negara tingkat pertama dan tingkat banding yang diajukan ) * 100%
 
         // Cari total perkara tingkat pertama yang didaftarkan melalui ecourt
-        $totalPerkaraTkPertamaEcourt = "SELECT COUNT(perkara_efiling.nomor_perkara) AS total_perkara
-                            FROM perkara_efiling LEFT JOIN alur_perkara ON perkara_efiling.alur_perkara_id = alur_perkara.id
-                            WHERE YEAR(tgl_pendaftaran_perkara) = '$year' AND perkara_efiling.alur_perkara_id IN (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32);";
+        // 11 adalah status efiling yang menandakan bahwa Pendaftaran Tidak Dapat Dilanjutkan
+        $totalPerkaraTkPertamaEcourt = "SELECT COUNT(perkara_efiling.nomor_perkara) AS total_perkara FROM perkara_efiling LEFT JOIN perkara ON perkara_efiling.`nomor_perkara` = perkara.`nomor_perkara` LEFT JOIN alur_perkara ON perkara_efiling.alur_perkara_id = alur_perkara.id
+                                WHERE perkara_efiling.status_pendaftaran_id <> '11' AND perkara_efiling.`nomor_perkara`<>'' AND YEAR(tgl_pendaftaran_perkara) = '2025' AND perkara_efiling.alur_perkara_id IN (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32);";
         $resultTkPertamaEcourt = $this->conn->query($totalPerkaraTkPertamaEcourt);
         $rowTkPertamaEcourt = $resultTkPertamaEcourt->fetch_assoc();
         $data1 = $rowTkPertamaEcourt ? $rowTkPertamaEcourt['total_perkara'] : 0;
@@ -51,7 +51,7 @@ class GetPersentase110
         return [
             'jlhPerkaraEcourt' => $totalPerkaraEcourt,
             'jlhPerkara' => $totalPerkara,
-            'persentase' => ($totalPerkara == 0) ? 0 : ($totalPerkaraEcourt / $totalPerkara * 100)
+            'persentase' => ($totalPerkaraEcourt == 0) ? 0 : ($totalPerkaraEcourt / $totalPerkara * 100)
         ];
     }
 
@@ -63,9 +63,8 @@ class GetPersentase110
         $resultArray = [];
         for ($month = 1; $month <= 12; $month++) {
             // Perkara e-court tingkat pertama per bulan
-            $sqlTkPertamaEcourt = "SELECT COUNT(perkara_efiling.nomor_perkara) AS total_perkara
-                FROM perkara_efiling LEFT JOIN alur_perkara ON perkara_efiling.alur_perkara_id = alur_perkara.id
-                WHERE YEAR(tgl_pendaftaran_perkara) = '$year' AND MONTH(tgl_pendaftaran_perkara) = '$month' AND perkara_efiling.alur_perkara_id IN (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32);";
+            $sqlTkPertamaEcourt = "SELECT COUNT(perkara_efiling.nomor_perkara) AS total_perkara FROM perkara_efiling LEFT JOIN perkara ON perkara_efiling.`nomor_perkara` = perkara.`nomor_perkara` LEFT JOIN alur_perkara ON perkara_efiling.alur_perkara_id = alur_perkara.id
+                WHERE perkara_efiling.status_pendaftaran_id <> '11' AND perkara_efiling.`nomor_perkara`<>'' AND YEAR(tgl_pendaftaran_perkara) = '$year' AND MONTH(tgl_pendaftaran_perkara) = '$month' AND perkara_efiling.alur_perkara_id IN (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32);";
             $resultTkPertamaEcourt = $this->conn->query($sqlTkPertamaEcourt);
             $rowTkPertamaEcourt = $resultTkPertamaEcourt->fetch_assoc();
             $data1 = $rowTkPertamaEcourt ? $rowTkPertamaEcourt['total_perkara'] : 0;
@@ -120,9 +119,8 @@ class GetPersentase110
         foreach ($triwulanMap as $triwulan => $months) {
             $bulanIn = implode(',', $months);
             // Perkara e-court tingkat pertama per triwulan
-            $sqlTkPertamaEcourt = "SELECT COUNT(perkara_efiling.nomor_perkara) AS total_perkara
-                FROM perkara_efiling LEFT JOIN alur_perkara ON perkara_efiling.alur_perkara_id = alur_perkara.id
-                WHERE YEAR(tgl_pendaftaran_perkara) = '$year' AND MONTH(tgl_pendaftaran_perkara) IN ($bulanIn) AND perkara_efiling.alur_perkara_id IN (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32);";
+            $sqlTkPertamaEcourt = "SELECT COUNT(perkara_efiling.nomor_perkara) AS total_perkara FROM perkara_efiling LEFT JOIN perkara ON perkara_efiling.`nomor_perkara` = perkara.`nomor_perkara` LEFT JOIN alur_perkara ON perkara_efiling.alur_perkara_id = alur_perkara.id
+                WHERE perkara_efiling.status_pendaftaran_id <> '11' AND perkara_efiling.`nomor_perkara`<>'' AND YEAR(tgl_pendaftaran_perkara) = '$year' AND MONTH(tgl_pendaftaran_perkara) IN ($bulanIn) AND perkara_efiling.alur_perkara_id IN (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32);";
             $resultTkPertamaEcourt = $this->conn->query($sqlTkPertamaEcourt);
             $rowTkPertamaEcourt = $resultTkPertamaEcourt->fetch_assoc();
             $data1 = $rowTkPertamaEcourt ? $rowTkPertamaEcourt['total_perkara'] : 0;

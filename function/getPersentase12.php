@@ -17,7 +17,7 @@ class GetPersentase12
         /* Jumlah Salinan putusan yang tersedia/dikirm kepada para pihak secara tepat Waktu dibagi
         Jumlah perkara yang diputus * 100% */
 
-        // Cari total perkara tingkat pertama yang didaftarkan melalui ecourt
+        // Cari total salinan putusan yang dikirim
         $totalSalput = "SELECT COUNT(DISTINCT perkara_putusan_pemberitahuan_putusan.perkara_id) AS total_salput FROM perkara LEFT JOIN perkara_putusan ON perkara.perkara_id = perkara_putusan.perkara_id 
         LEFT JOIN perkara_putusan_pemberitahuan_putusan ON perkara.perkara_id = perkara_putusan_pemberitahuan_putusan.perkara_id
         WHERE YEAR(perkara.tanggal_pendaftaran)='$year' AND perkara_putusan.tanggal_putusan IS NOT NULL AND perkara_putusan_pemberitahuan_putusan.tanggal_kirim_salinan_putusan IS NOT NULL;";
@@ -25,7 +25,7 @@ class GetPersentase12
         $countSalput = $resultSalput->fetch_assoc();
         $dataSalput = $countSalput ? $countSalput['total_salput'] : 0;
 
-        // Cari total perkara tingkat banding yang didaftarkan
+        // Cari total perkara yang diputus
         $totalPerkaraPutus = "SELECT COUNT(*) AS total_perkara FROM perkara LEFT JOIN perkara_putusan ON perkara.perkara_id = perkara_putusan.perkara_id
         WHERE YEAR(perkara.tanggal_pendaftaran)='$year' AND perkara_putusan.tanggal_putusan IS NOT NULL;";
         $resultPerkaraPutus = $this->conn->query($totalPerkaraPutus);
