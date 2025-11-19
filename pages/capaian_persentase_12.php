@@ -239,7 +239,7 @@ $namaBulan = [
 
     <div class="chart-container animate-fade-in">
         <h5 class="section-title">
-            <i class="bi bi-bar-chart-fill"></i> Grafik Jenis Perkara yang Diputus
+            <i class="bi bi-bar-chart-fill"></i> Grafik Jenis Perkara yang Diputus (Teratas 20)
         </h5>
         <canvas id="barChart"></canvas>
     </div>
@@ -262,7 +262,7 @@ $namaBulan = [
             data: {
                 labels: jenisPerkara,
                 datasets: [{
-                    label: 'Jumlah Perkara Diputus',
+                    label: 'Jumlah Perkara',
                     data: jumlahPerkara,
                     backgroundColor: [
                         'rgba(54, 162, 235, 0.8)',

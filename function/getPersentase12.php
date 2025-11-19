@@ -42,7 +42,7 @@ class GetPersentase12
             LEFT JOIN perkara_putusan ON perkara.perkara_id = perkara_putusan.perkara_id
             WHERE YEAR(perkara.tanggal_pendaftaran) = '$year'
               AND perkara_putusan.tanggal_putusan IS NOT NULL
-            GROUP BY perkara.jenis_perkara_nama, perkara.jenis_perkara_text";
+            GROUP BY perkara.jenis_perkara_nama, perkara.jenis_perkara_text ORDER BY total_jenis_perkara DESC LIMIT 20;";
         $queryJenisPerkara = $this->conn->query($totalJenisPerkara);
         $resultJenisPerkara = [];
         if ($queryJenisPerkara) {

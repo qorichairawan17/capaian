@@ -22,10 +22,29 @@ class GetPersentase11
         $result2 = $this->conn->query($jlhPerkaraSelesai);
         $data2 = $result2->fetch_row();
 
+        // Untuk mencari perkara yang diputus berdasarkan jenis perkara
+        $totalJenisPerkara = "SELECT 
+            COUNT(DISTINCT perkara_putusan.perkara_id) AS total_jenis_perkara, 
+            perkara.jenis_perkara_nama, 
+            perkara.jenis_perkara_text
+            FROM perkara 
+            LEFT JOIN perkara_putusan ON perkara.perkara_id = perkara_putusan.perkara_id
+            WHERE YEAR(perkara.tanggal_pendaftaran) = '$year'
+              AND perkara_putusan.tanggal_putusan IS NOT NULL
+            GROUP BY perkara.jenis_perkara_nama, perkara.jenis_perkara_text ORDER BY total_jenis_perkara DESC LIMIT 20;";
+        $queryJenisPerkara = $this->conn->query($totalJenisPerkara);
+        $resultJenisPerkara = [];
+        if ($queryJenisPerkara) {
+            while ($row = $queryJenisPerkara->fetch_assoc()) {
+                $resultJenisPerkara[] = $row;
+            }
+        }
+
         return $result = [
             'jlhPerkaraSelesaiTepatWaktu' => $data[0],
             'jlhPerkaraSelesai' => $data2[0],
-            'persentase' => ($data2[0] == 0) ? 0 : ($data[0] / $data2[0] * 100)
+            'persentase' => ($data2[0] == 0) ? 0 : ($data[0] / $data2[0] * 100),
+            'detailJenisPerkara' => $resultJenisPerkara
         ];
     }
 

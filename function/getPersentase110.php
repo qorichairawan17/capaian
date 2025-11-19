@@ -30,10 +30,28 @@ class GetPersentase110
         $rowTkPertama = $resultTkPertama->fetch_assoc();
         $totalPerkara = $rowTkPertama ? $rowTkPertama['total_perkara'] : 0;
 
+        // Untuk mencari perkara yang dilimpahkan berdasarkan jenis perkara
+        $totalJenisPerkara = "SELECT 
+            COUNT(DISTINCT perkara_efiling.nomor_perkara) AS total_jenis_perkara, 
+            perkara.jenis_perkara_nama, 
+            perkara.jenis_perkara_text
+            FROM perkara_efiling LEFT JOIN perkara ON perkara_efiling.`nomor_perkara` = perkara.`nomor_perkara` LEFT JOIN alur_perkara ON perkara_efiling.alur_perkara_id = alur_perkara.id
+            WHERE perkara_efiling.status_pendaftaran_id <> '11' AND perkara_efiling.`nomor_perkara`<>'' AND YEAR(tgl_pendaftaran_perkara) = '$year' 
+            AND perkara_efiling.alur_perkara_id IN (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32)
+            GROUP BY perkara.jenis_perkara_nama, perkara.jenis_perkara_text;";
+        $queryJenisPerkara = $this->conn->query($totalJenisPerkara);
+        $resultJenisPerkara = [];
+        if ($queryJenisPerkara) {
+            while ($row = $queryJenisPerkara->fetch_assoc()) {
+                $resultJenisPerkara[] = $row;
+            }
+        }
+
         return [
             'jlhPerkaraEcourt' => $totalPerkaraEcourt,
             'jlhPerkara' => $totalPerkara,
-            'persentase' => ($totalPerkaraEcourt == 0) ? 0 : ($totalPerkaraEcourt / $totalPerkara * 100)
+            'persentase' => ($totalPerkaraEcourt == 0) ? 0 : ($totalPerkaraEcourt / $totalPerkara * 100),
+            'detailJenisPerkara' => $resultJenisPerkara
         ];
     }
 

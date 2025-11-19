@@ -298,7 +298,7 @@ $namaBulan = [
             data: {
                 labels: jenisPerkara,
                 datasets: [{
-                    label: 'Jumlah Perkara Diputus',
+                    label: 'Jumlah Perkara',
                     data: jumlahPerkara,
                     backgroundColor: [
                         'rgba(54, 162, 235, 0.8)',

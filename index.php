@@ -37,17 +37,15 @@
         </div>
     </nav>
     <!-- Konten Dinamis -->
-    <div class="container">
-        <?php
-        $page = isset($_GET['page']) ? $_GET['page'] : 'beranda';
-        $file = __DIR__ . "/pages/{$page}.php";
-        if (preg_match('/^[a-zA-Z0-9_]+$/', $page) && file_exists($file)) {
-            include $file;
-        } else {
-            echo '<div class="alert alert-danger mt-4">Halaman tidak ditemukan.</div>';
-        }
-        ?>
-    </div>
+    <?php
+    $page = isset($_GET['page']) ? $_GET['page'] : 'beranda';
+    $file = __DIR__ . "/pages/{$page}.php";
+    if (preg_match('/^[a-zA-Z0-9_]+$/', $page) && file_exists($file)) {
+        include $file;
+    } else {
+        echo '<div class="alert alert-danger mt-4">Halaman tidak ditemukan.</div>';
+    }
+    ?>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
