@@ -29,11 +29,29 @@ class GetPersentase111
         $rowPelimpahanPerkara = $resultPelimpahanPerkara->fetch_assoc();
         $data2 = $rowPelimpahanPerkara ? $rowPelimpahanPerkara['total_perkara'] : 0;
 
+        // Untuk mencari perkara yang dilimpahkan berdasarkan jenis perkara
+        $totalJenisPerkara = "SELECT 
+            COUNT(DISTINCT berpadu_pelimpahan_register.perkara_id) AS total_jenis_perkara, 
+            perkara.jenis_perkara_nama, 
+            perkara.jenis_perkara_text
+            FROM berpadu_pelimpahan_register
+            LEFT JOIN perkara ON berpadu_pelimpahan_register.perkara_id = perkara.perkara_id 
+            LEFT JOIN alur_perkara ON perkara.alur_perkara_id = alur_perkara.id WHERE alur_perkara.id IN(111,112,113,115,116,117,118,119,120,121,122,123,124,125,126,127,129,130,131)
+            AND YEAR(berpadu_pelimpahan_register.tanggal_pendaftaran)='$year'
+            GROUP BY perkara.jenis_perkara_nama, perkara.jenis_perkara_text";
+        $queryJenisPerkara = $this->conn->query($totalJenisPerkara);
+        $resultJenisPerkara = [];
+        if ($queryJenisPerkara) {
+            while ($row = $queryJenisPerkara->fetch_assoc()) {
+                $resultJenisPerkara[] = $row;
+            }
+        }
 
         return [
             'jlhPerkaraEberpadu' => $data1,
             'jlhPelimpahanPerkara' => $data2,
-            'persentase' => ($data2 == 0) ? 0 : ($data1 / $data2 * 100)
+            'persentase' => ($data2 == 0) ? 0 : ($data1 / $data2 * 100),
+            'detailJenisPerkara' => $resultJenisPerkara
         ];
     }
 

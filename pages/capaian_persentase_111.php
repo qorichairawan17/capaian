@@ -236,25 +236,132 @@ $namaBulan = [
     </div>
 
     <!-- Charts Section -->
-    <!-- <div class="row mb-4">
-        <div class="col-lg-8 mb-4">
-            <div class="chart-container animate-fade-in">
-                <h5 class="section-title">
-                    <i class="bi bi-graph-up"></i> Grafik Penyelesaian Perkara Bulanan
-                </h5>
-                <canvas id="monthlyChart" height="100"></canvas>
+    <div class="row mb-4">
+        <div class="col-lg-12">
+            <h5 class="section-title">
+                <i class="bi bi-bar-chart-line"></i> Detail Jenis Perkara yang Dilimpahkan
+            </h5>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-responsive align-middle animate-fade-in" style="animation-delay: 0.3s">
+                        <thead class="table-light">
+                            <tr>
+                                <th>No</th>
+                                <th>Jenis Perkara</th>
+                                <th>Jumlah Perkara Dilimpahkan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $no = 1;
+                            foreach ($dataTotal['detailJenisPerkara'] as $jenis) {
+                                $namaJenis = !empty($jenis['jenis_perkara_text']) ? $jenis['jenis_perkara_text'] : $jenis['jenis_perkara_nama'];
+                                echo "<tr>";
+                                echo "<td>{$no}</td>";
+                                echo "<td>{$namaJenis}</td>";
+                                echo "<td>" . number_format($jenis['total_jenis_perkara']) . "</td>";
+                                echo "</tr>";
+                                $no++;
+                            }
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
+    </div>
 
-        <div class="col-lg-4 mb-4">
-            <div class="chart-container animate-fade-in">
-                <h5 class="section-title">
-                    <i class="bi bi-pie-chart"></i> Distribusi Jenis Perkara
-                </h5>
-                <canvas id="pieChart"></canvas>
-            </div>
-        </div>
-    </div> -->
+    <div class="chart-container animate-fade-in">
+        <h5 class="section-title">
+            <i class="bi bi-bar-chart-fill"></i> Grafik Jenis Perkara yang Dilimpahkan
+        </h5>
+        <canvas id="barChart"></canvas>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Data untuk Bar Chart
+        const jenisPerkara = <?php echo json_encode(array_map(function ($item) {
+                                    return !empty($item['jenis_perkara_text']) ? $item['jenis_perkara_text'] : $item['jenis_perkara_nama'];
+                                }, $dataTotal['detailJenisPerkara'])); ?>;
+
+        const jumlahPerkara = <?php echo json_encode(array_map(function ($item) {
+                                    return $item['total_jenis_perkara'];
+                                }, $dataTotal['detailJenisPerkara'])); ?>;
+
+        // Konfigurasi Bar Chart
+        const ctx = document.getElementById('barChart').getContext('2d');
+        const barChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: jenisPerkara,
+                datasets: [{
+                    label: 'Jumlah Perkara Diputus',
+                    data: jumlahPerkara,
+                    backgroundColor: [
+                        'rgba(54, 162, 235, 0.8)',
+                        'rgba(255, 99, 132, 0.8)',
+                        'rgba(255, 206, 86, 0.8)',
+                        'rgba(75, 192, 192, 0.8)',
+                        'rgba(153, 102, 255, 0.8)',
+                        'rgba(255, 159, 64, 0.8)',
+                        'rgba(199, 199, 199, 0.8)',
+                        'rgba(83, 102, 255, 0.8)',
+                        'rgba(255, 99, 255, 0.8)',
+                        'rgba(99, 255, 132, 0.8)'
+                    ],
+                    borderColor: [
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(199, 199, 199, 1)',
+                        'rgba(83, 102, 255, 1)',
+                        'rgba(255, 99, 255, 1)',
+                        'rgba(99, 255, 132, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            autoSkip: false,
+                            maxRotation: 45,
+                            minRotation: 45
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': ' + context.parsed.y + ' perkara';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+
 
 
 
