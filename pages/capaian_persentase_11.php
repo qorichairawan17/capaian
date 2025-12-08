@@ -10,6 +10,7 @@ try {
     $dataTotal = $persentase->total($tahunFilter);
     $dataPerbulan = $persentase->perbulan($tahunFilter);
     $dataPertriwulan = $persentase->pertriwulan($tahunFilter);
+    $dataListPerkara = $persentase->showListPerkara($tahunFilter);
 } catch (Exception $e) {
     echo '<div class="alert alert-danger">Error: ' . $e->getMessage() . '</div>';
     exit;
@@ -210,8 +211,188 @@ $namaBulan = [
         </div>
     </div>
 
+    <!-- Detail List Perkara -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h5 class="section-title mb-3"><i class="bi bi-list-ul"></i> Detail List Perkara Tahun <?php echo $tahunFilter; ?></h5>
+            <ul class="nav nav-tabs" id="listPerkaraTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="tahun-berjalan-tab" data-bs-toggle="tab" data-bs-target="#tahun-berjalan" type="button" role="tab">Perkara Tahun Berjalan</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="tahun-lalu-tab" data-bs-toggle="tab" data-bs-target="#tahun-lalu" type="button" role="tab">Perkara Tahun Lalu (<?php echo $tahunFilter - 1; ?>)</button>
+                </li>
+            </ul>
+            <div class="tab-content border border-top-0 p-3 bg-white rounded-bottom shadow-sm">
+                <!-- Tab Perkara Tahun Berjalan -->
+                <div class="tab-pane fade show active" id="tahun-berjalan" role="tabpanel">
+                    <h6 class="mb-3"><i class="bi bi-check-circle-fill text-success"></i> Perkara Tepat Waktu (≤150 hari)</h6>
+                    <div class="table-responsive mb-4">
+                        <table id="tableTepatWaktuBerjalan" class="table table-striped table-hover align-middle">
+                            <thead class="table-success">
+                                <tr>
+                                    <th>No</th>
+                                    <th>Nomor Perkara</th>
+                                    <th>Tanggal Pendaftaran</th>
+                                    <th>Tanggal Minutasi</th>
+                                    <th>Jumlah Hari</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $no = 1;
+                                foreach ($dataListPerkara['perkaraTahunBerjalan']['perkaraTepatWaktu'] as $perkara) {
+                                    echo "<tr>";
+                                    echo "<td>{$no}</td>";
+                                    echo "<td>{$perkara['nomor_perkara']}</td>";
+                                    echo "<td>" . date('d-m-Y', strtotime($perkara['tanggal_pendaftaran'])) . "</td>";
+                                    echo "<td>" . date('d-m-Y', strtotime($perkara['tanggal_minutasi'])) . "</td>";
+                                    echo "<td><span class='badge bg-success'>{$perkara['jumlah_hari']} hari</span></td>";
+                                    echo "</tr>";
+                                    $no++;
+                                }
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h6 class="mb-3"><i class="bi bi-exclamation-circle-fill text-danger"></i> Perkara Tidak Tepat Waktu (>150 hari)</h6>
+                    <div class="table-responsive">
+                        <table id="tableTidakTepatWaktuBerjalan" class="table table-striped table-hover align-middle">
+                            <thead class="table-danger">
+                                <tr>
+                                    <th>No</th>
+                                    <th>Nomor Perkara</th>
+                                    <th>Tanggal Pendaftaran</th>
+                                    <th>Tanggal Minutasi</th>
+                                    <th>Jumlah Hari</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $no = 1;
+                                foreach ($dataListPerkara['perkaraTahunBerjalan']['perkaraTidakTepatWaktu'] as $perkara) {
+                                    echo "<tr>";
+                                    echo "<td>{$no}</td>";
+                                    echo "<td>{$perkara['nomor_perkara']}</td>";
+                                    echo "<td>" . date('d-m-Y', strtotime($perkara['tanggal_pendaftaran'])) . "</td>";
+                                    echo "<td>" . date('d-m-Y', strtotime($perkara['tanggal_minutasi'])) . "</td>";
+                                    echo "<td><span class='badge bg-danger'>{$perkara['jumlah_hari']} hari</span></td>";
+                                    echo "</tr>";
+                                    $no++;
+                                }
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Tab Perkara Tahun Lalu -->
+                <div class="tab-pane fade" id="tahun-lalu" role="tabpanel">
+                    <h6 class="mb-3"><i class="bi bi-check-circle-fill text-success"></i> Perkara Tepat Waktu (≤150 hari)</h6>
+                    <div class="table-responsive mb-4">
+                        <table id="tableTepatWaktuLalu" class="table table-striped table-hover align-middle">
+                            <thead class="table-success">
+                                <tr>
+                                    <th>No</th>
+                                    <th>Nomor Perkara</th>
+                                    <th>Tanggal Pendaftaran</th>
+                                    <th>Tanggal Minutasi</th>
+                                    <th>Jumlah Hari</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $no = 1;
+                                foreach ($dataListPerkara['perkaraTahunBelakang']['perkaraTepatWaktu'] as $perkara) {
+                                    echo "<tr>";
+                                    echo "<td>{$no}</td>";
+                                    echo "<td>{$perkara['nomor_perkara']}</td>";
+                                    echo "<td>" . date('d-m-Y', strtotime($perkara['tanggal_pendaftaran'])) . "</td>";
+                                    echo "<td>" . date('d-m-Y', strtotime($perkara['tanggal_minutasi'])) . "</td>";
+                                    echo "<td><span class='badge bg-success'>{$perkara['jumlah_hari']} hari</span></td>";
+                                    echo "</tr>";
+                                    $no++;
+                                }
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h6 class="mb-3"><i class="bi bi-exclamation-circle-fill text-danger"></i> Perkara Tidak Tepat Waktu (>150 hari)</h6>
+                    <div class="table-responsive">
+                        <table id="tableTidakTepatWaktuLalu" class="table table-striped table-hover align-middle">
+                            <thead class="table-danger">
+                                <tr>
+                                    <th>No</th>
+                                    <th>Nomor Perkara</th>
+                                    <th>Tanggal Pendaftaran</th>
+                                    <th>Tanggal Minutasi</th>
+                                    <th>Jumlah Hari</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $no = 1;
+                                foreach ($dataListPerkara['perkaraTahunBelakang']['perkaraTidakTepatWaktu'] as $perkara) {
+                                    echo "<tr>";
+                                    echo "<td>{$no}</td>";
+                                    echo "<td>{$perkara['nomor_perkara']}</td>";
+                                    echo "<td>" . date('d-m-Y', strtotime($perkara['tanggal_pendaftaran'])) . "</td>";
+                                    echo "<td>" . date('d-m-Y', strtotime($perkara['tanggal_minutasi'])) . "</td>";
+                                    echo "<td><span class='badge bg-danger'>{$perkara['jumlah_hari']} hari</span></td>";
+                                    echo "</tr>";
+                                    $no++;
+                                }
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+        $(document).ready(function() {
+            // Initialize DataTables untuk semua tabel
+            $('#tableTepatWaktuBerjalan').DataTable({
+                order: [
+                    [0, 'asc']
+                ],
+                // language: {
+                //     url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/id.json'
+                // }
+            });
+
+            $('#tableTidakTepatWaktuBerjalan').DataTable({
+                order: [
+                    [0, 'asc']
+                ],
+                // language: {
+                //     url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/id.json'
+                // }
+            });
+
+            $('#tableTepatWaktuLalu').DataTable({
+                order: [
+                    [0, 'asc']
+                ],
+                // language: {
+                //     url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/id.json'
+                // }
+            });
+
+            $('#tableTidakTepatWaktuLalu').DataTable({
+                order: [
+                    [0, 'asc']
+                ],
+                // language: {
+                //     url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/id.json'
+                // }
+            });
+        });
         // Data untuk Bar Chart
         const jenisPerkara = <?php echo json_encode(array_map(function ($item) {
                                     return !empty($item['jenis_perkara_text']) ? $item['jenis_perkara_text'] : $item['jenis_perkara_nama'];

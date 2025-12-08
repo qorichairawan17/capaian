@@ -10,6 +10,68 @@ class GetPersentase11
         $db = new Database();
         $this->conn = $db->getConnection();
     }
+    public function listPerkara($year, $minYear = null)
+    {
+        if ($minYear === null) {
+            $minYear = $year;
+        }
+        $perkaraTepatWaktu = "SELECT 
+                        a.nomor_perkara, 
+                        a.tanggal_pendaftaran, 
+                        b.tanggal_minutasi,
+                        DATEDIFF(b.tanggal_minutasi, a.tanggal_pendaftaran) AS jumlah_hari
+                    FROM perkara a 
+                    LEFT JOIN perkara_putusan b 
+                        ON b.perkara_id = a.perkara_id 
+                    WHERE 
+                        YEAR(a.tanggal_pendaftaran) = '$minYear' 
+                        AND b.tanggal_minutasi IS NOT NULL 
+                        AND DATEDIFF(b.tanggal_minutasi, a.tanggal_pendaftaran) <= 150
+                        AND YEAR(b.tanggal_minutasi) = '$year'";
+        $queryPerkaraTepatWaktu = $this->conn->query($perkaraTepatWaktu);
+        $resultPerkaraTepatWaktu = [];
+        if ($queryPerkaraTepatWaktu) {
+            while ($row = $queryPerkaraTepatWaktu->fetch_assoc()) {
+                $resultPerkaraTepatWaktu[] = $row;
+            }
+        }
+
+        $perkaraTidakTepatWaktu = "SELECT 
+                        a.nomor_perkara, 
+                        a.tanggal_pendaftaran, 
+                        b.tanggal_minutasi,
+                        DATEDIFF(b.tanggal_minutasi, a.tanggal_pendaftaran) AS jumlah_hari
+                    FROM perkara a 
+                    LEFT JOIN perkara_putusan b 
+                        ON b.perkara_id = a.perkara_id 
+                    WHERE 
+                        YEAR(a.tanggal_pendaftaran) = '$minYear' 
+                        AND b.tanggal_minutasi IS NOT NULL 
+                        AND DATEDIFF(b.tanggal_minutasi, a.tanggal_pendaftaran) > 150
+                        AND YEAR(b.tanggal_minutasi) = '$year'";
+        $queryPerkaraTidakTepatWaktu = $this->conn->query($perkaraTidakTepatWaktu);
+        $resultPerkaraTidakTepatWaktu = [];
+        if ($queryPerkaraTidakTepatWaktu) {
+            while ($row = $queryPerkaraTidakTepatWaktu->fetch_assoc()) {
+                $resultPerkaraTidakTepatWaktu[] = $row;
+            }
+        }
+        return [
+            'perkaraTidakTepatWaktu' => $resultPerkaraTidakTepatWaktu,
+            'perkaraTepatWaktu' => $resultPerkaraTepatWaktu
+        ];
+    }
+
+    public function showListPerkara($year)
+    {
+        $minYear = $year - 1;
+        $perkaraTahunBerjalan = $this->listPerkara($year);
+        $perkaraTahunBelakang = $this->listPerkara($year, $minYear);
+        return [
+            'perkaraTahunBerjalan' => $perkaraTahunBerjalan,
+            'perkaraTahunBelakang' => $perkaraTahunBelakang
+        ];
+    }
 
     public function total($year)
     {
