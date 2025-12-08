@@ -7,10 +7,11 @@ $tahunFilter = isset($_GET['tahun']) ? (int)$_GET['tahun'] : date('Y');
 
 try {
     $persentase = new GetPersentase11();
-    $dataTotal = $persentase->total($tahunFilter);
-    $dataPerbulan = $persentase->perbulan($tahunFilter);
-    $dataPertriwulan = $persentase->pertriwulan($tahunFilter);
+    $dataShowTotal = $persentase->showTotal($tahunFilter);
+    $dataShowPerbulan = $persentase->showPerbulan($tahunFilter);
+    $dataShowPertriwulan = $persentase->showPertriwulan($tahunFilter);
     $dataListPerkara = $persentase->showListPerkara($tahunFilter);
+    $dataShowJenisPerkara = $persentase->showJenisPerkara($tahunFilter);
 } catch (Exception $e) {
     echo '<div class="alert alert-danger">Error: ' . $e->getMessage() . '</div>';
     exit;
@@ -61,19 +62,22 @@ $namaBulan = [
 
 
     <!-- Persentase Penyelesaian Perkara Tepat Waktu -->
-    <div class="row mb-4">
+    <!-- Data Tahun Berjalan -->
+    <div class="row mb-2">
         <div class="col-lg-12">
             <h5 class="section-title">
-                <i class="bi bi-bar-chart-line"></i> Persentase Penyelesaian Perkara Tepat Waktu - Tahun <?php echo $tahunFilter; ?>
+                <i class="bi bi-bar-chart-line"></i> Persentase Penyelesaian Perkara Tepat Waktu - Tahun Berjalan (<?php echo $tahunFilter; ?>)
             </h5>
         </div>
+    </div>
+    <div class="row mb-4">
         <div class="col-xl-4 col-md-6 mb-4">
             <div class="card stat-card animate-fade-in" style="animation-delay: 0.1s">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <div class="stat-label">Jumlah Perkara Diselesaikan Tepat Waktu</div>
-                            <div class="stat-value"><?php echo number_format($dataTotal['jlhPerkaraSelesaiTepatWaktu']); ?></div>
+                            <div class="stat-value"><?php echo number_format($dataShowTotal['totalTahunBerjalan']['jlhPerkaraSelesaiTepatWaktu']); ?></div>
                             <small class="text-success"> Selesai Tepat Waktu</small>
                         </div>
                         <div class="stat-icon">
@@ -90,7 +94,7 @@ $namaBulan = [
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <div class="stat-label">Jumlah Perkara Diselesaikan</div>
-                            <div class="stat-value"><?php echo number_format($dataTotal['jlhPerkaraSelesai']); ?></div>
+                            <div class="stat-value"><?php echo number_format($dataShowTotal['totalTahunBerjalan']['jlhPerkaraSelesai']); ?></div>
                             <small class="text-success"> Perkara Selesai</small>
                         </div>
                         <div class="stat-icon">
@@ -102,12 +106,12 @@ $namaBulan = [
         </div>
 
         <div class="col-xl-4 col-md-6 mb-4">
-            <div class="card stat-card animate-fade-in" style="animation-delay: 0.2s">
+            <div class="card stat-card animate-fade-in" style="animation-delay: 0.3s">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <div class="stat-label">Total Persentase %</div>
-                            <div class="stat-value"><?php echo number_format($dataTotal['persentase'], 2); ?>%</div>
+                            <div class="stat-value"><?php echo number_format($dataShowTotal['totalTahunBerjalan']['persentase'], 2); ?>%</div>
                             <small class="text-success"> Capaian</small>
                         </div>
                         <div class="stat-icon">
@@ -117,7 +121,134 @@ $namaBulan = [
                 </div>
             </div>
         </div>
+    </div>
 
+    <!-- Data Tahun Lalu -->
+    <div class="row mb-2">
+        <div class="col-lg-12">
+            <h5 class="section-title">
+                <i class="bi bi-calendar-check"></i> Persentase Penyelesaian Perkara Tepat Waktu - Tahun Lalu yang Selesai di <?php echo $tahunFilter; ?> (Pendaftaran <?php echo $tahunFilter - 1; ?>)
+            </h5>
+        </div>
+    </div>
+    <div class="row mb-4">
+        <div class="col-xl-4 col-md-6 mb-4">
+            <div class="card stat-card animate-fade-in" style="animation-delay: 0.1s; border-left: 4px solid #ffc107;">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="stat-label">Jumlah Perkara Diselesaikan Tepat Waktu</div>
+                            <div class="stat-value"><?php echo number_format($dataShowTotal['totalTahunBelakang']['jlhPerkaraSelesaiTepatWaktu']); ?></div>
+                            <small class="text-warning"> Selesai Tepat Waktu</small>
+                        </div>
+                        <div class="stat-icon" style="background: rgba(255, 193, 7, 0.1); color: #ffc107;">
+                            <i class="bi bi-folder"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-4 col-md-6 mb-4">
+            <div class="card stat-card animate-fade-in" style="animation-delay: 0.2s; border-left: 4px solid #ffc107;">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="stat-label">Jumlah Perkara Diselesaikan</div>
+                            <div class="stat-value"><?php echo number_format($dataShowTotal['totalTahunBelakang']['jlhPerkaraSelesai']); ?></div>
+                            <small class="text-warning"> Perkara Selesai</small>
+                        </div>
+                        <div class="stat-icon" style="background: rgba(255, 193, 7, 0.1); color: #ffc107;">
+                            <i class="bi bi-check-circle"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-4 col-md-6 mb-4">
+            <div class="card stat-card animate-fade-in" style="animation-delay: 0.3s; border-left: 4px solid #ffc107;">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="stat-label">Total Persentase %</div>
+                            <div class="stat-value"><?php echo number_format($dataShowTotal['totalTahunBelakang']['persentase'], 2); ?>%</div>
+                            <small class="text-warning"> Capaian</small>
+                        </div>
+                        <div class="stat-icon" style="background: rgba(255, 193, 7, 0.1); color: #ffc107;">
+                            <i class="bi bi-graph-up"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Total Gabungan -->
+    <div class="row mb-2">
+        <div class="col-lg-12">
+            <h5 class="section-title">
+                <i class="bi bi-calculator"></i> Total Gabungan Persentase (Rata-Rata Tahun Berjalan & Tahun Lalu)
+            </h5>
+        </div>
+    </div>
+    <div class="row mb-4">
+        <?php
+        // Hitung total gabungan
+        $totalTepatWaktuGabungan = $dataShowTotal['totalTahunBerjalan']['jlhPerkaraSelesaiTepatWaktu'] + $dataShowTotal['totalTahunBelakang']['jlhPerkaraSelesaiTepatWaktu'];
+        $totalSelesaiGabungan = $dataShowTotal['totalTahunBerjalan']['jlhPerkaraSelesai'] + $dataShowTotal['totalTahunBelakang']['jlhPerkaraSelesai'];
+        $persentaseGabungan = ($totalSelesaiGabungan == 0) ? 0 : ($totalTepatWaktuGabungan / $totalSelesaiGabungan * 100);
+        ?>
+        <div class="col-xl-4 col-md-6 mb-4">
+            <div class="card stat-card animate-fade-in" style="animation-delay: 0.1s; border-left: 4px solid #28a745;">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="stat-label">Total Perkara Diselesaikan Tepat Waktu</div>
+                            <div class="stat-value"><?php echo number_format($totalTepatWaktuGabungan); ?></div>
+                            <small class="text-success"><i class="bi bi-plus-circle"></i> Gabungan</small>
+                        </div>
+                        <div class="stat-icon" style="background: rgba(40, 167, 69, 0.1); color: #28a745;">
+                            <i class="bi bi-folder-plus"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-4 col-md-6 mb-4">
+            <div class="card stat-card animate-fade-in" style="animation-delay: 0.2s; border-left: 4px solid #28a745;">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="stat-label">Total Perkara Diselesaikan</div>
+                            <div class="stat-value"><?php echo number_format($totalSelesaiGabungan); ?></div>
+                            <small class="text-success"><i class="bi bi-plus-circle"></i> Gabungan</small>
+                        </div>
+                        <div class="stat-icon" style="background: rgba(40, 167, 69, 0.1); color: #28a745;">
+                            <i class="bi bi-check-all"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-4 col-md-6 mb-4">
+            <div class="card stat-card animate-fade-in" style="animation-delay: 0.3s; border-left: 4px solid #28a745;">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="stat-label">Total Persentase Gabungan %</div>
+                            <div class="stat-value"><?php echo number_format($persentaseGabungan, 2); ?>%</div>
+                            <small class="text-success"><i class="bi bi-calculator"></i> Rata-Rata</small>
+                        </div>
+                        <div class="stat-icon" style="background: rgba(40, 167, 69, 0.1); color: #28a745;">
+                            <i class="bi bi-graph-up-arrow"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Tabs Wrapper -->
@@ -140,7 +271,8 @@ $namaBulan = [
             </ul>
             <div class="tab-content border border-top-0 p-3 bg-white rounded-bottom shadow-sm">
                 <div class="tab-pane fade show active" id="triwulan" role="tabpanel">
-                    <div class="table-responsive">
+                    <h6 class="mb-3">Data Tahun Berjalan (<?php echo $tahunFilter; ?>)</h6>
+                    <div class="table-responsive mb-4">
                         <table class="table table-responsive align-middle">
                             <thead class="table-light">
                                 <tr>
@@ -153,7 +285,29 @@ $namaBulan = [
                             </thead>
                             <tbody>
                                 <?php $no = 1;
-                                foreach ($dataPertriwulan as $triwulan => $data) {
+                                foreach ($dataShowPertriwulan['pertriwulanTahunBerjalan'] as $triwulan => $data) {
+                                    echo "<tr><td>{$no}</td><td>Triwulan {$triwulan}</td><td>" . number_format($data['jlhPerkaraSelesaiTepatWaktu']) . "</td><td>" . number_format($data['jlhPerkaraSelesai']) . "</td><td>" . number_format($data['persentase'], 2) . "%</td></tr>";
+                                    $no++;
+                                } ?>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h6 class="mb-3">Data Tahun Lalu yang Selesai di Tahun <?php echo $tahunFilter; ?> (Pendaftaran <?php echo $tahunFilter - 1; ?>)</h6>
+                    <div class="table-responsive">
+                        <table class="table table-responsive align-middle">
+                            <thead class="table-warning">
+                                <tr>
+                                    <th>No</th>
+                                    <th>Triwulan</th>
+                                    <th>Jumlah Perkara Diselesaikan Tepat Waktu</th>
+                                    <th>Jumlah Perkara Diselesaikan</th>
+                                    <th>Persentase %</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php $no = 1;
+                                foreach ($dataShowPertriwulan['pertriwulanTahunBelakang'] as $triwulan => $data) {
                                     echo "<tr><td>{$no}</td><td>Triwulan {$triwulan}</td><td>" . number_format($data['jlhPerkaraSelesaiTepatWaktu']) . "</td><td>" . number_format($data['jlhPerkaraSelesai']) . "</td><td>" . number_format($data['persentase'], 2) . "%</td></tr>";
                                     $no++;
                                 } ?>
@@ -162,7 +316,8 @@ $namaBulan = [
                     </div>
                 </div>
                 <div class="tab-pane fade" id="bulan" role="tabpanel">
-                    <div class="table-responsive">
+                    <h6 class="mb-3">Data Tahun Berjalan (<?php echo $tahunFilter; ?>)</h6>
+                    <div class="table-responsive mb-4">
                         <table class="table table-responsive align-middle">
                             <thead class="table-light">
                                 <tr>
@@ -175,7 +330,29 @@ $namaBulan = [
                             </thead>
                             <tbody>
                                 <?php $no = 1;
-                                foreach ($dataPerbulan as $bulan => $data) {
+                                foreach ($dataShowPerbulan['perbulanTahunBerjalan'] as $bulan => $data) {
+                                    echo "<tr><td>{$no}</td><td>{$namaBulan[$bulan]}</td><td>" . number_format($data['jlhPerkaraSelesaiTepatWaktu']) . "</td><td>" . number_format($data['jlhPerkaraSelesai']) . "</td><td>" . number_format($data['persentase'], 2) . "%</td></tr>";
+                                    $no++;
+                                } ?>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h6 class="mb-3">Data Tahun Lalu yang Selesai di Tahun <?php echo $tahunFilter; ?> (Pendaftaran <?php echo $tahunFilter - 1; ?>)</h6>
+                    <div class="table-responsive">
+                        <table class="table table-responsive align-middle">
+                            <thead class="table-warning">
+                                <tr>
+                                    <th>No</th>
+                                    <th>Bulan</th>
+                                    <th>Jumlah Perkara Diselesaikan Tepat Waktu</th>
+                                    <th>Jumlah Perkara Diselesaikan</th>
+                                    <th>Persentase %</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php $no = 1;
+                                foreach ($dataShowPerbulan['perbulanTahunBelakang'] as $bulan => $data) {
                                     echo "<tr><td>{$no}</td><td>{$namaBulan[$bulan]}</td><td>" . number_format($data['jlhPerkaraSelesaiTepatWaktu']) . "</td><td>" . number_format($data['jlhPerkaraSelesai']) . "</td><td>" . number_format($data['persentase'], 2) . "%</td></tr>";
                                     $no++;
                                 } ?>
@@ -184,7 +361,8 @@ $namaBulan = [
                     </div>
                 </div>
                 <div class="tab-pane fade" id="jenis" role="tabpanel">
-                    <div class="table-responsive">
+                    <h6 class="mb-3">Data Tahun Berjalan (<?php echo $tahunFilter; ?>)</h6>
+                    <div class="table-responsive mb-4">
                         <table class="table table-responsive align-middle">
                             <thead class="table-light">
                                 <tr>
@@ -195,7 +373,28 @@ $namaBulan = [
                             </thead>
                             <tbody>
                                 <?php $no = 1;
-                                foreach ($dataTotal['detailJenisPerkara'] as $jenis) {
+                                foreach ($dataShowJenisPerkara['jenisPerkaraTahunBerjalan'] as $jenis) {
+                                    $namaJenis = !empty($jenis['jenis_perkara_text']) ? $jenis['jenis_perkara_text'] : $jenis['jenis_perkara_nama'];
+                                    echo "<tr><td>{$no}</td><td>{$namaJenis}</td><td>" . number_format($jenis['total_jenis_perkara']) . "</td></tr>";
+                                    $no++;
+                                } ?>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h6 class="mb-3">Data Tahun Lalu yang Diputus di Tahun <?php echo $tahunFilter; ?> (Pendaftaran <?php echo $tahunFilter - 1; ?>)</h6>
+                    <div class="table-responsive">
+                        <table class="table table-responsive align-middle">
+                            <thead class="table-warning">
+                                <tr>
+                                    <th>No</th>
+                                    <th>Jenis Perkara</th>
+                                    <th>Jumlah Perkara Diputus</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php $no = 1;
+                                foreach ($dataShowJenisPerkara['jenisPerkaraTahunBelakang'] as $jenis) {
                                     $namaJenis = !empty($jenis['jenis_perkara_text']) ? $jenis['jenis_perkara_text'] : $jenis['jenis_perkara_nama'];
                                     echo "<tr><td>{$no}</td><td>{$namaJenis}</td><td>" . number_format($jenis['total_jenis_perkara']) . "</td></tr>";
                                     $no++;
@@ -205,7 +404,11 @@ $namaBulan = [
                     </div>
                 </div>
                 <div class="tab-pane fade" id="grafik" role="tabpanel">
-                    <div class="chart-container"><canvas id="barChart"></canvas></div>
+                    <h6 class="mb-3">Grafik Data Tahun Berjalan (<?php echo $tahunFilter; ?>)</h6>
+                    <div class="chart-container mb-4"><canvas id="barChartBerjalan"></canvas></div>
+
+                    <h6 class="mb-3">Grafik Data Tahun Lalu yang Diputus di Tahun <?php echo $tahunFilter; ?> (Pendaftaran <?php echo $tahunFilter - 1; ?>)</h6>
+                    <div class="chart-container"><canvas id="barChartBelakang"></canvas></div>
                 </div>
             </div>
         </div>
@@ -393,87 +596,121 @@ $namaBulan = [
                 // }
             });
         });
-        // Data untuk Bar Chart
-        const jenisPerkara = <?php echo json_encode(array_map(function ($item) {
-                                    return !empty($item['jenis_perkara_text']) ? $item['jenis_perkara_text'] : $item['jenis_perkara_nama'];
-                                }, $dataTotal['detailJenisPerkara'])); ?>;
+        // Data untuk Bar Chart Tahun Berjalan
+        const jenisPerkaraBerjalan = <?php echo json_encode(array_map(function ($item) {
+                                            return !empty($item['jenis_perkara_text']) ? $item['jenis_perkara_text'] : $item['jenis_perkara_nama'];
+                                        }, $dataShowJenisPerkara['jenisPerkaraTahunBerjalan'])); ?>;
 
-        const jumlahPerkara = <?php echo json_encode(array_map(function ($item) {
-                                    return $item['total_jenis_perkara'];
-                                }, $dataTotal['detailJenisPerkara'])); ?>;
+        const jumlahPerkaraBerjalan = <?php echo json_encode(array_map(function ($item) {
+                                            return $item['total_jenis_perkara'];
+                                        }, $dataShowJenisPerkara['jenisPerkaraTahunBerjalan'])); ?>;
 
-        // Konfigurasi Bar Chart
-        const ctx = document.getElementById('barChart').getContext('2d');
-        const barChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: jenisPerkara,
-                datasets: [{
-                    label: 'Jumlah Perkara',
-                    data: jumlahPerkara,
-                    backgroundColor: [
-                        'rgba(54, 162, 235, 0.8)',
-                        'rgba(255, 99, 132, 0.8)',
-                        'rgba(255, 206, 86, 0.8)',
-                        'rgba(75, 192, 192, 0.8)',
-                        'rgba(153, 102, 255, 0.8)',
-                        'rgba(255, 159, 64, 0.8)',
-                        'rgba(199, 199, 199, 0.8)',
-                        'rgba(83, 102, 255, 0.8)',
-                        'rgba(255, 99, 255, 0.8)',
-                        'rgba(99, 255, 132, 0.8)'
-                    ],
-                    borderColor: [
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)',
-                        'rgba(199, 199, 199, 1)',
-                        'rgba(83, 102, 255, 1)',
-                        'rgba(255, 99, 255, 1)',
-                        'rgba(99, 255, 132, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: true,
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        ticks: {
-                            stepSize: 1
-                        }
-                    },
-                    x: {
-                        ticks: {
-                            autoSkip: false,
-                            maxRotation: 45,
-                            minRotation: 45
-                        }
+        // Data untuk Bar Chart Tahun Belakang
+        const jenisPerkaraBelakang = <?php echo json_encode(array_map(function ($item) {
+                                            return !empty($item['jenis_perkara_text']) ? $item['jenis_perkara_text'] : $item['jenis_perkara_nama'];
+                                        }, $dataShowJenisPerkara['jenisPerkaraTahunBelakang'])); ?>;
+
+        const jumlahPerkaraBelakang = <?php echo json_encode(array_map(function ($item) {
+                                            return $item['total_jenis_perkara'];
+                                        }, $dataShowJenisPerkara['jenisPerkaraTahunBelakang'])); ?>;
+
+        const chartColors = [
+            'rgba(54, 162, 235, 0.8)',
+            'rgba(255, 99, 132, 0.8)',
+            'rgba(255, 206, 86, 0.8)',
+            'rgba(75, 192, 192, 0.8)',
+            'rgba(153, 102, 255, 0.8)',
+            'rgba(255, 159, 64, 0.8)',
+            'rgba(199, 199, 199, 0.8)',
+            'rgba(83, 102, 255, 0.8)',
+            'rgba(255, 99, 255, 0.8)',
+            'rgba(99, 255, 132, 0.8)'
+        ];
+
+        const chartBorderColors = [
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 99, 132, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)',
+            'rgba(199, 199, 199, 1)',
+            'rgba(83, 102, 255, 1)',
+            'rgba(255, 99, 255, 1)',
+            'rgba(99, 255, 132, 1)'
+        ];
+
+        const chartOptions = {
+            responsive: true,
+            maintainAspectRatio: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1
                     }
                 },
-                plugins: {
-                    legend: {
-                        display: true,
-                        position: 'top'
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                return context.dataset.label + ': ' + context.parsed.y + ' perkara';
-                            }
+                x: {
+                    ticks: {
+                        autoSkip: false,
+                        maxRotation: 45,
+                        minRotation: 45
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.dataset.label + ': ' + context.parsed.y + ' perkara';
                         }
                     }
                 }
             }
+        };
+
+        // Konfigurasi Bar Chart Tahun Berjalan
+        const ctxBerjalan = document.getElementById('barChartBerjalan').getContext('2d');
+        const barChartBerjalan = new Chart(ctxBerjalan, {
+            type: 'bar',
+            data: {
+                labels: jenisPerkaraBerjalan,
+                datasets: [{
+                    label: 'Jumlah Perkara Tahun Berjalan',
+                    data: jumlahPerkaraBerjalan,
+                    backgroundColor: chartColors,
+                    borderColor: chartBorderColors,
+                    borderWidth: 1
+                }]
+            },
+            options: chartOptions
         });
+
+        // Konfigurasi Bar Chart Tahun Belakang
+        const ctxBelakang = document.getElementById('barChartBelakang').getContext('2d');
+        const barChartBelakang = new Chart(ctxBelakang, {
+            type: 'bar',
+            data: {
+                labels: jenisPerkaraBelakang,
+                datasets: [{
+                    label: 'Jumlah Perkara Tahun Lalu',
+                    data: jumlahPerkaraBelakang,
+                    backgroundColor: chartColors,
+                    borderColor: chartBorderColors,
+                    borderWidth: 1
+                }]
+            },
+            options: chartOptions
+        });
+
         // Resize saat tab grafik ditampilkan
         document.getElementById('grafik-tab').addEventListener('shown.bs.tab', () => {
-            barChart.resize();
+            barChartBerjalan.resize();
+            barChartBelakang.resize();
         });
     </script>
 
