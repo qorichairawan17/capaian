@@ -2,6 +2,7 @@
 // Proses filter data
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
+date_default_timezone_set('Asia/Jakarta');
 require_once 'function/getPersentase11.php';
 $tahunFilter = isset($_GET['tahun']) ? (int)$_GET['tahun'] : date('Y');
 
@@ -429,6 +430,19 @@ $namaBulan = [
             <div class="tab-content border border-top-0 p-3 bg-white rounded-bottom shadow-sm">
                 <!-- Tab Perkara Tahun Berjalan -->
                 <div class="tab-pane fade show active" id="tahun-berjalan" role="tabpanel">
+                    <!-- Export Buttons -->
+                    <div class="mb-3 d-flex gap-2">
+                        <a href="function/exportPersentase11.php?tahun=<?php echo $tahunFilter; ?>&type=berjalan&status=all" class="btn btn-success btn-sm">
+                            <i class="bi bi-file-earmark-excel"></i> Export Semua Data
+                        </a>
+                        <a href="function/exportPersentase11.php?tahun=<?php echo $tahunFilter; ?>&type=berjalan&status=tepat_waktu" class="btn btn-success btn-sm">
+                            <i class="bi bi-file-earmark-excel"></i> Export Tepat Waktu
+                        </a>
+                        <a href="function/exportPersentase11.php?tahun=<?php echo $tahunFilter; ?>&type=berjalan&status=tidak_tepat_waktu" class="btn btn-danger btn-sm">
+                            <i class="bi bi-file-earmark-excel"></i> Export Tidak Tepat Waktu
+                        </a>
+                    </div>
+
                     <h6 class="mb-3"><i class="bi bi-check-circle-fill text-success"></i> Perkara Tepat Waktu (≤150 hari)</h6>
                     <div class="table-responsive mb-4">
                         <table id="tableTepatWaktuBerjalan" class="table table-striped table-hover align-middle">
@@ -492,6 +506,19 @@ $namaBulan = [
 
                 <!-- Tab Perkara Tahun Lalu -->
                 <div class="tab-pane fade" id="tahun-lalu" role="tabpanel">
+                    <!-- Export Buttons -->
+                    <div class="mb-3 d-flex gap-2">
+                        <a href="function/exportPersentase11.php?tahun=<?php echo $tahunFilter; ?>&type=lalu&status=all" class="btn btn-warning btn-sm">
+                            <i class="bi bi-file-earmark-excel"></i> Export Semua Data
+                        </a>
+                        <a href="function/exportPersentase11.php?tahun=<?php echo $tahunFilter; ?>&type=lalu&status=tepat_waktu" class="btn btn-success btn-sm">
+                            <i class="bi bi-file-earmark-excel"></i> Export Tepat Waktu
+                        </a>
+                        <a href="function/exportPersentase11.php?tahun=<?php echo $tahunFilter; ?>&type=lalu&status=tidak_tepat_waktu" class="btn btn-danger btn-sm">
+                            <i class="bi bi-file-earmark-excel"></i> Export Tidak Tepat Waktu
+                        </a>
+                    </div>
+
                     <h6 class="mb-3"><i class="bi bi-check-circle-fill text-success"></i> Perkara Tepat Waktu (≤150 hari)</h6>
                     <div class="table-responsive mb-4">
                         <table id="tableTepatWaktuLalu" class="table table-striped table-hover align-middle">

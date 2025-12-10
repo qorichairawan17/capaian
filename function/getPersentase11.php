@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 class GetPersentase11
 {
@@ -232,5 +233,171 @@ class GetPersentase11
             'pertriwulanTahunBerjalan' => $pertriwulanTahunBerjalan,
             'pertriwulanTahunBelakang' => $pertriwulanTahunBelakang
         ];
+    }
+
+    public function exportToExcel($year, $type = 'berjalan', $status = 'all')
+    {
+        $phpExcel = new PHPExcel();
+        $phpExcel->getProperties()
+            ->setCreator("Perencanaan TI dan Pelaporan")
+            ->setTitle("Export Data Perkara Tahun " . $year)
+            ->setSubject("Data Perkara")
+            ->setDescription("File Excel di-generate oleh PHPExcel");
+
+        // Ambil data dari listPerkara
+        $dataListPerkara = $this->showListPerkara($year);
+
+        // Tentukan data berdasarkan type dan status
+        if ($type == 'berjalan') {
+            $perkaraTepatWaktu = $dataListPerkara['perkaraTahunBerjalan']['perkaraTepatWaktu'];
+            $perkaraTidakTepatWaktu = $dataListPerkara['perkaraTahunBerjalan']['perkaraTidakTepatWaktu'];
+            $titleYear = "Tahun Berjalan ($year)";
+        } else {
+            $perkaraTepatWaktu = $dataListPerkara['perkaraTahunBelakang']['perkaraTepatWaktu'];
+            $perkaraTidakTepatWaktu = $dataListPerkara['perkaraTahunBelakang']['perkaraTidakTepatWaktu'];
+            $yearBefore = $year - 1;
+            $titleYear = "Tahun Lalu ($yearBefore) yang Selesai di $year";
+        }
+
+        // Gabungkan data berdasarkan status yang diminta
+        $allData = [];
+        if ($status == 'tepat_waktu' || $status == 'all') {
+            $allData = array_merge($allData, $perkaraTepatWaktu);
+        }
+        if ($status == 'tidak_tepat_waktu' || $status == 'all') {
+            $allData = array_merge($allData, $perkaraTidakTepatWaktu);
+        }
+
+        // Setup sheet
+        $sheet = $phpExcel->setActiveSheetIndex(0);
+        $sheet->setTitle('Data Perkara');
+
+        // Header styling
+        $headerStyle = [
+            'font' => [
+                'bold' => true,
+                'color' => ['rgb' => 'FFFFFF'],
+                'size' => 12
+            ],
+            'fill' => [
+                'type' => PHPExcel_Style_Fill::FILL_SOLID,
+                'color' => ['rgb' => '4472C4']
+            ],
+            'alignment' => [
+                'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
+                'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER
+            ]
+        ];
+
+        // Title
+        $sheet->setCellValue('A1', 'LAPORAN DATA PERKARA PERSENTASE PENYELESAIAN PERKARA TEPAT WAKTU');
+        $sheet->mergeCells('A1:E1');
+        $sheet->getStyle('A1')->applyFromArray([
+            'font' => ['bold' => true, 'size' => 14],
+            'alignment' => ['horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER]
+        ]);
+
+        $sheet->setCellValue('A2', $titleYear);
+        $sheet->mergeCells('A2:E2');
+        $sheet->getStyle('A2')->applyFromArray([
+            'font' => ['bold' => true, 'size' => 12],
+            'alignment' => ['horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER]
+        ]);
+
+        if ($status == 'tepat_waktu') {
+            $statusText = 'Perkara Tepat Waktu (≤150 hari)';
+        } elseif ($status == 'tidak_tepat_waktu') {
+            $statusText = 'Perkara Tidak Tepat Waktu (>150 hari)';
+        } else {
+            $statusText = 'Semua Perkara';
+        }
+        $sheet->setCellValue('A3', $statusText);
+        $sheet->mergeCells('A3:E3');
+        $sheet->getStyle('A3')->applyFromArray([
+            'font' => ['bold' => true, 'size' => 11],
+            'alignment' => ['horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER]
+        ]);
+
+        // Headers
+        $headers = ['No', 'Nomor Perkara', 'Tanggal Pendaftaran', 'Tanggal Minutasi', 'Jumlah Hari'];
+        $colIndex = 0;
+        foreach ($headers as $h) {
+            $cell = PHPExcel_Cell::stringFromColumnIndex($colIndex) . '4';
+            $sheet->setCellValue($cell, $h);
+            $colIndex++;
+        }
+        $sheet->getStyle('A4:E4')->applyFromArray($headerStyle);
+
+        // Data rows
+        $row = 5;
+        $no = 1;
+        foreach ($allData as $perkara) {
+            $sheet->setCellValue('A' . $row, $no);
+            $sheet->setCellValue('B' . $row, $perkara['nomor_perkara']);
+            $sheet->setCellValue('C' . $row, date('d-m-Y', strtotime($perkara['tanggal_pendaftaran'])));
+            $sheet->setCellValue('D' . $row, date('d-m-Y', strtotime($perkara['tanggal_minutasi'])));
+            $sheet->setCellValue('E' . $row, $perkara['jumlah_hari'] . ' hari');
+
+            // Color coding untuk jumlah hari
+            if ($perkara['jumlah_hari'] <= 150) {
+                $sheet->getStyle('E' . $row)->applyFromArray([
+                    'fill' => [
+                        'type' => PHPExcel_Style_Fill::FILL_SOLID,
+                        'color' => ['rgb' => 'C6EFCE']
+                    ],
+                    'font' => ['color' => ['rgb' => '006100']]
+                ]);
+            } else {
+                $sheet->getStyle('E' . $row)->applyFromArray([
+                    'fill' => [
+                        'type' => PHPExcel_Style_Fill::FILL_SOLID,
+                        'color' => ['rgb' => 'FFC7CE']
+                    ],
+                    'font' => ['color' => ['rgb' => '9C0006']]
+                ]);
+            }
+
+            $row++;
+            $no++;
+        }
+
+        // Borders untuk semua data
+        $lastRow = $row - 1;
+        $sheet->getStyle('A4:E' . $lastRow)->applyFromArray([
+            'borders' => [
+                'allborders' => [
+                    'style' => PHPExcel_Style_Border::BORDER_THIN,
+                    'color' => ['rgb' => '000000']
+                ]
+            ]
+        ]);
+
+        // Auto size columns
+        foreach (range('A', 'E') as $col) {
+            $sheet->getColumnDimension($col)->setAutoSize(true);
+        }
+
+        // Summary
+        $summaryRow = $row + 1;
+        $sheet->setCellValue('A' . $summaryRow, 'Total Perkara:');
+        $sheet->setCellValue('B' . $summaryRow, count($allData) . ' perkara');
+        $sheet->getStyle('A' . $summaryRow . ':B' . $summaryRow)->applyFromArray([
+            'font' => ['bold' => true]
+        ]);
+
+        // Generate filename
+        $statusFileName = $status == 'tepat_waktu' ? 'tepat_waktu' : ($status == 'tidak_tepat_waktu' ? 'tidak_tepat_waktu' : 'semua');
+        $typeFileName = $type == 'berjalan' ? 'tahun_berjalan' : 'tahun_lalu';
+        $filename = 'laporan_perkara_' . $typeFileName . '_' . $statusFileName . '_' . $year . '_' . date('Ymd_His') . '.xlsx';
+
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="' . $filename . '"');
+        header('Cache-Control: max-age=0');
+        header('Expires: 0');
+        header('Pragma: public');
+
+        $writer = PHPExcel_IOFactory::createWriter($phpExcel, 'Excel2007');
+        $writer->save('php://output');
+        exit;
     }
 }
