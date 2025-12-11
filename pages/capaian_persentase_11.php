@@ -290,6 +290,12 @@ $namaBulan = [
                                     echo "<tr><td>{$no}</td><td>Triwulan {$triwulan}</td><td>" . number_format($data['jlhPerkaraSelesaiTepatWaktu']) . "</td><td>" . number_format($data['jlhPerkaraSelesai']) . "</td><td>" . number_format($data['persentase'], 2) . "%</td></tr>";
                                     $no++;
                                 } ?>
+                                <tr>
+                                    <td colspan="2" class="fw-bold text-center">Total</td>
+                                    <td><?php echo number_format($dataShowTotal['totalTahunBerjalan']['jlhPerkaraSelesaiTepatWaktu']); ?></td>
+                                    <td><?php echo number_format($dataShowTotal['totalTahunBerjalan']['jlhPerkaraSelesai']); ?></td>
+                                    <td><?php echo number_format($dataShowTotal['totalTahunBerjalan']['persentase'], 2); ?>%</td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -312,6 +318,12 @@ $namaBulan = [
                                     echo "<tr><td>{$no}</td><td>Triwulan {$triwulan}</td><td>" . number_format($data['jlhPerkaraSelesaiTepatWaktu']) . "</td><td>" . number_format($data['jlhPerkaraSelesai']) . "</td><td>" . number_format($data['persentase'], 2) . "%</td></tr>";
                                     $no++;
                                 } ?>
+                                <tr>
+                                    <td colspan="2" class="fw-bold text-center">Total</td>
+                                    <td><?php echo number_format($dataShowTotal['totalTahunBelakang']['jlhPerkaraSelesaiTepatWaktu']); ?></td>
+                                    <td><?php echo number_format($dataShowTotal['totalTahunBelakang']['jlhPerkaraSelesai']); ?></td>
+                                    <td><?php echo number_format($dataShowTotal['totalTahunBelakang']['persentase'], 2); ?>%</td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -335,6 +347,12 @@ $namaBulan = [
                                     echo "<tr><td>{$no}</td><td>{$namaBulan[$bulan]}</td><td>" . number_format($data['jlhPerkaraSelesaiTepatWaktu']) . "</td><td>" . number_format($data['jlhPerkaraSelesai']) . "</td><td>" . number_format($data['persentase'], 2) . "%</td></tr>";
                                     $no++;
                                 } ?>
+                                <tr>
+                                    <td colspan="2" class="fw-bold text-center">Total</td>
+                                    <td><?php echo number_format($dataShowTotal['totalTahunBerjalan']['jlhPerkaraSelesaiTepatWaktu']); ?></td>
+                                    <td><?php echo number_format($dataShowTotal['totalTahunBerjalan']['jlhPerkaraSelesai']); ?></td>
+                                    <td><?php echo number_format($dataShowTotal['totalTahunBerjalan']['persentase'], 2); ?>%</td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -357,6 +375,12 @@ $namaBulan = [
                                     echo "<tr><td>{$no}</td><td>{$namaBulan[$bulan]}</td><td>" . number_format($data['jlhPerkaraSelesaiTepatWaktu']) . "</td><td>" . number_format($data['jlhPerkaraSelesai']) . "</td><td>" . number_format($data['persentase'], 2) . "%</td></tr>";
                                     $no++;
                                 } ?>
+                                <tr>
+                                    <td colspan="2" class="fw-bold text-center">Total</td>
+                                    <td><?php echo number_format($dataShowTotal['totalTahunBelakang']['jlhPerkaraSelesaiTepatWaktu']); ?></td>
+                                    <td><?php echo number_format($dataShowTotal['totalTahunBelakang']['jlhPerkaraSelesai']); ?></td>
+                                    <td><?php echo number_format($dataShowTotal['totalTahunBelakang']['persentase'], 2); ?>%</td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>

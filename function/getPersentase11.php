@@ -20,15 +20,20 @@ class GetPersentase11
                         a.nomor_perkara, 
                         a.tanggal_pendaftaran, 
                         b.tanggal_minutasi,
+                        c.agenda,
                         DATEDIFF(b.tanggal_minutasi, a.tanggal_pendaftaran) AS jumlah_hari
                     FROM perkara a 
                     LEFT JOIN perkara_putusan b 
-                        ON b.perkara_id = a.perkara_id 
+                        ON b.perkara_id = a.perkara_id
+                    LEFT JOIN perkara_jadwal_sidang c
+                        ON c.perkara_id = a.perkara_id 
                     WHERE 
                         YEAR(a.tanggal_pendaftaran) = '$minYear' 
                         AND b.tanggal_minutasi IS NOT NULL 
                         AND DATEDIFF(b.tanggal_minutasi, a.tanggal_pendaftaran) <= 150
-                        AND YEAR(b.tanggal_minutasi) = '$year'";
+                        AND YEAR(b.tanggal_minutasi) = '$year'
+                        AND c.agenda NOT REGEXP '(koran|media|panggilan umum|pgl umum|surat kabar)'
+                        GROUP BY a.nomor_perkara";
         $queryPerkaraTepatWaktu = $this->conn->query($perkaraTepatWaktu);
         $resultPerkaraTepatWaktu = [];
         if ($queryPerkaraTepatWaktu) {
@@ -41,15 +46,20 @@ class GetPersentase11
                         a.nomor_perkara, 
                         a.tanggal_pendaftaran, 
                         b.tanggal_minutasi,
+                        c.agenda,
                         DATEDIFF(b.tanggal_minutasi, a.tanggal_pendaftaran) AS jumlah_hari
                     FROM perkara a 
                     LEFT JOIN perkara_putusan b 
                         ON b.perkara_id = a.perkara_id 
+                    LEFT JOIN perkara_jadwal_sidang c
+                        ON c.perkara_id = a.perkara_id
                     WHERE 
                         YEAR(a.tanggal_pendaftaran) = '$minYear' 
                         AND b.tanggal_minutasi IS NOT NULL 
                         AND DATEDIFF(b.tanggal_minutasi, a.tanggal_pendaftaran) > 150
-                        AND YEAR(b.tanggal_minutasi) = '$year'";
+                        AND YEAR(b.tanggal_minutasi) = '$year'
+                        AND c.agenda NOT REGEXP '(koran|media|panggilan umum|pgl umum|surat kabar)'
+                        GROUP BY a.nomor_perkara";
         $queryPerkaraTidakTepatWaktu = $this->conn->query($perkaraTidakTepatWaktu);
         $resultPerkaraTidakTepatWaktu = [];
         if ($queryPerkaraTidakTepatWaktu) {
@@ -80,7 +90,11 @@ class GetPersentase11
             $minYear = $year;
         }
         // Rumus Indikator (Jumlah Perkara Diselesaikan Tepat Waktu / Jumlah Perkara Diselesaikan ) * 100%
-        $jlhPerkaraSelesaiTepatWaktu = "SELECT COUNT(*) AS total FROM perkara a LEFT JOIN perkara_putusan b ON b.perkara_id = a.perkara_id WHERE YEAR(a.tanggal_pendaftaran) = $minYear AND YEAR(b.tanggal_minutasi) = $year AND b.tanggal_minutasi IS NOT NULL AND DATEDIFF(b.tanggal_minutasi, a.tanggal_pendaftaran) <= 150;";
+        $jlhPerkaraSelesaiTepatWaktu = "SELECT COUNT(DISTINCT a.perkara_id) AS total FROM perkara a LEFT JOIN perkara_putusan b ON b.perkara_id = a.perkara_id
+                                        LEFT JOIN perkara_jadwal_sidang c ON c.perkara_id = a.perkara_id 
+                                        WHERE YEAR(a.tanggal_pendaftaran) = $minYear AND YEAR(b.tanggal_minutasi) = $year 
+                                        AND b.tanggal_minutasi IS NOT NULL AND DATEDIFF(b.tanggal_minutasi, a.tanggal_pendaftaran) <= 150
+                                        AND c.agenda NOT REGEXP '(koran|media|panggilan umum|pgl umum|surat kabar)'";
         $result = $this->conn->query($jlhPerkaraSelesaiTepatWaktu);
         $data = $result->fetch_row();
 
@@ -118,9 +132,11 @@ class GetPersentase11
             perkara.jenis_perkara_text
             FROM perkara 
             LEFT JOIN perkara_putusan ON perkara.perkara_id = perkara_putusan.perkara_id
+            LEFT JOIN perkara_jadwal_sidang ON perkara.perkara_id = perkara_jadwal_sidang.perkara_id
             WHERE YEAR(perkara.tanggal_pendaftaran) = '$minYear'
               AND YEAR(perkara_putusan.tanggal_putusan) = '$year'
               AND perkara_putusan.tanggal_putusan IS NOT NULL
+              AND perkara_jadwal_sidang.agenda NOT REGEXP '(koran|media|panggilan umum|pgl umum|surat kabar)'
             GROUP BY perkara.jenis_perkara_nama, perkara.jenis_perkara_text ORDER BY total_jenis_perkara DESC LIMIT 20;";
         $queryJenisPerkara = $this->conn->query($totalJenisPerkara);
         $resultJenisPerkara = [];
@@ -154,7 +170,12 @@ class GetPersentase11
         }
         $resultArray = [];
         for ($month = 1; $month <= 12; $month++) {
-            $sqlTepatWaktu = "SELECT COUNT(*) AS total FROM perkara a LEFT JOIN perkara_putusan b ON b.perkara_id = a.perkara_id WHERE YEAR(a.tanggal_pendaftaran) = $minYear AND MONTH(b.tanggal_minutasi) = $month AND YEAR(b.tanggal_minutasi) = $year AND b.tanggal_minutasi IS NOT NULL AND DATEDIFF(b.tanggal_minutasi, a.tanggal_pendaftaran) <= 150;";
+            $sqlTepatWaktu = "SELECT COUNT(DISTINCT a.perkara_id) AS total FROM perkara a LEFT JOIN perkara_putusan b ON b.perkara_id = a.perkara_id
+                              LEFT JOIN perkara_jadwal_sidang c ON c.perkara_id = a.perkara_id
+                              WHERE YEAR(a.tanggal_pendaftaran) = $minYear AND MONTH(b.tanggal_minutasi) = $month 
+                              AND YEAR(b.tanggal_minutasi) = $year AND b.tanggal_minutasi IS NOT NULL 
+                              AND DATEDIFF(b.tanggal_minutasi, a.tanggal_pendaftaran) <= 150
+                              AND c.agenda NOT REGEXP '(koran|media|panggilan umum|pgl umum|surat kabar)'";
             $result = $this->conn->query($sqlTepatWaktu);
             $data = $result->fetch_row();
             $tepatWaktu = $data[0];
@@ -192,7 +213,12 @@ class GetPersentase11
         ];
         foreach ($triwulanMap as $triwulan => $months) {
             $bulanIn = implode(',', $months);
-            $sqlTepatWaktu = "SELECT COUNT(*) AS total FROM perkara a LEFT JOIN perkara_putusan b ON b.perkara_id = a.perkara_id WHERE YEAR(a.tanggal_pendaftaran) = $minYear AND MONTH(b.tanggal_minutasi) IN ($bulanIn) AND YEAR(b.tanggal_minutasi) = $year AND b.tanggal_minutasi IS NOT NULL AND DATEDIFF(b.tanggal_minutasi, a.tanggal_pendaftaran) <= 150;";
+            $sqlTepatWaktu = "SELECT COUNT(DISTINCT a.perkara_id) AS total FROM perkara a LEFT JOIN perkara_putusan b ON b.perkara_id = a.perkara_id 
+                              LEFT JOIN perkara_jadwal_sidang c ON c.perkara_id = a.perkara_id
+                              WHERE YEAR(a.tanggal_pendaftaran) = $minYear AND MONTH(b.tanggal_minutasi) IN ($bulanIn) 
+                              AND YEAR(b.tanggal_minutasi) = $year AND b.tanggal_minutasi IS NOT NULL 
+                              AND DATEDIFF(b.tanggal_minutasi, a.tanggal_pendaftaran) <= 150
+                              AND c.agenda NOT REGEXP '(koran|media|panggilan umum|pgl umum|surat kabar)'";
             $result = $this->conn->query($sqlTepatWaktu);
             $data = $result->fetch_row();
             $tepatWaktu = $data[0];
