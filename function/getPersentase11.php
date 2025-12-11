@@ -33,7 +33,7 @@ class GetPersentase11
                         AND DATEDIFF(b.tanggal_minutasi, a.tanggal_pendaftaran) <= 150
                         AND YEAR(b.tanggal_minutasi) = '$year'
                         AND c.agenda NOT REGEXP '(koran|media|panggilan umum|pgl umum|surat kabar)'
-                        GROUP BY a.nomor_perkara";
+                        GROUP BY a.nomor_perkara ORDER BY b.tanggal_minutasi ASC";
         $queryPerkaraTepatWaktu = $this->conn->query($perkaraTepatWaktu);
         $resultPerkaraTepatWaktu = [];
         if ($queryPerkaraTepatWaktu) {
@@ -59,7 +59,7 @@ class GetPersentase11
                         AND DATEDIFF(b.tanggal_minutasi, a.tanggal_pendaftaran) > 150
                         AND YEAR(b.tanggal_minutasi) = '$year'
                         AND c.agenda NOT REGEXP '(koran|media|panggilan umum|pgl umum|surat kabar)'
-                        GROUP BY a.nomor_perkara";
+                        GROUP BY a.nomor_perkara ORDER BY b.tanggal_minutasi ASC";
         $queryPerkaraTidakTepatWaktu = $this->conn->query($perkaraTidakTepatWaktu);
         $resultPerkaraTidakTepatWaktu = [];
         if ($queryPerkaraTidakTepatWaktu) {
