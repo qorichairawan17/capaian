@@ -62,6 +62,25 @@ $namaBulan = [
         </form>
     </div>
 
+    <?php
+    $totalTepatWaktuTahunBerjalan = count(array_filter(
+        $dataListPerkara['perkaraTahunBerjalan']['PerkaraTepatDanTidakTepatWaktu'],
+        function ($perkara) {
+            return $perkara['status_waktu'] == 'Tepat Waktu';
+        }
+    ));
+    $jlhPerkaraSelesai = count($dataListPerkara['perkaraTahunBerjalan']['PerkaraTepatDanTidakTepatWaktu']);
+    $persentaseTahunBerjalan = ($jlhPerkaraSelesai == 0) ? 0 : ($totalTepatWaktuTahunBerjalan / $jlhPerkaraSelesai) * 100;
+
+    $totalTepatWaktuTahunBelakang = count(array_filter(
+        $dataListPerkara['perkaraTahunBelakang']['PerkaraTepatDanTidakTepatWaktu'],
+        function ($perkara) {
+            return $perkara['status_waktu'] == 'Tepat Waktu';
+        }
+    ));
+    $jlhPerkaraSelesaiTahunBelakang = count($dataListPerkara['perkaraTahunBelakang']['PerkaraTepatDanTidakTepatWaktu']);
+    $persentaseTahunBelakang = ($jlhPerkaraSelesaiTahunBelakang == 0) ? 0 : ($totalTepatWaktuTahunBelakang / $jlhPerkaraSelesaiTahunBelakang) * 100;
+    ?>
     <!-- Data Tahun Berjalan -->
     <div class="row mb-2">
         <div class="col-lg-12">
@@ -77,7 +96,7 @@ $namaBulan = [
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <div class="stat-label">Jumlah Perkara Diselesaikan Tepat Waktu</div>
-                            <div class="stat-value"><?php echo number_format($dataShowTotal['totalTahunBerjalan']['jlhPerkaraSelesaiTepatWaktu']); ?></div>
+                            <div class="stat-value"><?php echo number_format($totalTepatWaktuTahunBerjalan); ?></div>
                             <small class="text-success"> Selesai Tepat Waktu</small>
                         </div>
                         <div class="stat-icon">
@@ -94,7 +113,7 @@ $namaBulan = [
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <div class="stat-label">Jumlah Perkara Diselesaikan</div>
-                            <div class="stat-value"><?php echo number_format($dataShowTotal['totalTahunBerjalan']['jlhPerkaraSelesai']); ?></div>
+                            <div class="stat-value"><?php echo number_format($jlhPerkaraSelesai); ?></div>
                             <small class="text-success"> Perkara Selesai</small>
                         </div>
                         <div class="stat-icon">
@@ -111,7 +130,7 @@ $namaBulan = [
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <div class="stat-label">Total Persentase %</div>
-                            <div class="stat-value"><?php echo number_format($dataShowTotal['totalTahunBerjalan']['persentase'], 2); ?>%</div>
+                            <div class="stat-value"><?php echo number_format($persentaseTahunBerjalan, 2); ?>%</div>
                             <small class="text-success"> Capaian</small>
                         </div>
                         <div class="stat-icon">
@@ -138,7 +157,7 @@ $namaBulan = [
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <div class="stat-label">Jumlah Perkara Diselesaikan Tepat Waktu</div>
-                            <div class="stat-value"><?php echo number_format($dataShowTotal['totalTahunBelakang']['jlhPerkaraSelesaiTepatWaktu']); ?></div>
+                            <div class="stat-value"><?php echo number_format($totalTepatWaktuTahunBelakang); ?></div>
                             <small class="text-warning"> Selesai Tepat Waktu</small>
                         </div>
                         <div class="stat-icon" style="background: rgba(255, 193, 7, 0.1); color: #ffc107;">
@@ -155,7 +174,7 @@ $namaBulan = [
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <div class="stat-label">Jumlah Perkara Diselesaikan</div>
-                            <div class="stat-value"><?php echo number_format($dataShowTotal['totalTahunBelakang']['jlhPerkaraSelesai']); ?></div>
+                            <div class="stat-value"><?php echo number_format($jlhPerkaraSelesaiTahunBelakang); ?></div>
                             <small class="text-warning"> Perkara Selesai</small>
                         </div>
                         <div class="stat-icon" style="background: rgba(255, 193, 7, 0.1); color: #ffc107;">
@@ -172,7 +191,7 @@ $namaBulan = [
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <div class="stat-label">Total Persentase %</div>
-                            <div class="stat-value"><?php echo number_format($dataShowTotal['totalTahunBelakang']['persentase'], 2); ?>%</div>
+                            <div class="stat-value"><?php echo number_format($persentaseTahunBelakang, 2); ?>%</div>
                             <small class="text-warning"> Capaian</small>
                         </div>
                         <div class="stat-icon" style="background: rgba(255, 193, 7, 0.1); color: #ffc107;">
@@ -195,8 +214,8 @@ $namaBulan = [
     <div class="row mb-4">
         <?php
         // Hitung total gabungan
-        $totalTepatWaktuGabungan = $dataShowTotal['totalTahunBerjalan']['jlhPerkaraSelesaiTepatWaktu'] + $dataShowTotal['totalTahunBelakang']['jlhPerkaraSelesaiTepatWaktu'];
-        $totalSelesaiGabungan = $dataShowTotal['totalTahunBerjalan']['jlhPerkaraSelesai'] + $dataShowTotal['totalTahunBelakang']['jlhPerkaraSelesai'];
+        $totalTepatWaktuGabungan = $totalTepatWaktuTahunBerjalan + $totalTepatWaktuTahunBelakang;
+        $totalSelesaiGabungan = $jlhPerkaraSelesai + $jlhPerkaraSelesaiTahunBelakang;
         $persentaseGabungan = ($totalSelesaiGabungan == 0) ? 0 : ($totalTepatWaktuGabungan / $totalSelesaiGabungan * 100);
         ?>
         <div class="col-xl-4 col-md-6 mb-4">
