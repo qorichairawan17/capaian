@@ -36,12 +36,12 @@ class GetPersentase11
                                 CASE
                                 WHEN a.alur_perkara_id IN (1,3,4,5,6,7,32) THEN 
                                 CASE
-                                            WHEN DATEDIFF(b.tanggal_minutasi, e.tgl_laporan_mediator) <= 150 THEN 'Tepat Waktu'
+                                        WHEN DATEDIFF(b.tanggal_minutasi, e.tgl_laporan_mediator) <= 150 THEN 'Tepat Waktu'
                                             ELSE 'Tidak Tepat Waktu'
                                         END
                                     ELSE
                                     CASE
-                                            WHEN DATEDIFF(b.tanggal_minutasi, a.tanggal_pendaftaran) <= 150 THEN 'Tepat Waktu'
+                                        WHEN DATEDIFF(b.tanggal_minutasi, a.tanggal_pendaftaran) <= 150 THEN 'Tepat Waktu'
                                             ELSE 'Tidak Tepat Waktu'
                                         END
                                 END AS status_waktu,
