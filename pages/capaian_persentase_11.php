@@ -541,7 +541,7 @@ $namaBulan = [
                                         echo "<td>" . (!empty($perkara['tanggal_laporan_mediator']) ? date('d-m-Y', strtotime($perkara['tanggal_laporan_mediator'])) : '-') . "</td>";
                                         echo "<td>" . date('d-m-Y', strtotime($perkara['tanggal_minutasi'])) . "</td>";
                                         echo "<td><span class='badge bg-danger'>{$perkara['jumlah_hari']} hari</span></td>";
-                                        echo "<td><span class='badge bg-danger'>" . $perkara['status_waktu'] . "</span></td>";
+                                        echo "<td><span class='badge bg-success'>" . ($perkara['status_waktu_gs'] == 'Tidak Tepat Waktu' ? '-' : $perkara['status_waktu']) . "</span></td>";
                                         echo "<td>" . (!empty($perkara['status_waktu_gs']) ? "<span class='badge " . ($perkara['status_waktu_gs'] == 'Tepat Waktu' ? 'bg-success' : 'bg-danger') . "'>" . $perkara['status_waktu_gs'] . "</span>" : '-') . "</td>";
                                         echo "</tr>";
                                         $no++;
