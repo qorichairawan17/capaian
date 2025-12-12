@@ -35,6 +35,7 @@ $namaBulan = [
 ];
 ?>
 
+<!-- Persentase Penyelesaian Perkara Tepat Waktu -->
 <div class="container px-4">
 
     <!-- Filter Section -->
@@ -61,8 +62,6 @@ $namaBulan = [
         </form>
     </div>
 
-
-    <!-- Persentase Penyelesaian Perkara Tepat Waktu -->
     <!-- Data Tahun Berjalan -->
     <div class="row mb-2">
         <div class="col-lg-12">
@@ -438,6 +437,8 @@ $namaBulan = [
             </div>
         </div>
     </div>
+</div>
+<div class="container-fluid px-4">
 
     <!-- Detail List Perkara -->
     <div class="row mb-4">
@@ -474,23 +475,35 @@ $namaBulan = [
                                 <tr>
                                     <th>No</th>
                                     <th>Nomor Perkara</th>
+                                    <th>Jenis Perkara</th>
+                                    <th>Klasifikasi Perkara</th>
                                     <th>Tanggal Pendaftaran</th>
+                                    <th>Tanggal Laporan Mediator</th>
                                     <th>Tanggal Minutasi</th>
                                     <th>Jumlah Hari</th>
+                                    <th>Status Waktu</th>
+                                    <th>Status Gugatan Sederhana</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php
                                 $no = 1;
-                                foreach ($dataListPerkara['perkaraTahunBerjalan']['perkaraTepatWaktu'] as $perkara) {
-                                    echo "<tr>";
-                                    echo "<td>{$no}</td>";
-                                    echo "<td>{$perkara['nomor_perkara']}</td>";
-                                    echo "<td>" . date('d-m-Y', strtotime($perkara['tanggal_pendaftaran'])) . "</td>";
-                                    echo "<td>" . date('d-m-Y', strtotime($perkara['tanggal_minutasi'])) . "</td>";
-                                    echo "<td><span class='badge bg-success'>{$perkara['jumlah_hari']} hari</span></td>";
-                                    echo "</tr>";
-                                    $no++;
+                                foreach ($dataListPerkara['perkaraTahunBerjalan']['PerkaraTepatDanTidakTepatWaktu'] as $perkara) {
+                                    if ($perkara['status_waktu'] == 'Tepat Waktu') {
+                                        echo "<tr>";
+                                        echo "<td>{$no}</td>";
+                                        echo "<td>" . htmlspecialchars($perkara['nomor_perkara']) . "</td>";
+                                        echo "<td>" . htmlspecialchars($perkara['jenis_perkara']) . "</td>";
+                                        echo "<td>" . htmlspecialchars($perkara['klasifikasi_perkara']) . "</td>";
+                                        echo "<td>" . date('d-m-Y', strtotime($perkara['tanggal_pendaftaran'])) . "</td>";
+                                        echo "<td>" . (!empty($perkara['tanggal_laporan_mediator']) ? date('d-m-Y', strtotime($perkara['tanggal_laporan_mediator'])) : '-') . "</td>";
+                                        echo "<td>" . date('d-m-Y', strtotime($perkara['tanggal_minutasi'])) . "</td>";
+                                        echo "<td><span class='badge bg-success'>{$perkara['jumlah_hari']} hari</span></td>";
+                                        echo "<td><span class='badge bg-success'>" . ($perkara['status_waktu_gs'] == 'Tidak Tepat Waktu' ? '-' : $perkara['status_waktu']) . "</span></td>";
+                                        echo "<td>" . (!empty($perkara['status_waktu_gs']) ? "<span class='badge " . ($perkara['status_waktu_gs'] == 'Tepat Waktu' ? 'bg-success' : 'bg-danger') . "'>" . $perkara['status_waktu_gs'] . "</span>" : '-') . "</td>";
+                                        echo "</tr>";
+                                        $no++;
+                                    }
                                 }
                                 ?>
                             </tbody>
@@ -504,23 +517,35 @@ $namaBulan = [
                                 <tr>
                                     <th>No</th>
                                     <th>Nomor Perkara</th>
+                                    <th>Jenis Perkara</th>
+                                    <th>Klasifikasi Perkara</th>
                                     <th>Tanggal Pendaftaran</th>
+                                    <th>Tanggal Laporan Mediator</th>
                                     <th>Tanggal Minutasi</th>
                                     <th>Jumlah Hari</th>
+                                    <th>Status Waktu</th>
+                                    <th>Status Gugatan Sederhana</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php
                                 $no = 1;
-                                foreach ($dataListPerkara['perkaraTahunBerjalan']['perkaraTidakTepatWaktu'] as $perkara) {
-                                    echo "<tr>";
-                                    echo "<td>{$no}</td>";
-                                    echo "<td>{$perkara['nomor_perkara']}</td>";
-                                    echo "<td>" . date('d-m-Y', strtotime($perkara['tanggal_pendaftaran'])) . "</td>";
-                                    echo "<td>" . date('d-m-Y', strtotime($perkara['tanggal_minutasi'])) . "</td>";
-                                    echo "<td><span class='badge bg-danger'>{$perkara['jumlah_hari']} hari</span></td>";
-                                    echo "</tr>";
-                                    $no++;
+                                foreach ($dataListPerkara['perkaraTahunBerjalan']['PerkaraTepatDanTidakTepatWaktu'] as $perkara) {
+                                    if ($perkara['status_waktu'] == 'Tidak Tepat Waktu') {
+                                        echo "<tr>";
+                                        echo "<td>{$no}</td>";
+                                        echo "<td>" . htmlspecialchars($perkara['nomor_perkara']) . "</td>";
+                                        echo "<td>" . htmlspecialchars($perkara['jenis_perkara']) . "</td>";
+                                        echo "<td>" . htmlspecialchars($perkara['klasifikasi_perkara']) . "</td>";
+                                        echo "<td>" . date('d-m-Y', strtotime($perkara['tanggal_pendaftaran'])) . "</td>";
+                                        echo "<td>" . (!empty($perkara['tanggal_laporan_mediator']) ? date('d-m-Y', strtotime($perkara['tanggal_laporan_mediator'])) : '-') . "</td>";
+                                        echo "<td>" . date('d-m-Y', strtotime($perkara['tanggal_minutasi'])) . "</td>";
+                                        echo "<td><span class='badge bg-danger'>{$perkara['jumlah_hari']} hari</span></td>";
+                                        echo "<td><span class='badge bg-danger'>" . $perkara['status_waktu'] . "</span></td>";
+                                        echo "<td>" . (!empty($perkara['status_waktu_gs']) ? "<span class='badge " . ($perkara['status_waktu_gs'] == 'Tepat Waktu' ? 'bg-success' : 'bg-danger') . "'>" . $perkara['status_waktu_gs'] . "</span>" : '-') . "</td>";
+                                        echo "</tr>";
+                                        $no++;
+                                    }
                                 }
                                 ?>
                             </tbody>
@@ -550,23 +575,35 @@ $namaBulan = [
                                 <tr>
                                     <th>No</th>
                                     <th>Nomor Perkara</th>
+                                    <th>Jenis Perkara</th>
+                                    <th>Klasifikasi Perkara</th>
                                     <th>Tanggal Pendaftaran</th>
+                                    <th>Tanggal Laporan Mediator</th>
                                     <th>Tanggal Minutasi</th>
                                     <th>Jumlah Hari</th>
+                                    <th>Status Waktu</th>
+                                    <th>Status Gugatan Sederhana</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php
                                 $no = 1;
-                                foreach ($dataListPerkara['perkaraTahunBelakang']['perkaraTepatWaktu'] as $perkara) {
-                                    echo "<tr>";
-                                    echo "<td>{$no}</td>";
-                                    echo "<td>{$perkara['nomor_perkara']}</td>";
-                                    echo "<td>" . date('d-m-Y', strtotime($perkara['tanggal_pendaftaran'])) . "</td>";
-                                    echo "<td>" . date('d-m-Y', strtotime($perkara['tanggal_minutasi'])) . "</td>";
-                                    echo "<td><span class='badge bg-success'>{$perkara['jumlah_hari']} hari</span></td>";
-                                    echo "</tr>";
-                                    $no++;
+                                foreach ($dataListPerkara['perkaraTahunBelakang']['PerkaraTepatDanTidakTepatWaktu'] as $perkara) {
+                                    if ($perkara['status_waktu'] == 'Tepat Waktu') {
+                                        echo "<tr>";
+                                        echo "<td>{$no}</td>";
+                                        echo "<td>" . htmlspecialchars($perkara['nomor_perkara']) . "</td>";
+                                        echo "<td>" . htmlspecialchars($perkara['jenis_perkara']) . "</td>";
+                                        echo "<td>" . htmlspecialchars($perkara['klasifikasi_perkara']) . "</td>";
+                                        echo "<td>" . date('d-m-Y', strtotime($perkara['tanggal_pendaftaran'])) . "</td>";
+                                        echo "<td>" . (!empty($perkara['tanggal_laporan_mediator']) ? date('d-m-Y', strtotime($perkara['tanggal_laporan_mediator'])) : '-') . "</td>";
+                                        echo "<td>" . date('d-m-Y', strtotime($perkara['tanggal_minutasi'])) . "</td>";
+                                        echo "<td><span class='badge bg-success'>{$perkara['jumlah_hari']} hari</span></td>";
+                                        echo "<td><span class='badge bg-success'>" . $perkara['status_waktu'] . "</span></td>";
+                                        echo "<td>" . (!empty($perkara['status_waktu_gs']) ? "<span class='badge " . ($perkara['status_waktu_gs'] == 'Tepat Waktu' ? 'bg-success' : 'bg-danger') . "'>" . $perkara['status_waktu_gs'] . "</span>" : '-') . "</td>";
+                                        echo "</tr>";
+                                        $no++;
+                                    }
                                 }
                                 ?>
                             </tbody>
@@ -580,23 +617,35 @@ $namaBulan = [
                                 <tr>
                                     <th>No</th>
                                     <th>Nomor Perkara</th>
+                                    <th>Jenis Perkara</th>
+                                    <th>Klasifikasi Perkara</th>
                                     <th>Tanggal Pendaftaran</th>
+                                    <th>Tanggal Laporan Mediator</th>
                                     <th>Tanggal Minutasi</th>
                                     <th>Jumlah Hari</th>
+                                    <th>Status Waktu</th>
+                                    <th>Status Gugatan Sederhana</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php
                                 $no = 1;
-                                foreach ($dataListPerkara['perkaraTahunBelakang']['perkaraTidakTepatWaktu'] as $perkara) {
-                                    echo "<tr>";
-                                    echo "<td>{$no}</td>";
-                                    echo "<td>{$perkara['nomor_perkara']}</td>";
-                                    echo "<td>" . date('d-m-Y', strtotime($perkara['tanggal_pendaftaran'])) . "</td>";
-                                    echo "<td>" . date('d-m-Y', strtotime($perkara['tanggal_minutasi'])) . "</td>";
-                                    echo "<td><span class='badge bg-danger'>{$perkara['jumlah_hari']} hari</span></td>";
-                                    echo "</tr>";
-                                    $no++;
+                                foreach ($dataListPerkara['perkaraTahunBelakang']['PerkaraTepatDanTidakTepatWaktu'] as $perkara) {
+                                    if ($perkara['status_waktu'] == 'Tidak Tepat Waktu') {
+                                        echo "<tr>";
+                                        echo "<td>{$no}</td>";
+                                        echo "<td>" . htmlspecialchars($perkara['nomor_perkara']) . "</td>";
+                                        echo "<td>" . htmlspecialchars($perkara['jenis_perkara']) . "</td>";
+                                        echo "<td>" . htmlspecialchars($perkara['klasifikasi_perkara']) . "</td>";
+                                        echo "<td>" . date('d-m-Y', strtotime($perkara['tanggal_pendaftaran'])) . "</td>";
+                                        echo "<td>" . (!empty($perkara['tanggal_laporan_mediator']) ? date('d-m-Y', strtotime($perkara['tanggal_laporan_mediator'])) : '-') . "</td>";
+                                        echo "<td>" . date('d-m-Y', strtotime($perkara['tanggal_minutasi'])) . "</td>";
+                                        echo "<td><span class='badge bg-danger'>{$perkara['jumlah_hari']} hari</span></td>";
+                                        echo "<td><span class='badge bg-danger'>" . $perkara['status_waktu'] . "</span></td>";
+                                        echo "<td>" . (!empty($perkara['status_waktu_gs']) ? "<span class='badge " . ($perkara['status_waktu_gs'] == 'Tepat Waktu' ? 'bg-success' : 'bg-danger') . "'>" . $perkara['status_waktu_gs'] . "</span>" : '-') . "</td>";
+                                        echo "</tr>";
+                                        $no++;
+                                    }
                                 }
                                 ?>
                             </tbody>

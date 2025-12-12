@@ -16,60 +16,72 @@ class GetPersentase11
         if ($minYear === null) {
             $minYear = $year;
         }
-        $perkaraTepatWaktu = "SELECT 
-                        a.nomor_perkara, 
-                        a.tanggal_pendaftaran, 
-                        b.tanggal_minutasi,
-                        c.agenda,
-                        DATEDIFF(b.tanggal_minutasi, a.tanggal_pendaftaran) AS jumlah_hari
-                    FROM perkara a 
-                    LEFT JOIN perkara_putusan b 
-                        ON b.perkara_id = a.perkara_id
-                    LEFT JOIN perkara_jadwal_sidang c
-                        ON c.perkara_id = a.perkara_id 
-                    WHERE 
-                        YEAR(a.tanggal_pendaftaran) = '$minYear' 
-                        AND b.tanggal_minutasi IS NOT NULL 
-                        AND DATEDIFF(b.tanggal_minutasi, a.tanggal_pendaftaran) <= 150
-                        AND YEAR(b.tanggal_minutasi) = '$year'
-                        AND c.agenda NOT REGEXP '(koran|media|panggilan umum|pgl umum|surat kabar)'
-                        GROUP BY a.nomor_perkara ORDER BY b.tanggal_minutasi ASC";
-        $queryPerkaraTepatWaktu = $this->conn->query($perkaraTepatWaktu);
-        $resultPerkaraTepatWaktu = [];
-        if ($queryPerkaraTepatWaktu) {
-            while ($row = $queryPerkaraTepatWaktu->fetch_assoc()) {
-                $resultPerkaraTepatWaktu[] = $row;
+
+        $PerkaraTepatDanTidakTepatWaktu = "SELECT 
+                                a.nomor_perkara, 
+                                a.tanggal_pendaftaran, 
+                                b.tanggal_minutasi,
+                                DATEDIFF(b.tanggal_minutasi, a.tanggal_pendaftaran) AS jumlah_hari,
+                                CASE
+                                WHEN a.alur_perkara_id IN (1,2,3,4,5,6,7,32) THEN 'Perdata'
+                                ELSE 'Pidana'
+                                END AS jenis_perkara,
+                                d.nama AS klasifikasi_perkara,
+                                CASE
+                                WHEN a.alur_perkara_id IN (1,3,4,5,6,7,32) THEN e.tgl_laporan_mediator
+                                END AS tanggal_laporan_mediator,
+                                CASE
+                                WHEN a.alur_perkara_id IN (1,3,4,5,6,7,32) THEN DATEDIFF(b.tanggal_minutasi, a.tanggal_pendaftaran)
+                                END AS jumlah_hari_dari_mediasi,
+                                CASE
+                                WHEN a.alur_perkara_id IN (1,3,4,5,6,7,32) THEN 
+                                CASE
+                                            WHEN DATEDIFF(b.tanggal_minutasi, e.tgl_laporan_mediator) <= 150 THEN 'Tepat Waktu'
+                                            ELSE 'Tidak Tepat Waktu'
+                                        END
+                                    ELSE
+                                    CASE
+                                            WHEN DATEDIFF(b.tanggal_minutasi, a.tanggal_pendaftaran) <= 150 THEN 'Tepat Waktu'
+                                            ELSE 'Tidak Tepat Waktu'
+                                        END
+                                END AS status_waktu,
+                                CASE
+                                    WHEN a.alur_perkara_id = 8 THEN
+                                        CASE
+                                            WHEN DATEDIFF(b.tanggal_minutasi, a.tanggal_pendaftaran) <= 25 THEN 'Tepat Waktu'
+                                            ELSE 'Tidak Tepat Waktu'
+                                        END
+                                    ELSE NULL
+                                END AS status_waktu_gs
+                            FROM perkara a
+                            LEFT JOIN perkara_putusan b ON b.perkara_id = a.perkara_id
+                            LEFT JOIN (
+                                SELECT perkara_id, agenda
+                                FROM perkara_jadwal_sidang
+                                ORDER BY tanggal_sidang DESC
+                            ) c ON c.perkara_id = a.perkara_id
+                            LEFT JOIN alur_perkara d ON d.id = a.alur_perkara_id
+                            LEFT JOIN perkara_mediasi e ON a.perkara_id = e.perkara_id
+                            WHERE 
+                                YEAR(a.tanggal_pendaftaran) = '$minYear'
+                                AND b.tanggal_minutasi IS NOT NULL
+                                AND YEAR(b.tanggal_minutasi) = '$year'
+                                AND c.agenda NOT REGEXP '(koran|media|panggilan umum|pgl umum|surat kabar)'
+                            GROUP BY 
+                                a.perkara_id
+                            ORDER BY 
+                                b.tanggal_minutasi ASC;
+                            ";
+        $queryPerkaraTepatDanTidakTepatWaktu = $this->conn->query($PerkaraTepatDanTidakTepatWaktu);
+        $resultPerkaraTepatDanTidakTepatWaktu = [];
+        if ($queryPerkaraTepatDanTidakTepatWaktu) {
+            while ($row = $queryPerkaraTepatDanTidakTepatWaktu->fetch_assoc()) {
+                $resultPerkaraTepatDanTidakTepatWaktu[] = $row;
             }
         }
 
-        $perkaraTidakTepatWaktu = "SELECT 
-                        a.nomor_perkara, 
-                        a.tanggal_pendaftaran, 
-                        b.tanggal_minutasi,
-                        c.agenda,
-                        DATEDIFF(b.tanggal_minutasi, a.tanggal_pendaftaran) AS jumlah_hari
-                    FROM perkara a 
-                    LEFT JOIN perkara_putusan b 
-                        ON b.perkara_id = a.perkara_id 
-                    LEFT JOIN perkara_jadwal_sidang c
-                        ON c.perkara_id = a.perkara_id
-                    WHERE 
-                        YEAR(a.tanggal_pendaftaran) = '$minYear' 
-                        AND b.tanggal_minutasi IS NOT NULL 
-                        AND DATEDIFF(b.tanggal_minutasi, a.tanggal_pendaftaran) > 150
-                        AND YEAR(b.tanggal_minutasi) = '$year'
-                        AND c.agenda NOT REGEXP '(koran|media|panggilan umum|pgl umum|surat kabar)'
-                        GROUP BY a.nomor_perkara ORDER BY b.tanggal_minutasi ASC";
-        $queryPerkaraTidakTepatWaktu = $this->conn->query($perkaraTidakTepatWaktu);
-        $resultPerkaraTidakTepatWaktu = [];
-        if ($queryPerkaraTidakTepatWaktu) {
-            while ($row = $queryPerkaraTidakTepatWaktu->fetch_assoc()) {
-                $resultPerkaraTidakTepatWaktu[] = $row;
-            }
-        }
         return [
-            'perkaraTidakTepatWaktu' => $resultPerkaraTidakTepatWaktu,
-            'perkaraTepatWaktu' => $resultPerkaraTepatWaktu
+            'PerkaraTepatDanTidakTepatWaktu' => $resultPerkaraTepatDanTidakTepatWaktu
         ];
     }
 
@@ -273,25 +285,26 @@ class GetPersentase11
         // Ambil data dari listPerkara
         $dataListPerkara = $this->showListPerkara($year);
 
-        // Tentukan data berdasarkan type dan status
+        // Tentukan data berdasarkan type
         if ($type == 'berjalan') {
-            $perkaraTepatWaktu = $dataListPerkara['perkaraTahunBerjalan']['perkaraTepatWaktu'];
-            $perkaraTidakTepatWaktu = $dataListPerkara['perkaraTahunBerjalan']['perkaraTidakTepatWaktu'];
+            $perkaraData = $dataListPerkara['perkaraTahunBerjalan']['PerkaraTepatDanTidakTepatWaktu'];
             $titleYear = "Tahun Berjalan ($year)";
         } else {
-            $perkaraTepatWaktu = $dataListPerkara['perkaraTahunBelakang']['perkaraTepatWaktu'];
-            $perkaraTidakTepatWaktu = $dataListPerkara['perkaraTahunBelakang']['perkaraTidakTepatWaktu'];
+            $perkaraData = $dataListPerkara['perkaraTahunBelakang']['PerkaraTepatDanTidakTepatWaktu'];
             $yearBefore = $year - 1;
             $titleYear = "Tahun Lalu ($yearBefore) yang Selesai di $year";
         }
 
-        // Gabungkan data berdasarkan status yang diminta
+        // Filter data berdasarkan status yang diminta
         $allData = [];
-        if ($status == 'tepat_waktu' || $status == 'all') {
-            $allData = array_merge($allData, $perkaraTepatWaktu);
-        }
-        if ($status == 'tidak_tepat_waktu' || $status == 'all') {
-            $allData = array_merge($allData, $perkaraTidakTepatWaktu);
+        foreach ($perkaraData as $perkara) {
+            if ($status == 'all') {
+                $allData[] = $perkara;
+            } elseif ($status == 'tepat_waktu' && $perkara['status_waktu'] == 'Tepat Waktu') {
+                $allData[] = $perkara;
+            } elseif ($status == 'tidak_tepat_waktu' && $perkara['status_waktu'] == 'Tidak Tepat Waktu') {
+                $allData[] = $perkara;
+            }
         }
 
         // Setup sheet
@@ -317,14 +330,14 @@ class GetPersentase11
 
         // Title
         $sheet->setCellValue('A1', 'LAPORAN DATA PERKARA PERSENTASE PENYELESAIAN PERKARA TEPAT WAKTU');
-        $sheet->mergeCells('A1:E1');
+        $sheet->mergeCells('A1:J1');
         $sheet->getStyle('A1')->applyFromArray([
             'font' => ['bold' => true, 'size' => 14],
             'alignment' => ['horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER]
         ]);
 
         $sheet->setCellValue('A2', $titleYear);
-        $sheet->mergeCells('A2:E2');
+        $sheet->mergeCells('A2:J2');
         $sheet->getStyle('A2')->applyFromArray([
             'font' => ['bold' => true, 'size' => 12],
             'alignment' => ['horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER]
@@ -338,21 +351,21 @@ class GetPersentase11
             $statusText = 'Semua Perkara';
         }
         $sheet->setCellValue('A3', $statusText);
-        $sheet->mergeCells('A3:E3');
+        $sheet->mergeCells('A3:J3');
         $sheet->getStyle('A3')->applyFromArray([
             'font' => ['bold' => true, 'size' => 11],
             'alignment' => ['horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER]
         ]);
 
         // Headers
-        $headers = ['No', 'Nomor Perkara', 'Tanggal Pendaftaran', 'Tanggal Minutasi', 'Jumlah Hari'];
+        $headers = ['No', 'Nomor Perkara', 'Jenis Perkara', 'Klasifikasi Perkara', 'Tanggal Pendaftaran', 'Tanggal Laporan Mediator', 'Tanggal Minutasi', 'Jumlah Hari', 'Status Waktu', 'Status Gugatan Sederhana'];
         $colIndex = 0;
         foreach ($headers as $h) {
             $cell = PHPExcel_Cell::stringFromColumnIndex($colIndex) . '4';
             $sheet->setCellValue($cell, $h);
             $colIndex++;
         }
-        $sheet->getStyle('A4:E4')->applyFromArray($headerStyle);
+        $sheet->getStyle('A4:J4')->applyFromArray($headerStyle);
 
         // Data rows
         $row = 5;
@@ -360,13 +373,21 @@ class GetPersentase11
         foreach ($allData as $perkara) {
             $sheet->setCellValue('A' . $row, $no);
             $sheet->setCellValue('B' . $row, $perkara['nomor_perkara']);
-            $sheet->setCellValue('C' . $row, date('d-m-Y', strtotime($perkara['tanggal_pendaftaran'])));
-            $sheet->setCellValue('D' . $row, date('d-m-Y', strtotime($perkara['tanggal_minutasi'])));
-            $sheet->setCellValue('E' . $row, $perkara['jumlah_hari'] . ' hari');
+            $sheet->setCellValue('C' . $row, $perkara['jenis_perkara']);
+            $sheet->setCellValue('D' . $row, $perkara['klasifikasi_perkara']);
+            $sheet->setCellValue('E' . $row, date('d-m-Y', strtotime($perkara['tanggal_pendaftaran'])));
+            $sheet->setCellValue('F' . $row, !empty($perkara['tanggal_laporan_mediator']) ? date('d-m-Y', strtotime($perkara['tanggal_laporan_mediator'])) : '-');
+            $sheet->setCellValue('G' . $row, date('d-m-Y', strtotime($perkara['tanggal_minutasi'])));
+            $sheet->setCellValue('H' . $row, $perkara['jumlah_hari'] . ' hari');
+            $sheet->setCellValue('I' . $row, $perkara['status_waktu']);
+
+            // Status Gugatan Sederhana
+            $statusGugatanSederhana = !empty($perkara['status_waktu_gs']) ? $perkara['status_waktu_gs'] : '-';
+            $sheet->setCellValue('J' . $row, $statusGugatanSederhana);
 
             // Color coding untuk jumlah hari
             if ($perkara['jumlah_hari'] <= 150) {
-                $sheet->getStyle('E' . $row)->applyFromArray([
+                $sheet->getStyle('H' . $row)->applyFromArray([
                     'fill' => [
                         'type' => PHPExcel_Style_Fill::FILL_SOLID,
                         'color' => ['rgb' => 'C6EFCE']
@@ -374,7 +395,45 @@ class GetPersentase11
                     'font' => ['color' => ['rgb' => '006100']]
                 ]);
             } else {
-                $sheet->getStyle('E' . $row)->applyFromArray([
+                $sheet->getStyle('H' . $row)->applyFromArray([
+                    'fill' => [
+                        'type' => PHPExcel_Style_Fill::FILL_SOLID,
+                        'color' => ['rgb' => 'FFC7CE']
+                    ],
+                    'font' => ['color' => ['rgb' => '9C0006']]
+                ]);
+            }
+
+            // Color coding untuk Status Waktu
+            if ($perkara['status_waktu'] == 'Tepat Waktu') {
+                $sheet->getStyle('I' . $row)->applyFromArray([
+                    'fill' => [
+                        'type' => PHPExcel_Style_Fill::FILL_SOLID,
+                        'color' => ['rgb' => 'C6EFCE']
+                    ],
+                    'font' => ['color' => ['rgb' => '006100']]
+                ]);
+            } else {
+                $sheet->getStyle('I' . $row)->applyFromArray([
+                    'fill' => [
+                        'type' => PHPExcel_Style_Fill::FILL_SOLID,
+                        'color' => ['rgb' => 'FFC7CE']
+                    ],
+                    'font' => ['color' => ['rgb' => '9C0006']]
+                ]);
+            }
+
+            // Color coding untuk Status Gugatan Sederhana
+            if ($statusGugatanSederhana == 'Tepat Waktu') {
+                $sheet->getStyle('J' . $row)->applyFromArray([
+                    'fill' => [
+                        'type' => PHPExcel_Style_Fill::FILL_SOLID,
+                        'color' => ['rgb' => 'C6EFCE']
+                    ],
+                    'font' => ['color' => ['rgb' => '006100']]
+                ]);
+            } elseif ($statusGugatanSederhana == 'Tidak Tepat Waktu') {
+                $sheet->getStyle('J' . $row)->applyFromArray([
                     'fill' => [
                         'type' => PHPExcel_Style_Fill::FILL_SOLID,
                         'color' => ['rgb' => 'FFC7CE']
@@ -389,7 +448,7 @@ class GetPersentase11
 
         // Borders untuk semua data
         $lastRow = $row - 1;
-        $sheet->getStyle('A4:E' . $lastRow)->applyFromArray([
+        $sheet->getStyle('A4:J' . $lastRow)->applyFromArray([
             'borders' => [
                 'allborders' => [
                     'style' => PHPExcel_Style_Border::BORDER_THIN,
@@ -399,7 +458,7 @@ class GetPersentase11
         ]);
 
         // Auto size columns
-        foreach (range('A', 'E') as $col) {
+        foreach (range('A', 'J') as $col) {
             $sheet->getColumnDimension($col)->setAutoSize(true);
         }
 
