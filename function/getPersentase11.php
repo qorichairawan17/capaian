@@ -56,7 +56,7 @@ class GetPersentase11
                             FROM perkara a
                             LEFT JOIN perkara_putusan b ON b.perkara_id = a.perkara_id
                             LEFT JOIN (
-                                SELECT perkara_id, agenda
+                                SELECT perkara_id, agenda, alasan_ditunda
                                 FROM perkara_jadwal_sidang
                                 ORDER BY tanggal_sidang DESC
                             ) c ON c.perkara_id = a.perkara_id
@@ -67,6 +67,8 @@ class GetPersentase11
                                 AND b.tanggal_minutasi IS NOT NULL
                                 AND YEAR(b.tanggal_minutasi) = '$year'
                                 AND c.agenda NOT REGEXP '(koran|media|panggilan umum|pgl umum|surat kabar|media massa|surat kabar)'
+                                AND c.alasan_ditunda NOT REGEXP '(koran|media|panggilan umum|pgl umum|surat kabar|media massa|surat kabar)'
+                                AND a.nomor_perkara NOT IN ('378/Pdt.G/2024/PN Lbp')
                             GROUP BY 
                                 a.perkara_id
                             ORDER BY 
