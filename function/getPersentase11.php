@@ -36,7 +36,7 @@ class GetPersentase11
                                 CASE
                                 WHEN a.alur_perkara_id IN (1,3,4,5,6,7,32) THEN 
                                 CASE
-                                        WHEN DATEDIFF(b.tanggal_minutasi, e.tgl_laporan_mediator) <= 150 THEN 'Tepat Waktu'
+                                        WHEN DATEDIFF(b.tanggal_minutasi, e.tgl_laporan_mediator) <= 150 AND e.tgl_laporan_mediator IS NOT NULL THEN 'Tepat Waktu'
                                             ELSE 'Tidak Tepat Waktu'
                                         END
                                     ELSE
@@ -67,7 +67,6 @@ class GetPersentase11
                                 AND b.tanggal_minutasi IS NOT NULL
                                 AND YEAR(b.tanggal_minutasi) = '$year'
                                 AND c.agenda NOT REGEXP '(koran|media|panggilan umum|pgl umum|surat kabar|media massa|surat kabar)'
-                                AND e.tgl_laporan_mediator IS NOT NULL
                             GROUP BY 
                                 a.perkara_id
                             ORDER BY 
