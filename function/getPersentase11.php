@@ -66,7 +66,8 @@ class GetPersentase11
                                 YEAR(a.tanggal_pendaftaran) = '$minYear'
                                 AND b.tanggal_minutasi IS NOT NULL
                                 AND YEAR(b.tanggal_minutasi) = '$year'
-                                AND c.agenda NOT REGEXP '(koran|media|panggilan umum|pgl umum|surat kabar|media massa/surat kabar)'
+                                AND c.agenda NOT REGEXP '(koran|media|panggilan umum|pgl umum|surat kabar|media massa|surat kabar)'
+                                AND e.tgl_laporan_mediator IS NOT NULL
                             GROUP BY 
                                 a.perkara_id
                             ORDER BY 
@@ -106,7 +107,7 @@ class GetPersentase11
                                         LEFT JOIN perkara_jadwal_sidang c ON c.perkara_id = a.perkara_id 
                                         WHERE YEAR(a.tanggal_pendaftaran) = $minYear AND YEAR(b.tanggal_minutasi) = $year 
                                         AND b.tanggal_minutasi IS NOT NULL AND DATEDIFF(b.tanggal_minutasi, a.tanggal_pendaftaran) <= 150
-                                        AND c.agenda NOT REGEXP '(koran|media|panggilan umum|pgl umum|surat kabar|media massa/surat kabar)'";
+                                        AND c.agenda NOT REGEXP '(koran|media|panggilan umum|pgl umum|surat kabar|media massa|surat kabar)'";
         $result = $this->conn->query($jlhPerkaraSelesaiTepatWaktu);
         $data = $result->fetch_row();
 
@@ -148,7 +149,7 @@ class GetPersentase11
             WHERE YEAR(perkara.tanggal_pendaftaran) = '$minYear'
               AND YEAR(perkara_putusan.tanggal_putusan) = '$year'
               AND perkara_putusan.tanggal_putusan IS NOT NULL
-              AND perkara_jadwal_sidang.agenda NOT REGEXP '(koran|media|panggilan umum|pgl umum|surat kabar|media massa/surat kabar)'
+              AND perkara_jadwal_sidang.agenda NOT REGEXP '(koran|media|panggilan umum|pgl umum|surat kabar|media massa|surat kabar)'
             GROUP BY perkara.jenis_perkara_nama, perkara.jenis_perkara_text ORDER BY total_jenis_perkara DESC LIMIT 20;";
         $queryJenisPerkara = $this->conn->query($totalJenisPerkara);
         $resultJenisPerkara = [];
@@ -187,7 +188,7 @@ class GetPersentase11
                               WHERE YEAR(a.tanggal_pendaftaran) = $minYear AND MONTH(b.tanggal_minutasi) = $month 
                               AND YEAR(b.tanggal_minutasi) = $year AND b.tanggal_minutasi IS NOT NULL 
                               AND DATEDIFF(b.tanggal_minutasi, a.tanggal_pendaftaran) <= 150
-                              AND c.agenda NOT REGEXP '(koran|media|panggilan umum|pgl umum|surat kabar|media massa/surat kabar)'";
+                              AND c.agenda NOT REGEXP '(koran|media|panggilan umum|pgl umum|surat kabar|media massa|surat kabar)'";
             $result = $this->conn->query($sqlTepatWaktu);
             $data = $result->fetch_row();
             $tepatWaktu = $data[0];
@@ -230,7 +231,7 @@ class GetPersentase11
                               WHERE YEAR(a.tanggal_pendaftaran) = $minYear AND MONTH(b.tanggal_minutasi) IN ($bulanIn) 
                               AND YEAR(b.tanggal_minutasi) = $year AND b.tanggal_minutasi IS NOT NULL 
                               AND DATEDIFF(b.tanggal_minutasi, a.tanggal_pendaftaran) <= 150
-                              AND c.agenda NOT REGEXP '(koran|media|panggilan umum|pgl umum|surat kabar|media massa/surat kabar)'";
+                              AND c.agenda NOT REGEXP '(koran|media|panggilan umum|pgl umum|surat kabar|media massa|surat kabar)'";
             $result = $this->conn->query($sqlTepatWaktu);
             $data = $result->fetch_row();
             $tepatWaktu = $data[0];
