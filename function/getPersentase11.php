@@ -275,6 +275,253 @@ class GetPersentase11
         ];
     }
 
+    /**
+     * Kelompokkan perkara berdasarkan bulan dengan klaster Pidana/Perdata
+     * Klaster merujuk pada function listPerkara:
+     * - Perdata: alur_perkara_id IN (1,2,3,4,5,6,7,32)
+     * - Pidana: selain dari itu
+     */
+    public function perbulanByKlaster($year = null, $minYear = null)
+    {
+        if ($year === null) {
+            $year = date('Y');
+        }
+        if ($minYear === null) {
+            $minYear = $year;
+        }
+
+        $resultArray = [
+            'perdata' => [],
+            'pidana' => []
+        ];
+
+        // ID alur perkara untuk Perdata
+        $perdataIds = '1,2,3,4,5,6,7,32';
+
+        for ($month = 1; $month <= 12; $month++) {
+            // Query untuk PERDATA
+            $sqlTepatWaktuPerdata = "SELECT COUNT(DISTINCT a.perkara_id) AS total FROM perkara a 
+                              LEFT JOIN perkara_putusan b ON b.perkara_id = a.perkara_id
+                              LEFT JOIN perkara_jadwal_sidang c ON c.perkara_id = a.perkara_id
+                              WHERE YEAR(a.tanggal_pendaftaran) = $minYear AND MONTH(b.tanggal_minutasi) = $month 
+                              AND YEAR(b.tanggal_minutasi) = $year AND b.tanggal_minutasi IS NOT NULL 
+                              AND DATEDIFF(b.tanggal_minutasi, a.tanggal_pendaftaran) <= 150
+                              AND c.agenda NOT REGEXP '(koran|media|panggilan umum|pgl umum|surat kabar|media massa|surat kabar)'
+                              AND a.alur_perkara_id IN ($perdataIds)";
+            $result = $this->conn->query($sqlTepatWaktuPerdata);
+            $data = $result->fetch_row();
+            $tepatWaktuPerdata = $data[0];
+
+            $sqlSelesaiPerdata = "SELECT COUNT(*) AS total FROM perkara a 
+                              LEFT JOIN perkara_putusan b ON b.perkara_id = a.perkara_id 
+                              WHERE YEAR(a.tanggal_pendaftaran) = $minYear AND MONTH(b.tanggal_minutasi) = $month 
+                              AND YEAR(b.tanggal_minutasi) = $year AND b.tanggal_minutasi IS NOT NULL
+                              AND a.alur_perkara_id IN ($perdataIds)";
+            $result2 = $this->conn->query($sqlSelesaiPerdata);
+            $data2 = $result2->fetch_row();
+            $selesaiPerdata = $data2[0];
+
+            $persentasePerdata = ($selesaiPerdata == 0) ? 0 : ($tepatWaktuPerdata / $selesaiPerdata * 100);
+
+            $resultArray['perdata'][$month] = [
+                'jlhPerkaraSelesaiTepatWaktu' => $tepatWaktuPerdata,
+                'jlhPerkaraSelesai' => $selesaiPerdata,
+                'persentase' => $persentasePerdata
+            ];
+
+            // Query untuk PIDANA
+            $sqlTepatWaktuPidana = "SELECT COUNT(DISTINCT a.perkara_id) AS total FROM perkara a 
+                              LEFT JOIN perkara_putusan b ON b.perkara_id = a.perkara_id
+                              LEFT JOIN perkara_jadwal_sidang c ON c.perkara_id = a.perkara_id
+                              WHERE YEAR(a.tanggal_pendaftaran) = $minYear AND MONTH(b.tanggal_minutasi) = $month 
+                              AND YEAR(b.tanggal_minutasi) = $year AND b.tanggal_minutasi IS NOT NULL 
+                              AND DATEDIFF(b.tanggal_minutasi, a.tanggal_pendaftaran) <= 150
+                              AND c.agenda NOT REGEXP '(koran|media|panggilan umum|pgl umum|surat kabar|media massa|surat kabar)'
+                              AND a.alur_perkara_id NOT IN ($perdataIds)";
+            $result = $this->conn->query($sqlTepatWaktuPidana);
+            $data = $result->fetch_row();
+            $tepatWaktuPidana = $data[0];
+
+            $sqlSelesaiPidana = "SELECT COUNT(*) AS total FROM perkara a 
+                              LEFT JOIN perkara_putusan b ON b.perkara_id = a.perkara_id 
+                              WHERE YEAR(a.tanggal_pendaftaran) = $minYear AND MONTH(b.tanggal_minutasi) = $month 
+                              AND YEAR(b.tanggal_minutasi) = $year AND b.tanggal_minutasi IS NOT NULL
+                              AND a.alur_perkara_id NOT IN ($perdataIds)";
+            $result2 = $this->conn->query($sqlSelesaiPidana);
+            $data2 = $result2->fetch_row();
+            $selesaiPidana = $data2[0];
+
+            $persentasePidana = ($selesaiPidana == 0) ? 0 : ($tepatWaktuPidana / $selesaiPidana * 100);
+
+            $resultArray['pidana'][$month] = [
+                'jlhPerkaraSelesaiTepatWaktu' => $tepatWaktuPidana,
+                'jlhPerkaraSelesai' => $selesaiPidana,
+                'persentase' => $persentasePidana
+            ];
+        }
+        return $resultArray;
+    }
+
+    /**
+     * Kelompokkan perkara berdasarkan triwulan dengan klaster Pidana/Perdata
+     */
+    public function pertriwulanByKlaster($year = null, $minYear = null)
+    {
+        if ($year === null) {
+            $year = date('Y');
+        }
+        if ($minYear === null) {
+            $minYear = $year;
+        }
+
+        $resultArray = [
+            'perdata' => [],
+            'pidana' => []
+        ];
+
+        // ID alur perkara untuk Perdata
+        $perdataIds = '1,2,3,4,5,6,7,32';
+
+        $triwulanMap = [
+            1 => [1, 2, 3],
+            2 => [4, 5, 6],
+            3 => [7, 8, 9],
+            4 => [10, 11, 12]
+        ];
+
+        foreach ($triwulanMap as $triwulan => $months) {
+            $bulanIn = implode(',', $months);
+
+            // Query untuk PERDATA
+            $sqlTepatWaktuPerdata = "SELECT COUNT(DISTINCT a.perkara_id) AS total FROM perkara a 
+                              LEFT JOIN perkara_putusan b ON b.perkara_id = a.perkara_id 
+                              LEFT JOIN perkara_jadwal_sidang c ON c.perkara_id = a.perkara_id
+                              WHERE YEAR(a.tanggal_pendaftaran) = $minYear AND MONTH(b.tanggal_minutasi) IN ($bulanIn) 
+                              AND YEAR(b.tanggal_minutasi) = $year AND b.tanggal_minutasi IS NOT NULL 
+                              AND DATEDIFF(b.tanggal_minutasi, a.tanggal_pendaftaran) <= 150
+                              AND c.agenda NOT REGEXP '(koran|media|panggilan umum|pgl umum|surat kabar|media massa|surat kabar)'
+                              AND a.alur_perkara_id IN ($perdataIds)";
+            $result = $this->conn->query($sqlTepatWaktuPerdata);
+            $data = $result->fetch_row();
+            $tepatWaktuPerdata = $data[0];
+
+            $sqlSelesaiPerdata = "SELECT COUNT(*) AS total FROM perkara a 
+                              LEFT JOIN perkara_putusan b ON b.perkara_id = a.perkara_id 
+                              WHERE YEAR(a.tanggal_pendaftaran) = $minYear AND MONTH(b.tanggal_minutasi) IN ($bulanIn) 
+                              AND YEAR(b.tanggal_minutasi) = $year AND b.tanggal_minutasi IS NOT NULL
+                              AND a.alur_perkara_id IN ($perdataIds)";
+            $result2 = $this->conn->query($sqlSelesaiPerdata);
+            $data2 = $result2->fetch_row();
+            $selesaiPerdata = $data2[0];
+
+            $persentasePerdata = ($selesaiPerdata == 0) ? 0 : ($tepatWaktuPerdata / $selesaiPerdata * 100);
+
+            $resultArray['perdata'][$triwulan] = [
+                'jlhPerkaraSelesaiTepatWaktu' => $tepatWaktuPerdata,
+                'jlhPerkaraSelesai' => $selesaiPerdata,
+                'persentase' => $persentasePerdata
+            ];
+
+            // Query untuk PIDANA
+            $sqlTepatWaktuPidana = "SELECT COUNT(DISTINCT a.perkara_id) AS total FROM perkara a 
+                              LEFT JOIN perkara_putusan b ON b.perkara_id = a.perkara_id 
+                              LEFT JOIN perkara_jadwal_sidang c ON c.perkara_id = a.perkara_id
+                              WHERE YEAR(a.tanggal_pendaftaran) = $minYear AND MONTH(b.tanggal_minutasi) IN ($bulanIn) 
+                              AND YEAR(b.tanggal_minutasi) = $year AND b.tanggal_minutasi IS NOT NULL 
+                              AND DATEDIFF(b.tanggal_minutasi, a.tanggal_pendaftaran) <= 150
+                              AND c.agenda NOT REGEXP '(koran|media|panggilan umum|pgl umum|surat kabar|media massa|surat kabar)'
+                              AND a.alur_perkara_id NOT IN ($perdataIds)";
+            $result = $this->conn->query($sqlTepatWaktuPidana);
+            $data = $result->fetch_row();
+            $tepatWaktuPidana = $data[0];
+
+            $sqlSelesaiPidana = "SELECT COUNT(*) AS total FROM perkara a 
+                              LEFT JOIN perkara_putusan b ON b.perkara_id = a.perkara_id 
+                              WHERE YEAR(a.tanggal_pendaftaran) = $minYear AND MONTH(b.tanggal_minutasi) IN ($bulanIn) 
+                              AND YEAR(b.tanggal_minutasi) = $year AND b.tanggal_minutasi IS NOT NULL
+                              AND a.alur_perkara_id NOT IN ($perdataIds)";
+            $result2 = $this->conn->query($sqlSelesaiPidana);
+            $data2 = $result2->fetch_row();
+            $selesaiPidana = $data2[0];
+
+            $persentasePidana = ($selesaiPidana == 0) ? 0 : ($tepatWaktuPidana / $selesaiPidana * 100);
+
+            $resultArray['pidana'][$triwulan] = [
+                'jlhPerkaraSelesaiTepatWaktu' => $tepatWaktuPidana,
+                'jlhPerkaraSelesai' => $selesaiPidana,
+                'persentase' => $persentasePidana
+            ];
+        }
+        return $resultArray;
+    }
+
+    /**
+     * Menampilkan data perbulan berdasarkan klaster
+     */
+    public function showPerbulanByKlaster($year)
+    {
+        $minYear = $year - 1;
+        $perbulanTahunBerjalan = $this->perbulanByKlaster($year);
+        $perbulanTahunBelakang = $this->perbulanByKlaster($year, $minYear);
+        return [
+            'perbulanTahunBerjalan' => $perbulanTahunBerjalan,
+            'perbulanTahunBelakang' => $perbulanTahunBelakang
+        ];
+    }
+
+    /**
+     * Menampilkan data pertriwulan berdasarkan klaster
+     */
+    public function showPertriwulanByKlaster($year)
+    {
+        $minYear = $year - 1;
+        $pertriwulanTahunBerjalan = $this->pertriwulanByKlaster($year);
+        $pertriwulanTahunBelakang = $this->pertriwulanByKlaster($year, $minYear);
+        return [
+            'pertriwulanTahunBerjalan' => $pertriwulanTahunBerjalan,
+            'pertriwulanTahunBelakang' => $pertriwulanTahunBelakang
+        ];
+    }
+
+    /**
+     * Kelompokkan list perkara berdasarkan klaster Pidana/Perdata
+     */
+    public function showListPerkaraByKlaster($year)
+    {
+        $dataListPerkara = $this->showListPerkara($year);
+
+        $result = [
+            'perkaraTahunBerjalan' => [
+                'perdata' => [],
+                'pidana' => []
+            ],
+            'perkaraTahunBelakang' => [
+                'perdata' => [],
+                'pidana' => []
+            ]
+        ];
+
+        // Filter Tahun Berjalan
+        foreach ($dataListPerkara['perkaraTahunBerjalan']['PerkaraTepatDanTidakTepatWaktu'] as $perkara) {
+            if ($perkara['jenis_perkara'] == 'Perdata') {
+                $result['perkaraTahunBerjalan']['perdata'][] = $perkara;
+            } else {
+                $result['perkaraTahunBerjalan']['pidana'][] = $perkara;
+            }
+        }
+
+        // Filter Tahun Belakang
+        foreach ($dataListPerkara['perkaraTahunBelakang']['PerkaraTepatDanTidakTepatWaktu'] as $perkara) {
+            if ($perkara['jenis_perkara'] == 'Perdata') {
+                $result['perkaraTahunBelakang']['perdata'][] = $perkara;
+            } else {
+                $result['perkaraTahunBelakang']['pidana'][] = $perkara;
+            }
+        }
+
+        return $result;
+    }
+
     public function exportToExcel($year, $type = 'berjalan', $status = 'all')
     {
         $phpExcel = new PHPExcel();
