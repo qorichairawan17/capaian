@@ -1567,6 +1567,56 @@ $namaBulan = [
                 //     url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/id.json'
                 // }
             });
+        // DataTable options untuk tabel klaster
+            var dtOptions = {
+                order: [[0, 'asc']],
+                responsive: true,
+                pageLength: 10,
+                lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "Semua"]]
+            };
+
+            // Initialize DataTables untuk tabel Perdata dan Pidana - Tahun Berjalan
+            // Menggunakan event listener karena tabel berada di tab tersembunyi
+            var perdataBerjalanInitialized = false;
+            var pidanaBerjalanInitialized = false;
+            var perdataLaluInitialized = false;
+            var pidanaLaluInitialized = false;
+
+            // Event listener untuk tab Perdata - Tahun Berjalan
+            $('button[data-bs-target="#list-berjalan-perdata"]').on('shown.bs.tab', function() {
+                if (!perdataBerjalanInitialized) {
+                    $('#tableTepatWaktuBerjalanPerdata').DataTable(dtOptions);
+                    $('#tableTidakTepatWaktuBerjalanPerdata').DataTable(dtOptions);
+                    perdataBerjalanInitialized = true;
+                }
+            });
+
+            // Event listener untuk tab Pidana - Tahun Berjalan
+            $('button[data-bs-target="#list-berjalan-pidana"]').on('shown.bs.tab', function() {
+                if (!pidanaBerjalanInitialized) {
+                    $('#tableTepatWaktuBerjalanPidana').DataTable(dtOptions);
+                    $('#tableTidakTepatWaktuBerjalanPidana').DataTable(dtOptions);
+                    pidanaBerjalanInitialized = true;
+                }
+            });
+
+            // Event listener untuk tab Perdata - Tahun Lalu
+            $('button[data-bs-target="#list-lalu-perdata"]').on('shown.bs.tab', function() {
+                if (!perdataLaluInitialized) {
+                    $('#tableTepatWaktuLaluPerdata').DataTable(dtOptions);
+                    $('#tableTidakTepatWaktuLaluPerdata').DataTable(dtOptions);
+                    perdataLaluInitialized = true;
+                }
+            });
+
+            // Event listener untuk tab Pidana - Tahun Lalu
+            $('button[data-bs-target="#list-lalu-pidana"]').on('shown.bs.tab', function() {
+                if (!pidanaLaluInitialized) {
+                    $('#tableTepatWaktuLaluPidana').DataTable(dtOptions);
+                    $('#tableTidakTepatWaktuLaluPidana').DataTable(dtOptions);
+                    pidanaLaluInitialized = true;
+                }
+            });
         });
         // Data untuk Bar Chart Tahun Berjalan
         const jenisPerkaraBerjalan = <?php echo json_encode(array_map(function ($item) {

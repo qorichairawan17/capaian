@@ -21,29 +21,49 @@ class GetPersentase11
                                 a.nomor_perkara, 
                                 a.tanggal_pendaftaran, 
                                 b.tanggal_minutasi,
-                                DATEDIFF(b.tanggal_minutasi, a.tanggal_pendaftaran) AS jumlah_hari,
                                 CASE
-                                WHEN a.alur_perkara_id IN (1,2,3,4,5,6,7,32) THEN 'Perdata'
+                                    -- Untuk Perdata: jika ada tanggal mediator, hitung dari mediator; jika tidak, dari pendaftaran
+                                    WHEN a.alur_perkara_id IN (1,2,3,4,5,6,7,8,18,32) THEN
+                                        CASE
+                                            WHEN e.tgl_laporan_mediator IS NOT NULL THEN DATEDIFF(b.tanggal_minutasi, e.tgl_laporan_mediator)
+                                            ELSE DATEDIFF(b.tanggal_minutasi, a.tanggal_pendaftaran)
+                                        END
+                                    -- Untuk Pidana dan lainnya: hitung dari pendaftaran
+                                    ELSE DATEDIFF(b.tanggal_minutasi, a.tanggal_pendaftaran)
+                                END AS jumlah_hari,
+                                CASE
+                                WHEN a.alur_perkara_id IN (1,2,3,4,5,6,7,8,18,32) THEN 'Perdata'
                                 ELSE 'Pidana'
                                 END AS jenis_perkara,
                                 d.nama AS klasifikasi_perkara,
                                 CASE
-                                WHEN a.alur_perkara_id IN (1,3,4,5,6,7,32) THEN e.tgl_laporan_mediator
+                                WHEN a.alur_perkara_id IN (1,2,3,4,5,6,7,8,18,32) THEN e.tgl_laporan_mediator
                                 END AS tanggal_laporan_mediator,
                                 CASE
-                                WHEN a.alur_perkara_id IN (1,3,4,5,6,7,32) THEN DATEDIFF(b.tanggal_minutasi, a.tanggal_pendaftaran)
+                                WHEN a.alur_perkara_id IN (1,2,3,4,5,6,7,8,18,32) AND e.tgl_laporan_mediator IS NOT NULL THEN DATEDIFF(b.tanggal_minutasi, e.tgl_laporan_mediator)
                                 END AS jumlah_hari_dari_mediasi,
                                 CASE
-                                WHEN a.alur_perkara_id IN (1,3,4,5,6,7,32) THEN 
-                                CASE
-                                        WHEN DATEDIFF(b.tanggal_minutasi, e.tgl_laporan_mediator) <= 150 AND e.tgl_laporan_mediator IS NOT NULL THEN 'Tepat Waktu'
-                                            ELSE 'Tidak Tepat Waktu'
-                                        END
-                                    ELSE
+                                WHEN a.alur_perkara_id IN (1,2,3,4,5,6,7,8,18,32) THEN 
+                                    CASE
+                                        -- Jika ada tanggal laporan mediator, hitung dari tanggal mediator
+                                        WHEN e.tgl_laporan_mediator IS NOT NULL THEN
+                                            CASE
+                                                WHEN DATEDIFF(b.tanggal_minutasi, e.tgl_laporan_mediator) <= 150 THEN 'Tepat Waktu'
+                                                ELSE 'Tidak Tepat Waktu'
+                                            END
+                                        -- Jika TIDAK ada tanggal laporan mediator, hitung dari tanggal pendaftaran
+                                        ELSE
+                                            CASE
+                                                WHEN DATEDIFF(b.tanggal_minutasi, a.tanggal_pendaftaran) <= 150 THEN 'Tepat Waktu'
+                                                ELSE 'Tidak Tepat Waktu'
+                                            END
+                                    END
+                                ELSE
+                                    -- Untuk Pidana, hitung dari tanggal pendaftaran
                                     CASE
                                         WHEN DATEDIFF(b.tanggal_minutasi, a.tanggal_pendaftaran) <= 150 THEN 'Tepat Waktu'
-                                            ELSE 'Tidak Tepat Waktu'
-                                        END
+                                        ELSE 'Tidak Tepat Waktu'
+                                    END
                                 END AS status_waktu,
                                 CASE
                                     WHEN a.alur_perkara_id = 8 THEN
@@ -295,8 +315,8 @@ class GetPersentase11
             'pidana' => []
         ];
 
-        // ID alur perkara untuk Perdata
-        $perdataIds = '1,2,3,4,5,6,7,32';
+        // ID alur perkara untuk Perdata (termasuk 8 = Gugatan Sederhana)
+        $perdataIds = '1,2,3,4,5,6,7,8,18,32';
 
         for ($month = 1; $month <= 12; $month++) {
             // Query untuk PERDATA
@@ -379,8 +399,8 @@ class GetPersentase11
             'pidana' => []
         ];
 
-        // ID alur perkara untuk Perdata
-        $perdataIds = '1,2,3,4,5,6,7,32';
+        // ID alur perkara untuk Perdata (termasuk 8 = Gugatan Sederhana)
+        $perdataIds = '1,2,3,4,5,6,7,8,18,32';
 
         $triwulanMap = [
             1 => [1, 2, 3],
