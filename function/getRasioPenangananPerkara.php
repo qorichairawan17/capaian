@@ -76,4 +76,56 @@ class getRasioPenangananPerkara
             'persentase' => $kinerjaPN
         ];
     }
+
+    /**
+     * Mengambil daftar detail perkara tunggakan
+     * Tunggakan = perkara yang masuk di tahun terpilih + sisa dari tahun sebelumnya yang belum diminutasi
+     * 
+     * @param int $year Tahun filter
+     * @return array Daftar perkara tunggakan
+     */
+    public function getTunggakanPerkara($year)
+    {
+        // Query untuk mengambil perkara tunggakan:
+        // 1. Perkara yang terdaftar pada tahun terpilih dan belum diminutasi
+        // 2. Perkara sisa dari tahun sebelumnya (terdaftar <= tahun-1) yang belum diminutasi atau diminutasi di tahun >= terpilih
+        $queryTunggakan = "SELECT 
+            A.nomor_perkara,
+            A.tanggal_pendaftaran,
+            CASE 
+                WHEN YEAR(A.tanggal_pendaftaran) <= '$year'-1 THEN 'Sisa Tahun Lalu'
+                ELSE 'Perkara Masuk'
+            END AS kategori,
+            CASE 
+                WHEN B.tanggal_minutasi IS NULL OR B.tanggal_minutasi = '' THEN 'Belum Diminutasi'
+                ELSE 'Dalam Proses'
+            END AS status_minutasi
+        FROM perkara AS A 
+        LEFT JOIN perkara_putusan AS B ON A.perkara_id = B.perkara_id
+        WHERE 
+            (
+                -- Perkara masuk tahun ini yang belum diminutasi
+                (YEAR(A.tanggal_pendaftaran) = '$year' AND (B.tanggal_minutasi IS NULL OR B.tanggal_minutasi = '' OR YEAR(B.tanggal_minutasi) > '$year'))
+                OR
+                -- Sisa perkara dari tahun lalu yang belum diminutasi atau diminutasi di tahun >= terpilih
+                (YEAR(A.tanggal_pendaftaran) <= '$year'-1 AND (B.tanggal_minutasi IS NULL OR B.tanggal_minutasi = '' OR YEAR(B.tanggal_minutasi) >= '$year'))
+            )
+        ORDER BY A.tanggal_pendaftaran DESC";
+
+        $result = $this->conn->query($queryTunggakan);
+
+        $tunggakanList = [];
+        if ($result && $result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $tunggakanList[] = [
+                    'nomor_perkara' => $row['nomor_perkara'],
+                    'tanggal_pendaftaran' => $row['tanggal_pendaftaran'],
+                    'kategori' => $row['kategori'],
+                    'status_minutasi' => $row['status_minutasi']
+                ];
+            }
+        }
+
+        return $tunggakanList;
+    }
 }

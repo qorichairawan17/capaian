@@ -3,11 +3,12 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 require_once 'function/getRasioPenangananPerkara.php';
-$tahunFilter = isset($_GET['tahun']) ? (int)$_GET['tahun'] : date('Y');
+$tahunFilter = isset($_GET['tahun']) ? (int) $_GET['tahun'] : date('Y');
 
 try {
     $rasio = new getRasioPenangananPerkara();
     $dataTotal = $rasio->getRasioPenangananPerkara($tahunFilter);
+    $dataTunggakan = $rasio->getTunggakanPerkara($tahunFilter);
 } catch (Exception $e) {
     echo '<div class="alert alert-danger">Error: ' . $e->getMessage() . '</div>';
     exit;
@@ -64,7 +65,8 @@ $totalPerkara = $dataTotal['masuk'] + $dataTotal['sisa'];
     <div class="row mb-4">
         <div class="col-lg-12">
             <h5 class="section-title">
-                <i class="bi bi-bar-chart-line"></i> Persentase Rasio Penanganan Perkara Tepat Waktu - Tahun <?php echo $tahunFilter; ?>
+                <i class="bi bi-bar-chart-line"></i> Persentase Rasio Penanganan Perkara Tepat Waktu - Tahun
+                <?php echo $tahunFilter; ?>
             </h5>
         </div>
         <div class="col-xl-4 col-md-6 mb-4">
@@ -174,6 +176,89 @@ $totalPerkara = $dataTotal['masuk'] + $dataTotal['sisa'];
         </div>
     </div>
 
+    <!-- Tabel Tunggakan Perkara -->
+    <div class="row mb-4">
+        <div class="col-lg-12">
+            <div class="chart-container animate-fade-in">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="section-title mb-0">
+                        <i class="bi bi-table"></i> Daftar Tunggakan Perkara - Tahun
+                        <?php echo $tahunFilter; ?>
+                    </h5>
+                    <span class="badge bg-danger">
+                        <?php echo count($dataTunggakan); ?> Perkara
+                    </span>
+                </div>
+
+                <?php if (count($dataTunggakan) > 0): ?>
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped" id="tableTunggakan">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th class="text-center" style="width: 60px;">No</th>
+                                    <th>Nomor Perkara</th>
+                                    <th class="text-center" style="width: 150px;">Tanggal Pendaftaran</th>
+                                    <th class="text-center" style="width: 150px;">Kategori</th>
+                                    <th class="text-center" style="width: 150px;">Status Minutasi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $no = 1;
+                                foreach ($dataTunggakan as $row):
+                                    // Format tanggal
+                                    $tglPendaftaran = !empty($row['tanggal_pendaftaran'])
+                                        ? date('d-m-Y', strtotime($row['tanggal_pendaftaran']))
+                                        : '-';
+
+                                    // Tentukan badge warna berdasarkan kategori
+                                    $badgeKategori = $row['kategori'] == 'Sisa Tahun Lalu'
+                                        ? 'bg-warning text-dark'
+                                        : 'bg-primary';
+
+                                    // Tentukan badge warna berdasarkan status
+                                    $badgeStatus = $row['status_minutasi'] == 'Belum Diminutasi'
+                                        ? 'bg-danger'
+                                        : 'bg-info';
+                                    ?>
+                                    <tr>
+                                        <td class="text-center">
+                                            <?php echo $no++; ?>
+                                        </td>
+                                        <td>
+                                            <strong>
+                                                <?php echo htmlspecialchars($row['nomor_perkara']); ?>
+                                            </strong>
+                                        </td>
+                                        <td class="text-center">
+                                            <?php echo $tglPendaftaran; ?>
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="badge <?php echo $badgeKategori; ?>">
+                                                <?php echo htmlspecialchars($row['kategori']); ?>
+                                            </span>
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="badge <?php echo $badgeStatus; ?>">
+                                                <?php echo htmlspecialchars($row['status_minutasi']); ?>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                <?php else: ?>
+                    <div class="alert alert-success text-center">
+                        <i class="bi bi-check-circle-fill me-2"></i>
+                        Tidak ada perkara tunggakan untuk tahun
+                        <?php echo $tahunFilter; ?>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="text-center py-4 mt-5">
         <p class="text-muted">&copy; 2025 Perencanaan TI dan Pelaporan. All rights reserved.</p>
@@ -226,7 +311,7 @@ $totalPerkara = $dataTotal['masuk'] + $dataTotal['sisa'];
                     },
                     cornerRadius: 8,
                     callbacks: {
-                        label: function(context) {
+                        label: function (context) {
                             const label = context.label || "";
                             const value = context.parsed || 0;
                             const total = context.dataset.data.reduce((a, b) => a + b, 0);
@@ -287,7 +372,7 @@ $totalPerkara = $dataTotal['masuk'] + $dataTotal['sisa'];
                     },
                     cornerRadius: 8,
                     callbacks: {
-                        label: function(context) {
+                        label: function (context) {
                             return "Jumlah: " + context.parsed.y.toLocaleString() + " perkara";
                         },
                     },
@@ -297,12 +382,48 @@ $totalPerkara = $dataTotal['masuk'] + $dataTotal['sisa'];
                 y: {
                     beginAtZero: true,
                     ticks: {
-                        callback: function(value) {
+                        callback: function (value) {
                             return value.toLocaleString();
                         },
                     },
                 },
             },
         },
+    });
+
+    // Inisialisasi DataTable untuk Tabel Tunggakan Perkara
+    $(document).ready(function () {
+        $('#tableTunggakan').DataTable({
+            language: {
+                url: '//cdn.datatables.net/plug-ins/2.0.0/i18n/id.json',
+                search: "Cari:",
+                lengthMenu: "Tampilkan _MENU_ data per halaman",
+                info: "Menampilkan _START_ - _END_ dari _TOTAL_ data",
+                infoEmpty: "Tidak ada data tersedia",
+                infoFiltered: "(difilter dari _MAX_ total data)",
+                zeroRecords: "Data tidak ditemukan",
+                paginate: {
+                    first: "Pertama",
+                    last: "Terakhir",
+                    next: "Selanjutnya",
+                    previous: "Sebelumnya"
+                }
+            },
+            pageLength: 10,
+            lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Semua"]],
+            order: [[2, 'desc']], // Urut berdasarkan tanggal pendaftaran descending
+            responsive: true,
+            columnDefs: [
+                { orderable: false, targets: 0 }, // Kolom No tidak bisa di-sort
+                { className: "text-center", targets: [0, 2, 3, 4] }
+            ],
+            drawCallback: function (settings) {
+                // Update nomor urut setelah sorting/filtering
+                var api = this.api();
+                api.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                    cell.innerHTML = i + 1;
+                });
+            }
+        });
     });
 </script>
