@@ -3,6 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $base_url = config_item('base_url') ?: '/capaian/';
 ?><!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="utf-8">
     <title>Halaman Tidak Ditemukan | e-Capaian</title>
@@ -18,6 +19,7 @@ $base_url = config_item('base_url') ?: '/capaian/';
     <!-- Custom Error CSS -->
     <link href="<?php echo $base_url; ?>assets/css/custom-errors.css" rel="stylesheet" type="text/css" />
 </head>
+
 <body class="error-body">
     <div class="error-container">
         <div class="error-card error-warning">
@@ -29,11 +31,12 @@ $base_url = config_item('base_url') ?: '/capaian/';
                 <?php echo $message; ?>
             </div>
             <div class="error-btn-wrapper">
-                <a href="<?php echo $base_url; ?>index.php/home" class="error-btn">
+                <a href="<?php echo $base_url; ?>" class="error-btn">
                     <i class="mdi mdi-home-outline me-2"></i> Kembali ke Dashboard
                 </a>
             </div>
         </div>
     </div>
 </body>
+
 </html>
