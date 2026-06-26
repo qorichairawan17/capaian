@@ -46,8 +46,12 @@ class Auth extends CI_Controller {
         }
 
         // Set form validation rules
-        $this->form_validation->set_rules('username', 'Username', 'required|trim');
-        $this->form_validation->set_rules('password', 'Password', 'required');
+        $this->form_validation->set_rules('username', 'Username', 'required|trim', array(
+            'required' => 'Username tidak boleh kosong, silakan masukkan username Anda.'
+        ));
+        $this->form_validation->set_rules('password', 'Password', 'required', array(
+            'required' => 'Password tidak boleh kosong, silakan masukkan password Anda.'
+        ));
 
         if ($this->form_validation->run() === FALSE) {
             // Validation failed, reload view
