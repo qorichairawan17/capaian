@@ -33,7 +33,7 @@
                 <span>e-Capaian</span>&nbsp;Desk Migrasi
             </a>
             <div>
-                <a class="nav-link" href="<?php echo base_url('welcome'); ?>">
+                <a class="nav-link" href="<?php echo base_url('home'); ?>">
                     Kembali ke Dashboard
                 </a>
             </div>

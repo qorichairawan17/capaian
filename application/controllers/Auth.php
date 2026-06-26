@@ -28,7 +28,7 @@ class Auth extends CI_Controller {
     {
         // If already logged in, redirect to home
         if ($this->session->userdata('logged_in')) {
-            redirect('welcome');
+            redirect('home');
         }
 
         $data['is_mock'] = $this->isMockMode;
@@ -42,7 +42,7 @@ class Auth extends CI_Controller {
     {
         // If already logged in, redirect to home
         if ($this->session->userdata('logged_in')) {
-            redirect('welcome');
+            redirect('home');
         }
 
         // Set form validation rules
@@ -80,7 +80,7 @@ class Auth extends CI_Controller {
 
                 // Set flash message
                 $this->session->set_flashdata('success', 'Welcome back, ' . $user->getName() . '!');
-                redirect('welcome');
+                redirect('home');
             } else {
                 // Login failed, set flash error message
                 $this->session->set_flashdata('error', $response->getError());

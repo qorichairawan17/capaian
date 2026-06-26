@@ -27,11 +27,6 @@ class Migration_Create_users extends CI_Migration {
                 'constraint' => 100,
                 'null' => FALSE
             ),
-            'email' => array(
-                'type' => 'VARCHAR',
-                'constraint' => 100,
-                'null' => FALSE
-            ),
             // Menggunakan raw string untuk timestamp default MariaDB
             'created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP',
             'updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'
@@ -44,9 +39,17 @@ class Migration_Create_users extends CI_Migration {
         // Parameter kedua TRUE digunakan untuk menambahkan IF NOT EXISTS
         $this->dbforge->create_table('users', TRUE);
 
-        // Menambahkan Unique index untuk username dan email (Standard MariaDB)
+        // Menambahkan Unique index untuk username (Standard MariaDB)
         $this->db->query('ALTER TABLE `users` ADD UNIQUE INDEX `idx_users_username` (`username`)');
-        $this->db->query('ALTER TABLE `users` ADD UNIQUE INDEX `idx_users_email` (`email`)');
+
+        // Tambahkan user default admin dengan password terenkripsi (bcrypt)
+        $passwordHash = password_hash('password123', PASSWORD_BCRYPT);
+        $data = array(
+            'username' => 'admin',
+            'password' => $passwordHash,
+            'name' => 'Administrator'
+        );
+        $this->db->insert('users', $data);
     }
 
     public function down()
