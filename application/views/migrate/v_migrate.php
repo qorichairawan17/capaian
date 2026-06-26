@@ -158,7 +158,7 @@
                     <?php if ($status->currentVersion !== '0'): ?>
                         <?php echo form_open('migrate/version', array('class' => 'm-0', 'id' => 'rollback-zero-form')); ?>
                             <input type="hidden" name="version" value="0">
-                            <button type="button" class="btn-migrate-secondary" onclick="confirmRollbackZero()">
+                            <button type="button" class="btn-migrate-secondary" onclick="showRollbackConfirm('rollback-zero-form', 'Apakah Anda yakin ingin membatalkan semua migrasi? Ini akan menyetel skema database Anda kembali ke versi 0, menghapus seluruh tabel yang dikelola oleh migrasi. Tindakan ini tidak dapat dibatalkan.')">
                                 <i class="mdi mdi-arrow-down-bold-circle-outline"></i> Rollback All (Reset to 0)
                             </button>
                         <?php echo form_close(); ?>
@@ -229,9 +229,9 @@
                                         <?php if ($status->isEnabled): ?>
                                             <?php if ($migration->isApplied): ?>
                                                 <!-- Rollback button -->
-                                                <?php echo form_open('migrate/version', array('class' => 'd-inline')); ?>
+                                                <?php echo form_open('migrate/version', array('class' => 'd-inline', 'id' => 'rollback-form-' . $migration->version)); ?>
                                                     <input type="hidden" name="version" value="<?php echo $migration->version; ?>">
-                                                    <button type="submit" class="btn-action-outline-danger" title="Rollback all migrations executed after this version">
+                                                    <button type="button" class="btn-action-outline-danger" onclick="showRollbackConfirm('rollback-form-<?php echo $migration->version; ?>', 'Apakah Anda yakin ingin mempertahankan skema database hanya sampai versi <?php echo $migration->version; ?>? Seluruh migrasi yang dijalankan setelah versi ini akan dibatalkan/di-rollback.')" title="Rollback all migrations executed after this version">
                                                         Keep Up To Here
                                                     </button>
                                                 <?php echo form_close(); ?>
@@ -263,6 +263,27 @@
         </footer>
     </div>
 
+    <!-- Rollback Confirmation Modal -->
+    <div class="modal fade" id="rollbackModal" tabindex="-1" aria-labelledby="rollbackModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content shadow-lg border-0" style="border-radius: 16px;">
+                <div class="modal-header border-bottom-0 pb-0">
+                    <h5 class="modal-title fw-bold text-danger d-flex align-items-center" id="rollbackModalLabel">
+                        <i class="mdi mdi-alert-circle-outline fs-24 me-2"></i> Konfirmasi Rollback
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body py-3">
+                    <p class="mb-0 text-muted" id="rollbackModalMessage">Tindakan ini akan merubah skema database Anda. Apakah Anda yakin ingin melanjutkannya?</p>
+                </div>
+                <div class="modal-footer border-top-0 pt-0">
+                    <button type="button" class="btn-migrate-secondary py-2 px-3" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" id="confirmRollbackBtn" class="btn-migrate-primary bg-danger hover-bg-danger py-2 px-3">Ya, Rollback</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- JAVASCRIPT -->
     <script src="<?php echo base_url('assets/libs/jquery/jquery.min.js'); ?>"></script>
     <script src="<?php echo base_url('assets/libs/bootstrap/js/bootstrap.bundle.min.js'); ?>"></script>
@@ -272,11 +293,22 @@
     <script src="<?php echo base_url('assets/js/app.js'); ?>"></script>
 
     <script>
-        function confirmRollbackZero() {
-            if (confirm("WARNING: Are you absolutely sure you want to rollback all migrations? This will reset your database schema back to version 0, dropping all tables managed by migrations. THIS ACTION CANNOT BE UNDONE.")) {
-                document.getElementById('rollback-zero-form').submit();
-            }
+        let formToSubmit = null;
+
+        function showRollbackConfirm(formId, message) {
+            formToSubmit = document.getElementById(formId);
+            document.getElementById('rollbackModalMessage').innerText = message;
+            
+            // Show bootstrap modal
+            const rollbackModal = new bootstrap.Modal(document.getElementById('rollbackModal'));
+            rollbackModal.show();
         }
+
+        document.getElementById('confirmRollbackBtn').addEventListener('click', function() {
+            if (formToSubmit) {
+                formToSubmit.submit();
+            }
+        });
     </script>
 </body>
 

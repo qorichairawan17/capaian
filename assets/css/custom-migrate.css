@@ -373,3 +373,17 @@ body.migrate-body {
     border-radius: 20px;
     pointer-events: none;
 }
+
+/* Modal Styling Overrides */
+.modal-content {
+    border: none !important;
+}
+
+.modal-header .btn-close:focus {
+    box-shadow: none !important;
+}
+
+.hover-bg-danger:hover {
+    background-color: #dc2626 !important;
+}
+
