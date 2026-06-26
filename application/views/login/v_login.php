@@ -4,7 +4,7 @@
 <head>
 
     <meta charset="utf-8" />
-    <title>Login | Clivax - Admin & Dashboard Template</title>
+    <title>Login | e-Capaian - Admin & Dashboard Template</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Codebucks" name="author" />
@@ -46,7 +46,7 @@
 
 
                             <h4 class="mt-4">Welcome Back !</h4>
-                            <p class="text-muted">Sign in to continue to Clivax.</p>
+                            <p class="text-muted">Sign in to continue to e-Capaian.</p>
                         </div>
 
                         <div class="p-2 mt-4">
@@ -140,7 +140,7 @@
 
                         <div class="mt-5 text-center">
                             <p>©
-                                <script>document.write(new Date().getFullYear())</script> Clivax. Crafted with <i
+                                <script>document.write(new Date().getFullYear())</script> e-Capaian. Crafted with <i
                                     class="mdi mdi-heart text-danger"></i> by Codubucks
                             </p>
                         </div>

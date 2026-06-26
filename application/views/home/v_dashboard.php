@@ -4,7 +4,7 @@
 <head>
 
     <meta charset="utf-8" />
-    <title>Starter page | Clivax - Admin & Dashboard Template</title>
+    <title>Starter page | e-Capaian - Admin & Dashboard Template</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Codebucks" name="author" />
@@ -861,7 +861,7 @@
                 <div class="container-fluid">
                     <div class="row align-items-center">
                         <div class="col-sm-6">
-                            <script>document.write(new Date().getFullYear())</script> © Clivax.
+                            <script>document.write(new Date().getFullYear())</script> © e-Capaian.
                         </div>
                         <div class="col-sm-6">
                             <div class="text-sm-end d-none d-sm-block">
