@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Panel Manajemen Migrasi Database" name="description" />
     <meta content="Qori Chairawan" name="author" />
-    
+
     <!-- App favicon -->
     <link rel="shortcut icon" href="<?php echo base_url('assets/images/favicon.ico'); ?>">
 
@@ -17,10 +17,10 @@
     <link href="<?php echo base_url('assets/css/icons.min.css'); ?>" rel="stylesheet" type="text/css" />
     <!-- App Css-->
     <link href="<?php echo base_url('assets/css/app.min.css'); ?>" id="app-style" rel="stylesheet" type="text/css" />
-    
+
     <!-- Google Fonts for Outfit (Clean & Minimalist typography) -->
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+
     <!-- Custom Migrate Css -->
     <link href="<?php echo base_url('assets/css/custom-migrate.css'); ?>" rel="stylesheet" type="text/css" />
 </head>
@@ -111,7 +111,7 @@
                             <?php endif; ?>
                         </div>
                         <div class="subtext text-muted">
-                            <?php 
+                            <?php
                             if ($status->currentVersion !== '0') {
                                 echo preg_replace('/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/', '$1-$2-$3 $4:$5:$6', $status->currentVersion);
                             } else {
@@ -150,17 +150,18 @@
             <div class="d-flex flex-wrap gap-3">
                 <?php if ($status->isEnabled): ?>
                     <?php echo form_open('migrate/latest', array('class' => 'm-0')); ?>
-                        <button type="submit" class="btn-migrate-primary">
-                            <i class="mdi mdi-arrow-up-bold-circle-outline"></i> Migrasi ke Versi Terbaru
-                        </button>
+                    <button type="submit" class="btn-migrate-primary">
+                        <i class="mdi mdi-arrow-up-bold-circle-outline"></i> Migrasi ke Versi Terbaru
+                    </button>
                     <?php echo form_close(); ?>
 
                     <?php if ($status->currentVersion !== '0'): ?>
                         <?php echo form_open('migrate/version', array('class' => 'm-0', 'id' => 'rollback-zero-form')); ?>
-                            <input type="hidden" name="version" value="0">
-                            <button type="button" class="btn-migrate-secondary" onclick="showRollbackConfirm('rollback-zero-form', 'Apakah Anda yakin ingin membatalkan semua migrasi? Ini akan menyetel skema database Anda kembali ke versi 0, menghapus seluruh tabel yang dikelola oleh migrasi. Tindakan ini tidak dapat dibatalkan.')">
-                                <i class="mdi mdi-arrow-down-bold-circle-outline"></i> Kembalikan Semua (Reset ke 0)
-                            </button>
+                        <input type="hidden" name="version" value="0">
+                        <button type="button" class="btn-migrate-secondary"
+                            onclick="showRollbackConfirm('rollback-zero-form', 'Apakah Anda yakin ingin membatalkan semua migrasi? Ini akan menyetel skema database Anda kembali ke versi 0, menghapus seluruh tabel yang dikelola oleh migrasi. Tindakan ini tidak dapat dibatalkan.')">
+                            <i class="mdi mdi-arrow-down-bold-circle-outline"></i> Kembalikan Semua (Reset ke 0)
+                        </button>
                         <?php echo form_close(); ?>
                     <?php endif; ?>
                 <?php else: ?>
@@ -169,7 +170,8 @@
                             <i class="mdi mdi-alert-outline"></i>
                         </div>
                         <div class="alert-content">
-                            <strong>Migrasi saat ini dinonaktifkan!</strong> Untuk menjalankan migrasi, silakan buka <code>application/config/migration.php</code> dan atur <code>$config['migration_enabled'] = TRUE;</code>.
+                            <strong>Migrasi saat ini dinonaktifkan!</strong> Untuk menjalankan migrasi, silakan buka
+                            <code>application/config/migration.php</code> dan atur <code>$config['migration_enabled'] = TRUE;</code>.
                         </div>
                     </div>
                 <?php endif; ?>
@@ -230,18 +232,20 @@
                                             <?php if ($migration->isApplied): ?>
                                                 <!-- Rollback button -->
                                                 <?php echo form_open('migrate/version', array('class' => 'd-inline', 'id' => 'rollback-form-' . $migration->version)); ?>
-                                                    <input type="hidden" name="version" value="<?php echo $migration->version; ?>">
-                                                    <button type="button" class="btn-action-outline-danger" onclick="showRollbackConfirm('rollback-form-<?php echo $migration->version; ?>', 'Apakah Anda yakin ingin mempertahankan skema database hanya sampai versi <?php echo $migration->version; ?>? Seluruh migrasi yang dijalankan setelah versi ini akan dibatalkan/di-rollback.')" title="Rollback semua migrasi yang dijalankan setelah versi ini">
-                                                        Pertahankan Sampai Sini
-                                                    </button>
+                                                <input type="hidden" name="version" value="<?php echo $migration->version; ?>">
+                                                <button type="button" class="btn-action-outline-danger"
+                                                    onclick="showRollbackConfirm('rollback-form-<?php echo $migration->version; ?>', 'Apakah Anda yakin ingin mempertahankan skema database hanya sampai versi <?php echo $migration->version; ?>? Seluruh migrasi yang dijalankan setelah versi ini akan dibatalkan/di-rollback.')"
+                                                    title="Rollback semua migrasi yang dijalankan setelah versi ini">
+                                                    Pertahankan Sampai Sini
+                                                </button>
                                                 <?php echo form_close(); ?>
                                             <?php else: ?>
                                                 <!-- Migrate to here button -->
                                                 <?php echo form_open('migrate/version', array('class' => 'd-inline')); ?>
-                                                    <input type="hidden" name="version" value="<?php echo $migration->version; ?>">
-                                                    <button type="submit" class="btn-action-outline-success" title="Migrasikan naik sampai versi spesifik ini">
-                                                        Migrasikan Ke Sini
-                                                    </button>
+                                                <input type="hidden" name="version" value="<?php echo $migration->version; ?>">
+                                                <button type="submit" class="btn-action-outline-success" title="Migrasikan naik sampai versi spesifik ini">
+                                                    Migrasikan Ke Sini
+                                                </button>
                                                 <?php echo form_close(); ?>
                                             <?php endif; ?>
                                         <?php else: ?>
@@ -274,11 +278,13 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body py-3">
-                    <p class="mb-0 text-muted" id="rollbackModalMessage">Tindakan ini akan merubah skema database Anda. Apakah Anda yakin ingin melanjutkannya?</p>
+                    <p class="mb-0 text-muted" id="rollbackModalMessage">Tindakan ini akan merubah skema database Anda. Apakah Anda yakin ingin
+                        melanjutkannya?</p>
                 </div>
                 <div class="modal-footer border-top-0 pt-0">
                     <button type="button" class="btn-migrate-secondary py-2 px-3" data-bs-dismiss="modal">Batal</button>
-                    <button type="button" id="confirmRollbackBtn" class="btn-migrate-primary bg-danger hover-bg-danger py-2 px-3">Ya, Rollback</button>
+                    <button type="button" id="confirmRollbackBtn" class="btn-migrate-primary bg-danger hover-bg-danger py-2 px-3">Ya,
+                        Rollback</button>
                 </div>
             </div>
         </div>
@@ -298,13 +304,13 @@
         function showRollbackConfirm(formId, message) {
             formToSubmit = document.getElementById(formId);
             document.getElementById('rollbackModalMessage').innerText = message;
-            
+
             // Show bootstrap modal
             const rollbackModal = new bootstrap.Modal(document.getElementById('rollbackModal'));
             rollbackModal.show();
         }
 
-        document.getElementById('confirmRollbackBtn').addEventListener('click', function() {
+        document.getElementById('confirmRollbackBtn').addEventListener('click', function () {
             if (formToSubmit) {
                 formToSubmit.submit();
             }
