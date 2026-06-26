@@ -1,0 +1,227 @@
+/* ==========================================
+   e-Capaian Minimalist Clean Errors Styling
+   ========================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+body.error-body {
+    background-color: #f8fafc;
+    font-family: 'Outfit', sans-serif;
+    color: #1e293b;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.error-container {
+    width: 100%;
+    max-width: 600px;
+    animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.error-card {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 3rem 2.25rem;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.02), 0 8px 10px -6px rgba(0, 0, 0, 0.03);
+    text-align: center;
+}
+
+.error-card.error-danger {
+    border-top: 4px solid #ef4444;
+}
+
+.error-card.error-warning {
+    border-top: 4px solid #f97316;
+}
+
+.error-card.error-info {
+    border-top: 4px solid #38c66c;
+}
+
+.error-icon-wrapper {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    margin-bottom: 1.5rem;
+}
+
+.error-icon-wrapper.danger-bg {
+    background-color: #fee2e2;
+    color: #ef4444;
+}
+
+.error-icon-wrapper.warning-bg {
+    background-color: #ffedd5;
+    color: #f97316;
+}
+
+.error-icon-wrapper.info-bg {
+    background-color: #dcfce7;
+    color: #38c66c;
+}
+
+.error-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0 0 0.75rem 0;
+    letter-spacing: -0.5px;
+}
+
+.error-desc {
+    color: #64748b;
+    font-size: 0.92rem;
+    line-height: 1.6;
+    margin: 0 0 2rem 0;
+}
+
+.error-desc p {
+    margin: 0;
+}
+
+.error-code-box {
+    text-align: left;
+    background-color: #0f172a;
+    color: #e2e8f0;
+    border-radius: 8px;
+    padding: 1.25rem;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 0.82rem;
+    line-height: 1.5;
+    overflow-x: auto;
+    margin-bottom: 2rem;
+    border: 1px solid #1e293b;
+}
+
+.error-code-box code {
+    color: #e2e8f0;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    display: inline;
+}
+
+.error-btn-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+}
+
+.error-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #0f172a;
+    color: #ffffff;
+    font-weight: 500;
+    font-size: 0.88rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    border: 1px solid #0f172a;
+}
+
+.error-btn:hover {
+    background-color: #1e293b;
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+.error-btn-outline {
+    background-color: transparent;
+    color: #64748b;
+    border: 1px solid #cbd5e1;
+}
+
+.error-btn-outline:hover {
+    background-color: #f8fafc;
+    color: #1e293b;
+    border-color: #94a3b8;
+}
+
+/* Inline PHP / Exception errors style */
+.inline-error-card {
+    background-color: #ffffff;
+    border: 1px solid #fee2e2;
+    border-left: 4px solid #ef4444;
+    border-radius: 8px;
+    padding: 1.25rem 1.5rem;
+    margin: 1.5rem 0;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    font-family: 'Outfit', sans-serif;
+    text-align: left;
+}
+
+.inline-error-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.inline-error-title {
+    font-weight: 600;
+    color: #991b1b;
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+.inline-error-badge {
+    background-color: #fee2e2;
+    color: #ef4444;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+
+.inline-error-details {
+    font-size: 0.85rem;
+    color: #475569;
+    margin-bottom: 0;
+}
+
+.inline-error-details p {
+    margin: 0.25rem 0;
+}
+
+.inline-error-details strong {
+    color: #1e293b;
+}
+
+.inline-error-backtrace-title {
+    font-weight: 500;
+    color: #1e293b;
+    font-size: 0.85rem;
+    margin: 1rem 0 0.5rem 0;
+    border-top: 1px dashed #e2e8f0;
+    padding-top: 0.75rem;
+}
+
+.inline-error-backtrace-item {
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 0.78rem;
+    color: #4b5563;
+    background-color: #f9fafb;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    margin-bottom: 0.35rem;
+    border: 1px solid #f3f4f6;
+    word-break: break-all;
+}
