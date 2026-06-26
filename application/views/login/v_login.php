@@ -11,7 +11,6 @@
     <!-- App favicon -->
     <link rel="shortcut icon" href="<?php echo base_url('assets/images/favicon.ico'); ?>">
 
-
     <!-- dark layout js -->
     <script src="<?php echo base_url('assets/js/pages/layout.js'); ?>"></script>
 
@@ -23,22 +22,28 @@
     <link href="<?php echo base_url('assets/libs/simplebar/simplebar.min.css'); ?>" rel="stylesheet">
     <!-- App Css-->
     <link href="<?php echo base_url('assets/css/app.min.css'); ?>" id="app-style" rel="stylesheet" type="text/css" />
+    <!-- Custom Login Css -->
+    <link href="<?php echo base_url('assets/css/custom-login.css'); ?>" rel="stylesheet" type="text/css" />
 
 </head>
 
-<body>
-    <div class="container-fluid overflow-hidden">
-        <div class="bg-overlay"></div>
+<body class="login-body">
+    <!-- Background glowing decorations -->
+    <div class="glow-orb-1"></div>
+    <div class="glow-orb-2"></div>
+
+    <div class="container-fluid overflow-hidden position-relative" style="z-index: 1;">
         <div class="row align-items-center justify-content-center min-vh-100">
-            <div class="col-10 col-md-6 col-lg-4 col-xxl-3">
-                <div class="card mb-0">
+            <div class="col-11 col-sm-8 col-md-6 col-lg-4 col-xxl-3">
+                <div class="card card-login mb-0">
                     <div class="card-body">
-                        <div class="text-center">
-                            <h4 class="mt-4">e-Capaian</h4>
-                            <p class="text-muted">Pembantu Rekapitulasi Data Capaian Kinerja</p>
+                        <div class="text-center mb-4">
+                            <h2 class="app-title">e-Capaian</h2>
+                            <p class="app-subtitle text-uppercase">Pembantu Rekapitulasi Data Capaian Kinerja</p>
+                            <div class="border-bottom border-secondary border-opacity-10 my-3 w-50 mx-auto"></div>
                         </div>
 
-                        <div class="p-2 mt-4">
+                        <div class="p-1">
                             <?php if ($this->session->flashdata('error')): ?>
                                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                     <i class="mdi mdi-block-helper me-2"></i>
@@ -64,30 +69,27 @@
                             <?php endif; ?>
 
                             <?php echo form_open('auth/login'); ?>
-                            <div class="input-group auth-form-group-custom mb-3">
-                                <span class="input-group-text bg-primary bg-opacity-10 fs-16" id="basic-addon1"><i
-                                        class="mdi mdi-account-outline auti-custom-input-icon"></i></span>
-                                <input type="text" name="username" class="form-control" placeholder="Enter username" aria-label="Username"
+                            <div class="input-group auth-input-group mb-3">
+                                <span class="input-group-text" id="basic-addon1"><i class="mdi mdi-account-outline fs-18"></i></span>
+                                <input type="text" name="username" class="form-control text-white" placeholder="Enter username" aria-label="Username"
                                     aria-describedby="basic-addon1" value="<?php echo set_value('username'); ?>">
                             </div>
 
-                            <div class="input-group auth-form-group-custom mb-3">
-                                <span class="input-group-text bg-primary bg-opacity-10 fs-16" id="basic-addon2"><i
-                                        class="mdi mdi-lock-outline auti-custom-input-icon"></i></span>
-                                <input type="password" name="password" class="form-control" id="userpassword" placeholder="Enter password"
+                            <div class="input-group auth-input-group mb-4">
+                                <span class="input-group-text" id="basic-addon2"><i class="mdi mdi-lock-outline fs-18"></i></span>
+                                <input type="password" name="password" class="form-control text-white" id="userpassword" placeholder="Enter password"
                                     aria-label="Password" aria-describedby="basic-addon2">
                             </div>
 
-                            <div class="pt-3 text-center">
-                                <button class="btn btn-primary w-xl waves-effect waves-light" type="submit">Login</button>
+                            <div class="pt-2 text-center">
+                                <button class="btn btn-login w-100 waves-effect waves-light" type="submit">Sign In</button>
                             </div>
                             <?php echo form_close(); ?>
                         </div>
 
-                        <div class="mt-5 text-center">
-                            <p>&copy;
-                                <script>document.write(new Date().getFullYear())</script> e-Capaian.
-                                Made by Qori Chairawan
+                        <div class="text-center footer-text">
+                            <p class="mb-0">&copy; <script>document.write(new Date().getFullYear())</script> <strong>e-Capaian</strong>. <br>
+                                Made by <a href="#" target="_blank">Qori Chairawan</a>
                             </p>
                         </div>
                     </div>

@@ -1,0 +1,174 @@
+/* Custom Login Page Styling for e-Capaian */
+body.login-body {
+    background: linear-gradient(135deg, #0f1712 0%, #1c2e24 50%, #0a0f0c 100%);
+    font-family: 'Wix Madefor Text', 'Hind', sans-serif;
+    color: #f5f6f8;
+    position: relative;
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+/* Background Glowing Orbs */
+.glow-orb-1 {
+    position: absolute;
+    width: 350px;
+    height: 350px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(56, 198, 108, 0.15) 0%, rgba(56, 198, 108, 0) 70%);
+    top: -100px;
+    left: -100px;
+    z-index: 0;
+    pointer-events: none;
+    animation: floatOrb 10s ease-in-out infinite alternate;
+}
+
+.glow-orb-2 {
+    position: absolute;
+    width: 450px;
+    height: 450px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(65, 195, 169, 0.12) 0%, rgba(65, 195, 169, 0) 70%);
+    bottom: -150px;
+    right: -100px;
+    z-index: 0;
+    pointer-events: none;
+    animation: floatOrb 12s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes floatOrb {
+    0% { transform: translateY(0) scale(1); }
+    100% { transform: translateY(30px) scale(1.1); }
+}
+
+/* Glassmorphic Login Card */
+.card-login {
+    background: rgba(20, 28, 24, 0.65);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+    z-index: 10;
+    position: relative;
+}
+
+.card-login .card-body {
+    padding: 2.5rem 2rem;
+}
+
+/* App Brand Logo Text */
+.app-title {
+    font-size: 2.4rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    background: linear-gradient(135deg, #38c66c 0%, #a2ebd0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.25rem;
+}
+
+.app-subtitle {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: 400;
+    letter-spacing: 0.2px;
+}
+
+/* Input Styles */
+.auth-input-group {
+    background: rgba(255, 255, 255, 0.03) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 10px !important;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.auth-input-group:focus-within {
+    border-color: rgba(56, 198, 108, 0.5) !important;
+    box-shadow: 0 0 10px rgba(56, 198, 108, 0.15);
+}
+
+.auth-input-group .input-group-text {
+    background: rgba(56, 198, 108, 0.08) !important;
+    border: none !important;
+    color: #38c66c !important;
+    padding-left: 1.2rem;
+    padding-right: 0.8rem;
+}
+
+.auth-input-group .form-control {
+    background: transparent !important;
+    border: none !important;
+    color: #ffffff !important;
+    padding: 0.75rem 1rem 0.75rem 0.5rem !important;
+    font-size: 0.95rem;
+}
+
+.auth-input-group .form-control::placeholder {
+    color: rgba(255, 255, 255, 0.35) !important;
+}
+
+.auth-input-group .form-control:focus {
+    box-shadow: none !important;
+}
+
+/* Premium Login Button */
+.btn-login {
+    background: linear-gradient(135deg, #38c66c 0%, #2ba558 100%);
+    border: none !important;
+    border-radius: 10px !important;
+    padding: 0.75rem 2rem !important;
+    font-weight: 600 !important;
+    color: #ffffff !important;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 15px rgba(56, 198, 108, 0.25);
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.btn-login:hover {
+    background: linear-gradient(135deg, #43d478 0%, #2ea85b 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(56, 198, 108, 0.35);
+}
+
+.btn-login:active {
+    transform: translateY(1px);
+}
+
+/* Custom Alert styling for Glassmorphic dark card */
+.card-login .alert {
+    background-color: rgba(254, 91, 91, 0.12);
+    border: 1px solid rgba(254, 91, 91, 0.25);
+    color: #ff8585;
+    border-radius: 10px;
+    font-size: 0.88rem;
+}
+
+.card-login .alert-info {
+    background-color: rgba(78, 122, 223, 0.12);
+    border: 1px solid rgba(78, 122, 223, 0.25);
+    color: #8daeff;
+}
+
+.card-login .btn-close {
+    filter: invert(1) grayscale(1) brightness(2);
+}
+
+/* Footer text */
+.footer-text {
+    color: rgba(255, 255, 255, 0.4) !important;
+    font-size: 0.82rem;
+    letter-spacing: 0.3px;
+    margin-top: 2rem;
+}
+
+.footer-text a {
+    color: rgba(56, 198, 108, 0.8) !important;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.footer-text a:hover {
+    color: #38c66c !important;
+}
