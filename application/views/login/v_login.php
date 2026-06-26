@@ -11,89 +11,91 @@
     <!-- App favicon -->
     <link rel="shortcut icon" href="<?php echo base_url('assets/images/favicon.ico'); ?>">
 
-    <!-- dark layout js -->
-    <script src="<?php echo base_url('assets/js/pages/layout.js'); ?>"></script>
-
     <!-- Bootstrap Css -->
     <link href="<?php echo base_url('assets/css/bootstrap.min.css'); ?>" id="bootstrap-style" rel="stylesheet" type="text/css" />
     <!-- Icons Css -->
     <link href="<?php echo base_url('assets/css/icons.min.css'); ?>" rel="stylesheet" type="text/css" />
-    <!-- simplebar css -->
-    <link href="<?php echo base_url('assets/libs/simplebar/simplebar.min.css'); ?>" rel="stylesheet">
     <!-- App Css-->
     <link href="<?php echo base_url('assets/css/app.min.css'); ?>" id="app-style" rel="stylesheet" type="text/css" />
+    <!-- Google Fonts for Outfit (Clean Typography) -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Custom Login Css -->
     <link href="<?php echo base_url('assets/css/custom-login.css'); ?>" rel="stylesheet" type="text/css" />
 
 </head>
 
 <body class="login-body">
-    <!-- Background glowing decorations -->
-    <div class="glow-orb-1"></div>
-    <div class="glow-orb-2"></div>
 
-    <div class="container-fluid overflow-hidden position-relative" style="z-index: 1;">
-        <div class="row align-items-center justify-content-center min-vh-100">
-            <div class="col-11 col-sm-8 col-md-6 col-lg-4 col-xxl-3">
-                <div class="card card-login mb-0">
-                    <div class="card-body">
-                        <div class="text-center mb-4">
-                            <h2 class="app-title">e-Capaian</h2>
-                            <p class="app-subtitle text-uppercase">Pembantu Rekapitulasi Data Capaian Kinerja</p>
-                            <div class="border-bottom border-secondary border-opacity-10 my-3 w-50 mx-auto"></div>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <h1 class="app-logo">e-Capaian</h1>
+                <p class="app-tagline">Pembantu Rekapitulasi Data Capaian Kinerja</p>
+            </div>
+
+            <div class="login-body-content">
+                <!-- Session Flash Messages -->
+                <?php if ($this->session->flashdata('error')): ?>
+                    <div class="custom-alert alert-danger" role="alert">
+                        <div class="alert-icon">
+                            <i class="mdi mdi-alert-circle-outline"></i>
                         </div>
-
-                        <div class="p-1">
-                            <?php if ($this->session->flashdata('error')): ?>
-                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                    <i class="mdi mdi-block-helper me-2"></i>
-                                    <?php echo $this->session->flashdata('error'); ?>
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                </div>
-                            <?php endif; ?>
-
-                            <?php if (validation_errors()): ?>
-                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                    <i class="mdi mdi-block-helper me-2"></i>
-                                    <?php echo validation_errors(); ?>
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                </div>
-                            <?php endif; ?>
-
-                            <?php if (isset($is_mock) && $is_mock): ?>
-                                <div class="alert alert-info alert-dismissible fade show" role="alert">
-                                    <i class="mdi mdi-information-outline me-2"></i>
-                                    <strong>Mock Mode Active:</strong> Use <code>admin</code> / <code>password123</code>.
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                </div>
-                            <?php endif; ?>
-
-                            <?php echo form_open('auth/login'); ?>
-                            <div class="input-group auth-input-group mb-3">
-                                <span class="input-group-text" id="basic-addon1"><i class="mdi mdi-account-outline fs-18"></i></span>
-                                <input type="text" name="username" class="form-control text-white" placeholder="Enter username" aria-label="Username"
-                                    aria-describedby="basic-addon1" value="<?php echo set_value('username'); ?>">
-                            </div>
-
-                            <div class="input-group auth-input-group mb-4">
-                                <span class="input-group-text" id="basic-addon2"><i class="mdi mdi-lock-outline fs-18"></i></span>
-                                <input type="password" name="password" class="form-control text-white" id="userpassword" placeholder="Enter password"
-                                    aria-label="Password" aria-describedby="basic-addon2">
-                            </div>
-
-                            <div class="pt-2 text-center">
-                                <button class="btn btn-login w-100 waves-effect waves-light" type="submit">Sign In</button>
-                            </div>
-                            <?php echo form_close(); ?>
-                        </div>
-
-                        <div class="text-center footer-text">
-                            <p class="mb-0">&copy; <script>document.write(new Date().getFullYear())</script> <strong>e-Capaian</strong>. <br>
-                                Made by <a href="#" target="_blank">Qori Chairawan</a>
-                            </p>
+                        <div class="alert-content">
+                            <?php echo $this->session->flashdata('error'); ?>
                         </div>
                     </div>
+                <?php endif; ?>
+
+                <!-- Form Validation Errors (Corrected Block Layout) -->
+                <?php if (validation_errors()): ?>
+                    <div class="custom-alert alert-danger" role="alert">
+                        <div class="alert-icon">
+                            <i class="mdi mdi-alert-circle-outline"></i>
+                        </div>
+                        <div class="alert-content">
+                            <?php echo validation_errors(); ?>
+                        </div>
+                    </div>
+                <?php endif; ?>
+
+                <!-- Mock Mode Information -->
+                <?php if (isset($is_mock) && $is_mock): ?>
+                    <div class="custom-alert alert-info" role="alert">
+                        <div class="alert-icon">
+                            <i class="mdi mdi-information-outline"></i>
+                        </div>
+                        <div class="alert-content">
+                            <strong>Mock Mode Active:</strong> Use <code>admin</code> / <code>password123</code>.
+                        </div>
+                    </div>
+                <?php endif; ?>
+
+                <!-- Login Form -->
+                <?php echo form_open('auth/login'); ?>
+                <div class="form-group-custom">
+                    <label for="username" class="form-label-custom">Username</label>
+                    <div class="input-wrapper-custom">
+                        <input type="text" name="username" id="username" class="form-control-custom" placeholder="Enter your username" value="<?php echo set_value('username'); ?>" required>
+                        <i class="mdi mdi-account-outline input-icon-custom"></i>
+                    </div>
                 </div>
+
+                <div class="form-group-custom">
+                    <label for="password" class="form-label-custom">Password</label>
+                    <div class="input-wrapper-custom">
+                        <input type="password" name="password" id="password" class="form-control-custom" placeholder="Enter your password" required>
+                        <i class="mdi mdi-lock-outline input-icon-custom"></i>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-submit-custom">Sign In</button>
+                <?php echo form_close(); ?>
+            </div>
+
+            <!-- Footer Details -->
+            <div class="login-footer">
+                <p>&copy; <script>document.write(new Date().getFullYear())</script> <span>e-Capaian</span>. All rights reserved.</p>
+                <p class="author-credits">Made with <i class="mdi mdi-heart text-danger"></i> by <strong>Qori Chairawan</strong></p>
             </div>
         </div>
     </div>

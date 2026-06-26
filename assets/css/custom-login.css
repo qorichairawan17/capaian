@@ -1,174 +1,216 @@
-/* Custom Login Page Styling for e-Capaian */
+/* ==========================================
+   e-Capaian Minimalist Clean Login Styling
+   ========================================== */
+
 body.login-body {
-    background: linear-gradient(135deg, #0f1712 0%, #1c2e24 50%, #0a0f0c 100%);
-    font-family: 'Wix Madefor Text', 'Hind', sans-serif;
-    color: #f5f6f8;
-    position: relative;
-    overflow-x: hidden;
+    background-color: #f8fafc;
+    font-family: 'Outfit', sans-serif;
     min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
-/* Background Glowing Orbs */
-.glow-orb-1 {
-    position: absolute;
-    width: 350px;
-    height: 350px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(56, 198, 108, 0.15) 0%, rgba(56, 198, 108, 0) 70%);
-    top: -100px;
-    left: -100px;
-    z-index: 0;
-    pointer-events: none;
-    animation: floatOrb 10s ease-in-out infinite alternate;
+/* Container for responsiveness */
+.login-container {
+    width: 100%;
+    max-width: 420px;
+    animation: fadeIn 0.5s ease-out;
 }
 
-.glow-orb-2 {
-    position: absolute;
-    width: 450px;
-    height: 450px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(65, 195, 169, 0.12) 0%, rgba(65, 195, 169, 0) 70%);
-    bottom: -150px;
-    right: -100px;
-    z-index: 0;
-    pointer-events: none;
-    animation: floatOrb 12s ease-in-out infinite alternate-reverse;
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes floatOrb {
-    0% { transform: translateY(0) scale(1); }
-    100% { transform: translateY(30px) scale(1.1); }
+/* Minimalist Clean Login Card */
+.login-card {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 2.5rem 2.25rem;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.02), 0 8px 10px -6px rgba(0, 0, 0, 0.03);
 }
 
-/* Glassmorphic Login Card */
-.card-login {
-    background: rgba(20, 28, 24, 0.65);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 20px;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
-    z-index: 10;
-    position: relative;
+/* Header Section */
+.login-header {
+    text-align: center;
+    margin-bottom: 2.25rem;
 }
 
-.card-login .card-body {
-    padding: 2.5rem 2rem;
+.app-logo {
+    color: #38c66c;
+    font-size: 2.25rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem 0;
+    letter-spacing: -1px;
 }
 
-/* App Brand Logo Text */
-.app-title {
-    font-size: 2.4rem;
-    font-weight: 800;
-    letter-spacing: -0.5px;
-    background: linear-gradient(135deg, #38c66c 0%, #a2ebd0 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin-bottom: 0.25rem;
-}
-
-.app-subtitle {
+.app-tagline {
+    color: #64748b;
     font-size: 0.85rem;
-    color: rgba(255, 255, 255, 0.5);
+    line-height: 1.5;
+    margin: 0;
     font-weight: 400;
-    letter-spacing: 0.2px;
 }
 
-/* Input Styles */
-.auth-input-group {
-    background: rgba(255, 255, 255, 0.03) !important;
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
-    border-radius: 10px !important;
-    overflow: hidden;
-    transition: all 0.3s ease;
+/* Form Group Layout */
+.form-group-custom {
+    margin-bottom: 1.25rem;
 }
 
-.auth-input-group:focus-within {
-    border-color: rgba(56, 198, 108, 0.5) !important;
-    box-shadow: 0 0 10px rgba(56, 198, 108, 0.15);
-}
-
-.auth-input-group .input-group-text {
-    background: rgba(56, 198, 108, 0.08) !important;
-    border: none !important;
-    color: #38c66c !important;
-    padding-left: 1.2rem;
-    padding-right: 0.8rem;
-}
-
-.auth-input-group .form-control {
-    background: transparent !important;
-    border: none !important;
-    color: #ffffff !important;
-    padding: 0.75rem 1rem 0.75rem 0.5rem !important;
-    font-size: 0.95rem;
-}
-
-.auth-input-group .form-control::placeholder {
-    color: rgba(255, 255, 255, 0.35) !important;
-}
-
-.auth-input-group .form-control:focus {
-    box-shadow: none !important;
-}
-
-/* Premium Login Button */
-.btn-login {
-    background: linear-gradient(135deg, #38c66c 0%, #2ba558 100%);
-    border: none !important;
-    border-radius: 10px !important;
-    padding: 0.75rem 2rem !important;
-    font-weight: 600 !important;
-    color: #ffffff !important;
-    letter-spacing: 0.5px;
-    box-shadow: 0 4px 15px rgba(56, 198, 108, 0.25);
-    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
-}
-
-.btn-login:hover {
-    background: linear-gradient(135deg, #43d478 0%, #2ea85b 100%);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(56, 198, 108, 0.35);
-}
-
-.btn-login:active {
-    transform: translateY(1px);
-}
-
-/* Custom Alert styling for Glassmorphic dark card */
-.card-login .alert {
-    background-color: rgba(254, 91, 91, 0.12);
-    border: 1px solid rgba(254, 91, 91, 0.25);
-    color: #ff8585;
-    border-radius: 10px;
-    font-size: 0.88rem;
-}
-
-.card-login .alert-info {
-    background-color: rgba(78, 122, 223, 0.12);
-    border: 1px solid rgba(78, 122, 223, 0.25);
-    color: #8daeff;
-}
-
-.card-login .btn-close {
-    filter: invert(1) grayscale(1) brightness(2);
-}
-
-/* Footer text */
-.footer-text {
-    color: rgba(255, 255, 255, 0.4) !important;
-    font-size: 0.82rem;
-    letter-spacing: 0.3px;
-    margin-top: 2rem;
-}
-
-.footer-text a {
-    color: rgba(56, 198, 108, 0.8) !important;
-    text-decoration: none;
+.form-label-custom {
+    display: block;
+    color: #475569;
+    font-size: 0.85rem;
     font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+/* Input Wrapper & Styling */
+.input-wrapper-custom {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-icon-custom {
+    position: absolute;
+    left: 14px;
+    color: #94a3b8;
+    font-size: 1.2rem;
+    pointer-events: none;
     transition: color 0.2s ease;
 }
 
-.footer-text a:hover {
-    color: #38c66c !important;
+.form-control-custom {
+    width: 100%;
+    padding: 0.75rem 1rem 0.75rem 2.75rem;
+    font-size: 0.95rem;
+    color: #1e293b;
+    background-color: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    transition: all 0.2s ease-in-out;
+    box-sizing: border-box;
+}
+
+.form-control-custom::placeholder {
+    color: #94a3b8;
+}
+
+.form-control-custom:focus {
+    border-color: #38c66c;
+    box-shadow: 0 0 0 4px rgba(56, 198, 108, 0.08);
+    outline: none;
+}
+
+.form-control-custom:focus + .input-icon-custom {
+    color: #38c66c;
+}
+
+/* Clean Submit Button */
+.btn-submit-custom {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background-color: #38c66c;
+    border: none;
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    margin-top: 1.5rem;
+}
+
+.btn-submit-custom:hover {
+    background-color: #2ea85b;
+}
+
+.btn-submit-custom:active {
+    background-color: #248c48;
+}
+
+/* Custom Alert Layout (Fixing horizontal row bug) */
+.custom-alert {
+    display: flex;
+    align-items: flex-start;
+    padding: 0.85rem 1.1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    box-sizing: border-box;
+}
+
+.custom-alert.alert-danger {
+    background-color: #fef2f2;
+    border: 1px solid #fee2e2;
+    color: #991b1b;
+}
+
+.custom-alert.alert-info {
+    background-color: #eff6ff;
+    border: 1px solid #dbeafe;
+    color: #1e40af;
+}
+
+.custom-alert .alert-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    margin-right: 0.75rem;
+    margin-top: 1px;
+}
+
+.custom-alert .alert-content {
+    flex: 1;
+}
+
+.custom-alert .alert-content p {
+    margin: 0 0 0.25rem 0;
+}
+
+.custom-alert .alert-content p:last-child {
+    margin-bottom: 0;
+}
+
+/* Minimalist Footer */
+.login-footer {
+    text-align: center;
+    margin-top: 2rem;
+    border-top: 1px solid #f1f5f9;
+    padding-top: 1.5rem;
+}
+
+.login-footer p {
+    color: #94a3b8;
+    font-size: 0.8rem;
+    margin: 0 0 0.5rem 0;
+}
+
+.login-footer p:last-child {
+    margin-bottom: 0;
+}
+
+.login-footer span {
+    color: #38c66c;
+    font-weight: 600;
+}
+
+.author-credits {
+    font-size: 0.75rem !important;
+}
+
+.author-credits i {
+    font-size: 0.8rem;
+}
+
+.author-credits strong {
+    color: #475569;
 }
