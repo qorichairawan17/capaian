@@ -2,218 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
-<style>
-    /* Styling specifically for this indicator view */
-    .indicator-banner {
-        background: #ffffff;
-        border-radius: 16px;
-        border: 1px solid #e2e8f0;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.015);
-        position: relative;
-        overflow: hidden;
-    }
-    .indicator-banner::before {
-        content: '';
-        position: absolute;
-        width: 6px;
-        height: 100%;
-        background-color: #38c66c;
-        left: 0;
-        top: 0;
-    }
-    .indicator-stat-card {
-        background: #ffffff;
-        border-radius: 14px;
-        border: 1px solid #e2e8f0;
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.01);
-    }
-    .indicator-stat-card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 18px rgba(56, 198, 108, 0.06);
-    }
-    .indicator-stat-card .stat-icon {
-        width: 48px;
-        height: 48px;
-        border-radius: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.3rem;
-        background: linear-gradient(135deg, rgba(56, 198, 108, 0.08), rgba(65, 195, 169, 0.08));
-        color: #38c66c;
-    }
-    .filter-card {
-        border-radius: 14px;
-        border: 1px solid #e2e8f0;
-        background-color: #ffffff;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.01);
-    }
-    .data-card {
-        border-radius: 14px;
-        border: 1px solid #e2e8f0;
-        background-color: #ffffff;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.015);
-    }
-    .btn-filter-apply {
-        background-color: #38c66c;
-        border-color: #38c66c;
-        color: #ffffff;
-        font-weight: 600;
-        padding: 0.55rem 1.5rem;
-        border-radius: 8px;
-        transition: all 0.2s ease;
-    }
-    .btn-filter-apply:hover, .btn-filter-apply:focus {
-        background-color: #2ea85b;
-        border-color: #2ea85b;
-        color: #ffffff;
-    }
-    .btn-filter-reset {
-        border-radius: 8px;
-        padding: 0.55rem 1.25rem;
-        font-weight: 500;
-    }
-    .badge-tepat {
-        background-color: rgba(56, 198, 108, 0.1);
-        color: #1e824c;
-        font-weight: 600;
-        border: 1px solid rgba(56, 198, 108, 0.2);
-    }
-    .badge-terlambat {
-        background-color: rgba(239, 68, 68, 0.1);
-        color: #b91c1c;
-        font-weight: 600;
-        border: 1px solid rgba(239, 68, 68, 0.2);
-    }
-    .badge-jenis {
-        background-color: #f1f5f9;
-        color: #475569;
-        font-weight: 550;
-    }
-    /* Customize table look */
-    table.dataTable {
-        border-collapse: collapse !important;
-    }
-    table.dataTable thead th {
-        background-color: #f8fafc;
-        color: #334155;
-        font-weight: 600;
-        border-bottom: 2px solid #e2e8f0 !important;
-        text-transform: uppercase;
-        font-size: 0.75rem;
-        letter-spacing: 0.5px;
-        padding: 12px 16px !important;
-    }
-    table.dataTable tbody td {
-        padding: 12px 16px !important;
-        vertical-align: middle;
-        border-bottom: 1px solid #f1f5f9 !important;
-        color: #334155;
-    }
-    .dataTables_wrapper .dataTables_paginate .paginate_button.active .page-link {
-        background-color: #38c66c !important;
-        border-color: #38c66c !important;
-    }
 
-    /* Info Sidebar Styles */
-    .info-sidebar-card {
-        border-radius: 14px;
-        border: 1px solid #e2e8f0;
-        background-color: #ffffff;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.015);
-        height: fit-content;
-    }
-    .formula-container {
-        background-color: #f8fafc;
-        border: 1px dashed #cbd5e1;
-        border-radius: 8px;
-        padding: 15px 10px;
-    }
-    .formula-fraction {
-        display: inline-flex;
-        flex-direction: column;
-        align-items: center;
-        vertical-align: middle;
-        line-height: 1.2;
-    }
-    .fraction-numerator {
-        border-bottom: 1px solid #475569;
-        padding-bottom: 4px;
-        margin-bottom: 4px;
-        font-size: 11px;
-        font-weight: 600;
-        color: #1e293b;
-    }
-    .fraction-denominator {
-        font-size: 11px;
-        font-weight: 600;
-        color: #1e293b;
-    }
-    .formula-text {
-        font-size: 12px;
-        font-weight: 700;
-        color: #0f172a;
-    }
-    .info-list-item {
-        display: flex;
-        align-items: flex-start;
-        gap: 12px;
-        margin-bottom: 16px;
-    }
-    .info-list-item:last-child {
-        margin-bottom: 0;
-    }
-    .info-list-icon {
-        width: 32px;
-        height: 32px;
-        border-radius: 8px;
-        background-color: rgba(56, 198, 108, 0.08);
-        color: #38c66c;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 0.9rem;
-        flex-shrink: 0;
-    }
-    .info-list-content {
-        flex-grow: 1;
-    }
-    .info-list-label {
-        font-size: 10px;
-        font-weight: 700;
-        color: #64748b;
-        text-transform: uppercase;
-        margin-bottom: 2px;
-        letter-spacing: 0.5px;
-    }
-    .info-list-value {
-        font-size: 13px;
-        font-weight: 600;
-        color: #1e293b;
-    }
-    .dasar-hukum-box {
-        background-color: rgba(56, 198, 108, 0.02);
-        border-left: 3px solid #38c66c;
-        border-radius: 4px;
-        padding: 12px;
-        font-size: 12px;
-        color: #334155;
-        line-height: 1.5;
-    }
-    .catatan-list {
-        font-size: 12px;
-        color: #475569;
-        padding-left: 18px;
-        margin-bottom: 0;
-    }
-    .catatan-list li {
-        margin-bottom: 8px;
-    }
-    .catatan-list li:last-child {
-        margin-bottom: 0;
-    }
-</style>
 
 <!-- start page title -->
 <div class="row">
@@ -368,12 +157,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <tr>
                                 <th style="width: 50px;">No</th>
                                 <th>Nomor Perkara</th>
-                                <th>Jenis</th>
-                                <th>Klasifikasi</th>
-                                <th>Tgl Registrasi</th>
-                                <th>Tgl Putusan</th>
-                                <th>Durasi</th>
-                                <th>Status</th>
+                                <th>Jenis Perkara</th>
+                                <th>Tanggal Pendaftaran</th>
+                                <th>Tanggal Putusan</th>
+                                <th>Tanggal Minutasi</th>
+                                <th>Jumlah Hari</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -383,24 +171,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         <td><?php echo $no++; ?></td>
                                         <td class="fw-medium text-dark"><?php echo html_escape($case->getNomorPerkara()); ?></td>
                                         <td>
-                                            <span class="badge badge-jenis px-2 py-1.5 rounded-2 fs-11">
+                                            <span class="badge badge-jenis px-2.5 py-1.5 rounded-2 fs-11">
                                                 <?php echo html_escape($case->getJenisPerkara()); ?>
                                             </span>
                                         </td>
-                                        <td><?php echo html_escape($case->getKlasifikasi()); ?></td>
                                         <td><?php echo date('d M Y', strtotime($case->getTanggalRegistrasi())); ?></td>
                                         <td><?php echo date('d M Y', strtotime($case->getTanggalPutusan())); ?></td>
-                                        <td class="fw-semibold"><?php echo $case->getDurasiHari(); ?> Hari</td>
+                                        <td><?php echo date('d M Y', strtotime($case->getTanggalMinutasi())); ?></td>
                                         <td>
-                                            <?php if ($case->getStatus() === 'Tepat Waktu'): ?>
-                                                <span class="badge badge-tepat px-2.5 py-1.5 rounded-pill fs-11">
-                                                    <i class="fas fa-check-circle me-1"></i>Tepat Waktu
-                                                </span>
-                                            <?php else: ?>
-                                                <span class="badge badge-terlambat px-2.5 py-1.5 rounded-pill fs-11">
-                                                    <i class="fas fa-exclamation-circle me-1"></i>Terlambat
-                                                </span>
-                                            <?php endif; ?>
+                                            <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+                                                <span class="fw-semibold text-dark"><?php echo $case->getDurasiHari(); ?> Hari</span>
+                                                <?php if ($case->getStatus() === 'Tepat Waktu'): ?>
+                                                    <span class="badge badge-tepat px-2.5 py-1 rounded-pill fs-10" style="font-size: 9.5px !important; padding: 3px 8px !important;">
+                                                        Tepat Waktu
+                                                    </span>
+                                                <?php else: ?>
+                                                    <span class="badge badge-terlambat px-2.5 py-1 rounded-pill fs-10" style="font-size: 9.5px !important; padding: 3px 8px !important;">
+                                                        Terlambat
+                                                    </span>
+                                                <?php endif; ?>
+                                            </div>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>

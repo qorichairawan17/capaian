@@ -44,7 +44,8 @@ class Indicator extends CI_Controller
             'content_view' => 'dashboard/indicator/v_iku_1_1',
             'extra_css' => [
                 'assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css',
-                'assets/libs/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css'
+                'assets/libs/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css',
+                'assets/css/indicator/iku_1_1.css'
             ],
             'extra_js' => [
                 'assets/libs/datatables.net/js/jquery.dataTables.min.js',

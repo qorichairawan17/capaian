@@ -11,12 +11,13 @@ class CaseRecord
     private $klasifikasi;
     private $tanggalRegistrasi;
     private $tanggalPutusan;
+    private $tanggalMinutasi;
     private $durasiHari;
     private $status; // 'Tepat Waktu' | 'Terlambat'
     private $triwulan; // 1 | 2 | 3 | 4
     private $tahun;
 
-    public function __construct($id, $nomorPerkara, $jenisPerkara, $klasifikasi, $tanggalRegistrasi, $tanggalPutusan, $durasiHari, $status, $triwulan, $tahun)
+    public function __construct($id, $nomorPerkara, $jenisPerkara, $klasifikasi, $tanggalRegistrasi, $tanggalPutusan, $tanggalMinutasi, $durasiHari, $status, $triwulan, $tahun)
     {
         $this->id = $id;
         $this->nomorPerkara = $nomorPerkara;
@@ -24,6 +25,7 @@ class CaseRecord
         $this->klasifikasi = $klasifikasi;
         $this->tanggalRegistrasi = $tanggalRegistrasi;
         $this->tanggalPutusan = $tanggalPutusan;
+        $this->tanggalMinutasi = $tanggalMinutasi;
         $this->durasiHari = $durasiHari;
         $this->status = $status;
         $this->triwulan = $triwulan;
@@ -36,6 +38,7 @@ class CaseRecord
     public function getKlasifikasi() { return $this->klasifikasi; }
     public function getTanggalRegistrasi() { return $this->tanggalRegistrasi; }
     public function getTanggalPutusan() { return $this->tanggalPutusan; }
+    public function getTanggalMinutasi() { return $this->tanggalMinutasi; }
     public function getDurasiHari() { return $this->durasiHari; }
     public function getStatus() { return $this->status; }
     public function getTriwulan() { return $this->triwulan; }

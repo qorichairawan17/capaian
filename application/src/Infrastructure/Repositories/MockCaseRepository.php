@@ -102,25 +102,34 @@ class MockCaseRepository implements CaseRepositoryInterface
             $registrasiDateStr = sprintf('%04d-%02d-%02d', $tahun, $month, $day);
             $registrasiDateTime = new \DateTime($registrasiDateStr);
 
-            // Determine duration: make ~85% cases on-time (<= 150 days) and ~15% slow (> 150 days)
+            // Determine duration to Putusan
             $isSlow = ($i % 7 === 0);
             if ($isSlow) {
-                // Terlambat (155 to 220 days)
-                $durasiHari = 155 + ($i % 65);
+                // Decision duration (140 to 165 days)
+                $durasiPutusanHari = 140 + ($i % 26);
             } else {
-                // Tepat Waktu (14 to 120 days)
-                $durasiHari = 14 + (($i * 17) % 106);
+                // Decision duration (10 to 105 days)
+                $durasiPutusanHari = 10 + (($i * 17) % 96);
             }
 
             // Calculate putusan date
             $putusanDateTime = clone $registrasiDateTime;
-            $putusanDateTime->modify("+$durasiHari days");
+            $putusanDateTime->modify("+$durasiPutusanHari days");
             $tanggalPutusanStr = $putusanDateTime->format('Y-m-d');
+
+            // Determine duration from Putusan to Minutasi (1 to 7 days)
+            $durasiMinutasiHari = 1 + ($i % 7);
+            $minutasiDateTime = clone $putusanDateTime;
+            $minutasiDateTime->modify("+$durasiMinutasiHari days");
+            $tanggalMinutasiStr = $minutasiDateTime->format('Y-m-d');
+
+            // Total duration (Registrasi to Minutasi)
+            $durasiHari = $registrasiDateTime->diff($minutasiDateTime)->days;
 
             // Format case number
             $nomorPerkara = sprintf('%d/%s/%04d/PN.Cpn', $i + 10, $suffix, $tahun);
 
-            // Status
+            // Status based on total duration (SEMA No 2 Tahun 2014 limit is 5 months / 150 days)
             $status = ($durasiHari <= 150) ? 'Tepat Waktu' : 'Terlambat';
 
             $this->cases[] = new CaseRecord(
@@ -130,6 +139,7 @@ class MockCaseRepository implements CaseRepositoryInterface
                 $klasifikasi,
                 $registrasiDateStr,
                 $tanggalPutusanStr,
+                $tanggalMinutasiStr,
                 $durasiHari,
                 $status,
                 $triwulan,
