@@ -44,7 +44,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <div class="row g-4 mb-5">
     <!-- Card 1.1 -->
     <div class="col-xl-3 col-md-6">
-        <a href="<?php echo site_url('dashboard/indicator/1_1'); ?>" class="indicator-menu-card">
+        <a href="<?php echo site_url('indicator/iku_1_1'); ?>" class="indicator-menu-card">
             <div class="card-body">
                 <div class="indicator-header">
                     <span class="code-badge">IKU 1.1</span>
