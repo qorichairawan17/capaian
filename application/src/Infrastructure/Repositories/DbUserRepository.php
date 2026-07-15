@@ -13,24 +13,14 @@ class DbUserRepository implements UserRepositoryInterface
     public function __construct()
     {
         $this->CI =& get_instance();
-        // Load database in case it's not loaded
-        $this->CI->load->database();
+        // Load the model using CodeIgniter's loader
+        $this->CI->load->model('User_model');
     }
 
     public function findByUsername($username)
     {
-        // Safety check if connection wasn't successfully established
-        try {
-            if (!$this->CI->db->conn_id) {
-                return null;
-            }
-        } catch (\Exception $e) {
-            return null;
-        }
-
-        // Search users table
-        $query = $this->CI->db->get_where('users', ['username' => $username], 1);
-        $row = $query->row();
+        // Use the CI Model to access the database
+        $row = $this->CI->User_model->find_by_username($username);
 
         if (!$row) {
             return null;
