@@ -1,453 +1,274 @@
-<!doctype html>
-<html lang="en">
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+?>
 
-<head>
+<!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-flex align-items-center justify-content-between">
+            <h4 class="mb-sm-0">Beranda</h4>
 
-    <meta charset="utf-8" />
-    <title>
-        <?= $title ?> - e-Capaian
-    </title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content="Pembantu Rekapitulasi Data Capain Kinerja" name="description" />
-    <meta content="Qori Chairawan" name="author" />
-    <!-- App favicon -->
-    <link rel="shortcut icon" href="<?php echo base_url('assets/images/favicon.ico'); ?>">
-
-    <!-- dark layout js -->
-    <script src="<?php echo base_url('assets/js/pages/layout.js'); ?>"></script>
-
-    <!-- Bootstrap Css -->
-    <link href="<?php echo base_url('assets/css/bootstrap.min.css'); ?>" id="bootstrap-style" rel="stylesheet" type="text/css" />
-    <!-- Icons Css -->
-    <link href="<?php echo base_url('assets/css/icons.min.css'); ?>" rel="stylesheet" type="text/css" />
-    <!-- simplebar css -->
-    <link href="<?php echo base_url('assets/libs/simplebar/simplebar.min.css'); ?>" rel="stylesheet">
-    <!-- App Css-->
-    <link href="<?php echo base_url('assets/css/app.min.css'); ?>" id="app-style" rel="stylesheet" type="text/css" />
-
-</head>
-
-<body>
-
-    <!-- Begin page -->
-    <div id="layout-wrapper">
-
-
-        <!-- Start topbar -->
-        <header id="page-topbar">
-            <div class="navbar-header">
-
-                <!-- Logo -->
-
-                <!-- Start Navbar-Brand -->
-                <div class="navbar-logo-box">
-                    <a href="<?php echo site_url('home'); ?>" class="logo logo-dark">
-                        <span class="logo-sm">
-                            <span class="logo-text fw-bold text-dark fs-20">e-C</span>
-                        </span>
-                        <span class="logo-lg">
-                            <span class="logo-text fw-bold text-primary fs-22">e-Capaian</span>
-                        </span>
-                    </a>
-
-                    <a href="<?php echo site_url('home'); ?>" class="logo logo-light">
-                        <span class="logo-sm">
-                            <span class="logo-text fw-bold text-white fs-20">e-C</span>
-                        </span>
-                        <span class="logo-lg">
-                            <span class="logo-text fw-bold text-white fs-22">e-Capaian</span>
-                        </span>
-                    </a>
-
-                    <button type="button" class="btn btn-sm top-icon sidebar-btn" id="sidebar-btn">
-                        <i class="mdi mdi-menu-open align-middle fs-19"></i>
-                    </button>
-                </div>
-                <!-- End navbar brand -->
-
-                <!-- Start menu -->
-                <div class="d-flex justify-content-end menu-sm px-3 ms-auto">
-
-                    <div class="d-flex align-items-center gap-2">
-
-                        <!-- Start Activities -->
-                        <div class="d-inline-block activities">
-                            <button type="button" class="btn btn-sm top-icon" data-bs-toggle="offcanvas" data-bs-target="#offcanvas-rightsidabar">
-                                <i class="fas fa-table align-middle"></i>
-                            </button>
-                        </div>
-                        <!-- End Activities -->
-
-                        <!-- Start Profile -->
-                        <div class="dropdown d-inline-block">
-                            <button type="button" class="btn btn-sm top-icon p-0" id="page-header-user-dropdown" data-bs-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">
-                                <img class="rounded avatar-2xs p-0" src="<?php echo base_url('assets/images/users/avatar-6.png'); ?>"
-                                    alt="Header Avatar">
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-wide dropdown-menu-end dropdown-menu-animated overflow-hidden py-0">
-                                <div class="card border-0">
-                                    <div class="card-header bg-primary rounded-0">
-                                        <div class="rich-list-item w-100 p-0">
-                                            <div class="rich-list-prepend">
-                                                <div class="avatar avatar-label-light avatar-circle">
-                                                    <div class="avatar-display"><i class="fa fa-user-alt"></i></div>
-                                                </div>
-                                            </div>
-                                            <div class="rich-list-content">
-                                                <h3 class="rich-list-title text-white">Charlie Stone</h3>
-                                                <span class="rich-list-subtitle text-white">admin@codubucks.in</span>
-                                            </div>
-                                            <div class="rich-list-append"><span class="badge badge-label-light fs-6">6+</span></div>
-                                        </div>
-                                    </div>
-                                    <div class="card-body p-0">
-                                        <div class="grid-nav grid-nav-flush grid-nav-action grid-nav-no-rounded">
-                                            <div class="grid-nav-row">
-                                                <a href="#" class="grid-nav-item">
-                                                    <div class="grid-nav-icon"><i class="far fa-address-card"></i></div>
-                                                    <span class="grid-nav-content">Profile</span>
-                                                </a>
-                                                <a href="#!" class="grid-nav-item">
-                                                    <div class="grid-nav-icon"><i class="far fa-comments"></i></div>
-                                                    <span class="grid-nav-content">Messages</span>
-                                                </a>
-                                                <a href="#!" class="grid-nav-item">
-                                                    <div class="grid-nav-icon"><i class="far fa-clone"></i></div>
-                                                    <span class="grid-nav-content">Activities</span>
-                                                </a>
-                                            </div>
-                                            <div class="grid-nav-row">
-                                                <a href="#!" class="grid-nav-item">
-                                                    <div class="grid-nav-icon"><i class="far fa-calendar-check"></i>
-                                                    </div>
-                                                    <span class="grid-nav-content">Tasks</span>
-                                                </a>
-                                                <a href="#!" class="grid-nav-item">
-                                                    <div class="grid-nav-icon"><i class="far fa-sticky-note"></i></div>
-                                                    <span class="grid-nav-content">Notes</span>
-                                                </a>
-                                                <a href="#!" class="grid-nav-item">
-                                                    <div class="grid-nav-icon"><i class="far fa-bell"></i></div>
-                                                    <span class="grid-nav-content">Notification</span>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card-footer card-footer-bordered rounded-0"><a href="<?php echo site_url('auth/logout'); ?>"
-                                            class="btn btn-label-danger">Sign out</a></div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- End Profile -->
-                    </div>
-                </div>
-                <!-- End menu -->
-            </div>
-        </header>
-        <!-- End topbar -->
-
-        <!-- ========== Left Sidebar Start ========== -->
-        <div class="sidebar-left">
-
-            <div data-simplebar class="h-100">
-
-                <!--- Sidebar-menu -->
-                <div id="sidebar-menu">
-                    <!-- Left Menu Start -->
-                    <ul class="left-menu list-unstyled" id="side-menu">
-                        <li>
-                            <a href="<?php echo site_url('home'); ?>" class="">
-                                <i class="fas fa-home"></i>
-                                <span>Beranda</span>
-                            </a>
-                        </li>
-
-                        <li class="menu-title">Manajemen Akun</li>
-
-                        <li>
-                            <a href="#" class="">
-                                <i class="fas fa-users-cog"></i>
-                                <span>Akun</span>
-                            </a>
-                        </li>
-
-                        <li class="menu-title">Manajemen Target</li>
-
-                        <li>
-                            <a href="#" class="">
-                                <i class="fas fa-calendar-alt"></i>
-                                <span>Target Tahunan</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="">
-                                <i class="fas fa-chart-pie"></i>
-                                <span>Target Triwulan</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="">
-                                <i class="fas fa-calendar-minus"></i>
-                                <span>Target Perbulan</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <!-- Sidebar -->
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">e-Capaian</a></li>
+                    <li class="breadcrumb-item active">Beranda</li>
+                </ol>
             </div>
         </div>
-        <!-- Left Sidebar End -->
-
-
-        <!-- ============================================================== -->
-        <!-- Start right Content here -->
-        <!-- ============================================================== -->
-        <div class="main-content">
-
-            <div class="page-content">
-                <div class="container-fluid">
-
-                    <!-- start page title -->
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="page-title-box d-flex align-items-center justify-content-between">
-                                <h4 class="mb-sm-0">Starter page</h4>
-
-                                <div class="page-title-right">
-                                    <ol class="breadcrumb m-0">
-                                        <li class="breadcrumb-item"><a href="javascript: void(0);">Elements</a></li>
-                                        <li class="breadcrumb-item active">Starter page</li>
-                                    </ol>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end page title -->
-
-                </div> <!-- container-fluid -->
-            </div>
-            <!-- End Page-content -->
-
-            <footer class="footer">
-                <div class="container-fluid">
-                    <div class="row align-items-center">
-                        <div class="col-sm-6">
-                            <script>document.write(new Date().getFullYear())</script> © e-Capaian.
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="text-sm-end d-none d-sm-block">
-                                Made by Qori Chairawan
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </footer>
-
-        </div>
-        <!-- end main content-->
-
     </div>
-    <!-- END layout-wrapper -->
+</div>
+<!-- end page title -->
 
-    <!-- Rightbar Sidebar -->
-    <div class="offcanvas offcanvas-end" id="offcanvas-rightsidabar">
-        <div class="card h-100 rounded-0" data-simplebar="init">
-            <div class="card-header bg-light">
-                <h6 class="card-title text-uppercase">Activities</h6>
-                <div class="card-addon">
-                    <button class="btn btn-label-danger" data-bs-dismiss="offcanvas">
-                        <i class="fa fa-times"></i>
-                    </button>
+<!-- start welcome card -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card welcome-card">
+            <div class="card-body p-4">
+                <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+                    <div>
+                        <h2 class="fw-bold mb-1">Selamat Datang, <?= html_escape($this->session->userdata('name') ?: 'User') ?>!</h2>
+                        <p class="mb-0">E-Capaian • Sistem Rekapitulasi Data Capaian Target Kinerja Utama</p>
+                    </div>
+                    <div>
+                        <span class="badge welcome-badge px-3 py-2 rounded-3 fs-12">
+                            <i class="far fa-calendar-alt me-2"></i><?= date('d M Y') ?>
+                        </span>
+                    </div>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+<!-- end welcome card -->
+
+<div class="row g-4 mb-5">
+    <!-- Card 1.1 -->
+    <div class="col-xl-3 col-md-6">
+        <a href="<?php echo site_url('dashboard/indicator/1_1'); ?>" class="indicator-menu-card">
             <div class="card-body">
-                <div class="">
-                    <h3 class="card-title">Company summary</h3>
-                    <div class="border rounded p-2">
-                        <p class="text-muted mb-2">Server Load</p>
-                        <h4 class="fs-16 mb-2">489</h4>
-                        <div class="progress progress-sm" style="height:4px;">
-                            <div class="progress-bar bg-success" style="width: 49.4%"></div>
-                        </div>
-                        <p class="text-muted mb-0 mt-1">49.4% <span>Avg</span></p>
-                    </div>
-                    <div class="border rounded p-2">
-                        <p class="text-muted mb-2">Members online</p>
-                        <h4 class="fs-16 mb-2">3,450</h4>
-                        <div class="progress progress-sm" style="height:4px;">
-                            <div class="progress-bar bg-danger" style="width: 34.6%"></div>
-                        </div>
-                        <p class="text-muted mb-0 mt-1">34.6% <span>Avg</span></p>
-                    </div>
-                    <div class="border rounded p-2">
-                        <p class="text-muted mb-2">Today's revenue</p>
-                        <h4 class="fs-16 mb-2">$18,390</h4>
-                        <div class="progress progress-sm" style="height:4px;">
-                            <div class="progress-bar bg-warning" style="width: 20%"></div>
-                        </div>
-                        <p class="text-muted mb-0 mt-1">$37,578 <span>Avg</span></p>
-                    </div>
-                    <div class="border rounded p-2">
-                        <p class="text-muted mb-2">Expected profit</p>
-                        <h4 class="fs-16 mb-2">$23,461</h4>
-                        <div class="progress progress-sm" style="height:4px;">
-                            <div class="progress-bar bg-info" style="width: 60%"></div>
-                        </div>
-                        <p class="text-muted mb-0 mt-1">$23,461 <span>Avg</span></p>
+                <div class="indicator-header">
+                    <span class="code-badge">IKU 1.1</span>
+                    <div class="icon-container">
+                        <i class="fas fa-hourglass-half"></i>
                     </div>
                 </div>
-
-                <div class="mt-4">
-                    <h3 class="card-title">Latest log</h3>
-                    <div class="timeline">
-                        <div class="timeline-item">
-                            <div class="timeline-pin"><i class="marker marker-dot text-primary"></i></div>
-                            <div class="timeline-content">
-                                <div class="d-flex justify-content-between">
-                                    <p class="mb-0">12 new users registered</p>
-                                    <span class="text-muted">Just now</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-pin"><i class="marker marker-dot text-success"></i></div>
-                            <div class="timeline-content">
-                                <div class="d-flex justify-content-between">
-                                    <p class="mb-0">System shutdown <span class="badge badge-label-success">pending</span></p>
-                                    <span class="text-muted">2 mins</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-pin"><i class="marker marker-dot text-primary"></i></div>
-                            <div class="timeline-content">
-                                <div class="d-flex justify-content-between">
-                                    <p class="mb-0">New invoice received</p>
-                                    <span class="text-muted">3 mins</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-pin"><i class="marker marker-dot text-danger"></i></div>
-                            <div class="timeline-content">
-                                <div class="d-flex justify-content-between">
-                                    <p class="mb-0">New order received <span class="badge badge-label-danger">urgent</span></p>
-                                    <span class="text-muted">10 mins</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-pin"><i class="marker marker-dot text-warning"></i></div>
-                            <div class="timeline-content">
-                                <div class="d-flex justify-content-between">
-                                    <p class="mb-0">Production server down</p>
-                                    <span class="text-muted">1 hrs</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-pin"><i class="marker marker-dot text-info"></i></div>
-                            <div class="timeline-content">
-                                <div class="d-flex justify-content-between">
-                                    <p class="mb-0">System error <a href="#">check</a></p>
-                                    <span class="text-muted">2 hrs</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-pin"><i class="marker marker-dot text-secondary"></i></div>
-                            <div class="timeline-content">
-                                <div class="d-flex justify-content-between">
-                                    <p class="mb-0">DB overloaded 80%</p>
-                                    <span class="text-muted">5 hrs</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-pin"><i class="marker marker-dot text-success"></i></div>
-                            <div class="timeline-content">
-                                <div class="d-flex justify-content-between">
-                                    <p class="mb-0">Production server up</p>
-                                    <span class="text-muted">6 hrs</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="mt-4">
-                    <h3 class="card-title">Upcoming activities</h3>
-                    <div class="timeline timeline-timed">
-                        <div class="timeline-item">
-                            <span class="timeline-time">10:00</span>
-                            <div class="timeline-pin"><i class="marker marker-circle text-primary"></i></div>
-                            <div class="timeline-content">
-                                <div>
-                                    <span>Meeting with</span>
-                                    <div class="avatar-group ms-2">
-                                        <div class="avatar avatar-circle">
-                                            <img src="<?php echo base_url('assets/images/users/avatar-1.png'); ?>" alt="Avatar image"
-                                                class="avatar-2xs" />
-                                        </div>
-                                        <div class="avatar avatar-circle">
-                                            <img src="<?php echo base_url('assets/images/users/avatar-2.png'); ?>" alt="Avatar image"
-                                                class="avatar-2xs" />
-                                        </div>
-                                        <div class="avatar avatar-circle">
-                                            <img src="<?php echo base_url('assets/images/users/avatar-3.png'); ?>" alt="Avatar image"
-                                                class="avatar-2xs" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="timeline-item">
-                            <span class="timeline-time">12:45</span>
-                            <div class="timeline-pin"><i class="marker marker-circle text-warning"></i></div>
-                            <div class="timeline-content">
-                                <p class="mb-0">Lorem ipsum dolor sit amit,consectetur eiusmdd tempor incididunt ut
-                                    labore et dolore magna elit enim at minim veniam quis nostrud</p>
-                            </div>
-                        </div>
-                        <div class="timeline-item">
-                            <span class="timeline-time">14:00</span>
-                            <div class="timeline-pin"><i class="marker marker-circle text-danger"></i></div>
-                            <div class="timeline-content">
-                                <p class="mb-0">Received a new feedback on <a href="#">GoFinance</a> App product.</p>
-                            </div>
-                        </div>
-                        <div class="timeline-item">
-                            <span class="timeline-time">15:20</span>
-                            <div class="timeline-pin"><i class="marker marker-circle text-success"></i></div>
-                            <div class="timeline-content">
-                                <p class="mb-0">Lorem ipsum dolor sit amit,consectetur eiusmdd tempor incididunt ut
-                                    labore et dolore magna.</p>
-                            </div>
-                        </div>
-                        <div class="timeline-item">
-                            <span class="timeline-time">17:00</span>
-                            <div class="timeline-pin"><i class="marker marker-circle text-info"></i></div>
-                            <div class="timeline-content">
-                                <p class="mb-0">Make Deposit <a href="#">USD 700</a> o ESL.</p>
-                            </div>
-                        </div>
-                    </div>
+                <h5 class="indicator-title">Penyelesaian perkara secara tepat waktu</h5>
+                <div class="indicator-footer">
+                    <span>Lihat Rincian</span>
+                    <i class="fas fa-arrow-right arrow-icon"></i>
                 </div>
             </div>
-        </div> <!-- end card-->
+        </a>
     </div>
 
-    <!-- JAVASCRIPT -->
-    <script src="<?php echo base_url('assets/libs/jquery/jquery.min.js'); ?>"></script>
-    <script src="<?php echo base_url('assets/libs/bootstrap/js/bootstrap.bundle.min.js'); ?>"></script>
-    <script src="<?php echo base_url('assets/libs/metismenu/metisMenu.min.js'); ?>"></script>
-    <script src="<?php echo base_url('assets/libs/simplebar/simplebar.min.js'); ?>"></script>
-    <script src="<?php echo base_url('assets/libs/node-waves/waves.min.js'); ?>"></script>
+    <!-- Card 1.2 -->
+    <div class="col-xl-3 col-md-6">
+        <a href="<?php echo site_url('dashboard/indicator/1_2'); ?>" class="indicator-menu-card">
+            <div class="card-body">
+                <div class="indicator-header">
+                    <span class="code-badge">IKU 1.2</span>
+                    <div class="icon-container">
+                        <i class="fas fa-file-export"></i>
+                    </div>
+                </div>
+                <h5 class="indicator-title">Penyediaan/pengiriman salinan putusan tepat waktu oleh pengadilan tingkat pertama kepada para pihak</h5>
+                <div class="indicator-footer">
+                    <span>Lihat Rincian</span>
+                    <i class="fas fa-arrow-right arrow-icon"></i>
+                </div>
+            </div>
+        </a>
+    </div>
 
-    <script src="<?php echo base_url('assets/js/app.js'); ?>"></script>
+    <!-- Card 1.3 -->
+    <div class="col-xl-3 col-md-6">
+        <a href="<?php echo site_url('dashboard/indicator/1_3'); ?>" class="indicator-menu-card">
+            <div class="card-body">
+                <div class="indicator-header">
+                    <span class="code-badge">IKU 1.3</span>
+                    <div class="icon-container">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                </div>
+                <h5 class="indicator-title">Pengiriman pemberitahuan petikan/amar putusan tingkat banding, kasasi dan PK secara tepat waktu oleh
+                    pengadilan pengaju kepada para pihak</h5>
+                <div class="indicator-footer">
+                    <span>Lihat Rincian</span>
+                    <i class="fas fa-arrow-right arrow-icon"></i>
+                </div>
+            </div>
+        </a>
+    </div>
 
-</body>
+    <!-- Card 1.4 -->
+    <div class="col-xl-3 col-md-6">
+        <a href="<?php echo site_url('dashboard/indicator/1_4'); ?>" class="indicator-menu-card">
+            <div class="card-body">
+                <div class="indicator-header">
+                    <span class="code-badge">IKU 1.4</span>
+                    <div class="icon-container">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                </div>
+                <h5 class="indicator-title">Pengiriman salinan putusan perkara pidana tingkat banding, kasasi dan PK tepat waktu oleh pengadilan
+                    pengaju kepada para pihak</h5>
+                <div class="indicator-footer">
+                    <span>Lihat Rincian</span>
+                    <i class="fas fa-arrow-right arrow-icon"></i>
+                </div>
+            </div>
+        </a>
+    </div>
 
-</html>
+    <!-- Card 1.5 -->
+    <div class="col-xl-3 col-md-6">
+        <a href="<?php echo site_url('dashboard/indicator/1_5'); ?>" class="indicator-menu-card">
+            <div class="card-body">
+                <div class="indicator-header">
+                    <span class="code-badge">IKU 1.5</span>
+                    <div class="icon-container">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                </div>
+                <h5 class="indicator-title">Putusan pengadilan yang diunggah pada direktori putusan</h5>
+                <div class="indicator-footer">
+                    <span>Lihat Rincian</span>
+                    <i class="fas fa-arrow-right arrow-icon"></i>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- Card 1.6 -->
+    <div class="col-xl-3 col-md-6">
+        <a href="<?php echo site_url('dashboard/indicator/1_6'); ?>" class="indicator-menu-card">
+            <div class="card-body">
+                <div class="indicator-header">
+                    <span class="code-badge">IKU 1.6</span>
+                    <div class="icon-container">
+                        <i class="fas fa-gavel"></i>
+                    </div>
+                </div>
+                <h5 class="indicator-title">Penyelesaian permohonan eksekusi putusan perdata</h5>
+                <div class="indicator-footer">
+                    <span>Lihat Rincian</span>
+                    <i class="fas fa-arrow-right arrow-icon"></i>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- Card 1.7 -->
+    <div class="col-xl-3 col-md-6">
+        <a href="<?php echo site_url('dashboard/indicator/1_7'); ?>" class="indicator-menu-card">
+            <div class="card-body">
+                <div class="indicator-header">
+                    <span class="code-badge">IKU 1.7</span>
+                    <div class="icon-container">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                </div>
+                <h5 class="indicator-title">Perkara yang berhasil diselesaikan melalui pendekatan keadilan restorative</h5>
+                <div class="indicator-footer">
+                    <span>Lihat Rincian</span>
+                    <i class="fas fa-arrow-right arrow-icon"></i>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- Card 1.8 -->
+    <div class="col-xl-3 col-md-6">
+        <a href="<?php echo site_url('dashboard/indicator/1_8'); ?>" class="indicator-menu-card">
+            <div class="card-body">
+                <div class="indicator-header">
+                    <span class="code-badge">IKU 1.8</span>
+                    <div class="icon-container">
+                        <i class="fas fa-users"></i>
+                    </div>
+                </div>
+                <h5 class="indicator-title">Perkara yang berhasil diselesaikan melalui mediasi</h5>
+                <div class="indicator-footer">
+                    <span>Lihat Rincian</span>
+                    <i class="fas fa-arrow-right arrow-icon"></i>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- Card 1.9 -->
+    <div class="col-xl-3 col-md-6">
+        <a href="<?php echo site_url('dashboard/indicator/1_9'); ?>" class="indicator-menu-card">
+            <div class="card-body">
+                <div class="indicator-header">
+                    <span class="code-badge">IKU 1.9</span>
+                    <div class="icon-container">
+                        <i class="fas fa-child"></i>
+                    </div>
+                </div>
+                <h5 class="indicator-title">Perkara anak yang berhasil diselesaikan melalui diversi</h5>
+                <div class="indicator-footer">
+                    <span>Lihat Rincian</span>
+                    <i class="fas fa-arrow-right arrow-icon"></i>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- Card 1.10 -->
+    <div class="col-xl-3 col-md-6">
+        <a href="<?php echo site_url('dashboard/indicator/1_10'); ?>" class="indicator-menu-card">
+            <div class="card-body">
+                <div class="indicator-header">
+                    <span class="code-badge">IKU 1.10</span>
+                    <div class="icon-container">
+                        <i class="fas fa-laptop"></i>
+                    </div>
+                </div>
+                <h5 class="indicator-title">Perkara perdata tingkat pertama yang menggunakan e-Court</h5>
+                <div class="indicator-footer">
+                    <span>Lihat Rincian</span>
+                    <i class="fas fa-arrow-right arrow-icon"></i>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- Card 1.11 -->
+    <div class="col-xl-3 col-md-6">
+        <a href="<?php echo site_url('dashboard/indicator/1_11'); ?>" class="indicator-menu-card">
+            <div class="card-body">
+                <div class="indicator-header">
+                    <span class="code-badge">IKU 1.11</span>
+                    <div class="icon-container">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                </div>
+                <h5 class="indicator-title">Perkara pidana yang dilimpahkan secara elektronik (e-Berpadu)</h5>
+                <div class="indicator-footer">
+                    <span>Lihat Rincian</span>
+                    <i class="fas fa-arrow-right arrow-icon"></i>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- Card 1.12 -->
+    <div class="col-xl-3 col-md-6">
+        <a href="<?php echo site_url('dashboard/indicator/1_12'); ?>" class="indicator-menu-card">
+            <div class="card-body">
+                <div class="indicator-header">
+                    <span class="code-badge">IKU 1.12</span>
+                    <div class="icon-container">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                </div>
+                <h5 class="indicator-title">Layanan perkara pidana yang diajukan secara elektronik (e-Berpadu)</h5>
+                <div class="indicator-footer">
+                    <span>Lihat Rincian</span>
+                    <i class="fas fa-arrow-right arrow-icon"></i>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>

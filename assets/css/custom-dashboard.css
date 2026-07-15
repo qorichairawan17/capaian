@@ -1,0 +1,149 @@
+/* ==========================================
+   e-Capaian Minimalist Dashboard Custom Styling
+   ========================================== */
+
+/* Styling welcome card (White Background Default) */
+.welcome-card {
+    background: #ffffff;
+    color: #1e293b;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02), 0 2px 8px rgba(0, 0, 0, 0.02);
+}
+.welcome-card::after {
+    content: '';
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(56, 198, 108, 0.06) 0%, rgba(56, 198, 108, 0) 70%);
+    top: -100px;
+    right: -100px;
+    z-index: 1;
+}
+.welcome-card .card-body {
+    position: relative;
+    z-index: 2;
+}
+.welcome-card h2 {
+    color: #0f172a;
+}
+.welcome-card p {
+    color: #64748b;
+}
+.welcome-card .welcome-badge {
+    background-color: rgba(56, 198, 108, 0.08);
+    color: #227741;
+}
+
+/* Category Section headers */
+.category-section-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.75px;
+    margin-top: 2.25rem;
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+.category-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+/* Menu cards (Unified Primary Styling - #38c66c) */
+.indicator-menu-card {
+    background: #ffffff;
+    border-radius: 14px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-left: 4px solid #38c66c;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.015);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    text-decoration: none !important;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+.indicator-menu-card .icon-container {
+    background: linear-gradient(135deg, rgba(56, 198, 108, 0.08), rgba(65, 195, 169, 0.08));
+    color: #38c66c;
+}
+.indicator-menu-card .code-badge {
+    background-color: rgba(56, 198, 108, 0.08);
+    color: #227741;
+}
+.indicator-menu-card:hover {
+    border-left-color: #2ea85b;
+    box-shadow: 0 10px 25px rgba(56, 198, 108, 0.12);
+    transform: translateY(-5px);
+}
+
+/* Common card elements */
+.indicator-menu-card .card-body {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+.indicator-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+}
+.code-badge {
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.35rem 0.65rem;
+    border-radius: 20px;
+}
+.icon-container {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+}
+.indicator-menu-card:hover .icon-container {
+    transform: scale(1.1);
+}
+.indicator-title {
+    color: #1e293b;
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    flex-grow: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.indicator-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #38c66c;
+    font-size: 0.8rem;
+    font-weight: 600;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    padding-top: 1rem;
+    margin-top: auto;
+}
+.arrow-icon {
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+.indicator-menu-card:hover .arrow-icon {
+    transform: translateX(5px);
+    color: inherit;
+}
