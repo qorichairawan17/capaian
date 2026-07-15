@@ -1,7 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Auth extends CI_Controller {
+class Auth extends CI_Controller
+{
 
     private $loginUseCase;
     private $isMockMode = FALSE;
@@ -9,12 +10,6 @@ class Auth extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
-        
-        // Load libraries needed
-        $this->load->library('session');
-        $this->load->library('form_validation');
-        $this->load->helper('url');
-        $this->load->helper('form');
 
         // Resolve dependencies (Clean Architecture)
         $userRepository = $this->resolveUserRepository();
@@ -26,9 +21,9 @@ class Auth extends CI_Controller {
      */
     public function index()
     {
-        // If already logged in, redirect to home
+        // If already logged in, redirect to dashboard
         if ($this->session->userdata('logged_in')) {
-            redirect('home');
+            redirect('dashboard');
         }
 
         $data['is_mock'] = $this->isMockMode;
@@ -40,9 +35,9 @@ class Auth extends CI_Controller {
      */
     public function login()
     {
-        // If already logged in, redirect to home
+        // If already logged in, redirect to dashboard
         if ($this->session->userdata('logged_in')) {
-            redirect('home');
+            redirect('dashboard');
         }
 
         // Set form validation rules
@@ -80,7 +75,7 @@ class Auth extends CI_Controller {
 
                 // Set flash message
                 $this->session->set_flashdata('success', 'Welcome back, ' . $user->getName() . '!');
-                redirect('home');
+                redirect('dashboard');
             } else {
                 // Login failed, set flash error message
                 $this->session->set_flashdata('error', $response->getError());
@@ -104,11 +99,11 @@ class Auth extends CI_Controller {
     private function resolveUserRepository()
     {
         $dbConfigured = FALSE;
-        
+
         if (file_exists(APPPATH . 'config/database.php')) {
             // Safely check database configuration without attempting connection
             include APPPATH . 'config/database.php';
-            
+
             $activeGroup = isset($active_group) ? $active_group : 'default';
             if (isset($db[$activeGroup]['database']) && !empty($db[$activeGroup]['database'])) {
                 $dbConfigured = TRUE;

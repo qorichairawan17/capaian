@@ -168,15 +168,28 @@
                         <li>
                             <a href="#" class="">
                                 <i class="fas fa-users-cog"></i>
-                                <span>Akun Pengguna</span>
+                                <span>Akun</span>
                             </a>
                         </li>
 
                         <li class="menu-title">Manajemen Target</li>
+
+                        <li>
+                            <a href="#" class="">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span>Target Tahunan</span>
+                            </a>
+                        </li>
                         <li>
                             <a href="#" class="">
                                 <i class="fas fa-chart-pie"></i>
-                                <span>Pengisian Target</span>
+                                <span>Target Triwulan</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="">
+                                <i class="fas fa-calendar-minus"></i>
+                                <span>Target Perbulan</span>
                             </a>
                         </li>
                     </ul>

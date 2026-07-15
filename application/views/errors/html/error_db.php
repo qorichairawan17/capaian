@@ -34,7 +34,7 @@ $base_url = config_item('base_url') ?: '/capaian/';
                 <?php echo $message; ?>
             </div>
             <div class="error-btn-wrapper">
-                <a href="<?php echo $base_url; ?>index.php/home" class="error-btn">
+                <a href="<?php echo $base_url; ?>" class="error-btn">
                     <i class="mdi mdi-home-outline me-2"></i> Kembali ke Dashboard
                 </a>
                 <button onclick="window.location.reload();" class="error-btn error-btn-outline">
