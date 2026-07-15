@@ -42,6 +42,16 @@ class Indicator extends CI_Controller
         $data = [
             'title' => 'IKU 1.1 - Penyelesaian Perkara Tepat Waktu',
             'content_view' => 'dashboard/indicator/v_iku_1_1',
+            'extra_css' => [
+                'assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css',
+                'assets/libs/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css'
+            ],
+            'extra_js' => [
+                'assets/libs/datatables.net/js/jquery.dataTables.min.js',
+                'assets/libs/datatables.net-bs5/js/dataTables.bootstrap5.min.js',
+                'assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js',
+                'assets/libs/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js'
+            ],
             'cases' => $response->getCases(),
             'totalCount' => $response->getTotalCount(),
             'tepatWaktuCount' => $response->getTepatWaktuCount(),

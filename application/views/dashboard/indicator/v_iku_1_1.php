@@ -2,10 +2,6 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
-<!-- Datatables CSS -->
-<link href="<?php echo base_url('assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css'); ?>" rel="stylesheet" type="text/css" />
-<link href="<?php echo base_url('assets/libs/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css'); ?>" rel="stylesheet" type="text/css" />
-
 <style>
     /* Styling specifically for this indicator view */
     .indicator-banner {
@@ -485,15 +481,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     </div>
 </div>
 
-<!-- Datatable JS Dependencies -->
-<script src="<?php echo base_url('assets/libs/jquery/jquery.min.js'); ?>"></script>
-<script src="<?php echo base_url('assets/libs/datatables.net/js/jquery.dataTables.min.js'); ?>"></script>
-<script src="<?php echo base_url('assets/libs/datatables.net-bs5/js/dataTables.bootstrap5.min.js'); ?>"></script>
-<script src="<?php echo base_url('assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js'); ?>"></script>
-<script src="<?php echo base_url('assets/libs/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js'); ?>"></script>
-
 <script>
-    $(document).ready(function() {
+    // Execute when DOM is fully loaded and all dependencies (like jQuery loaded in the footer) are ready
+    document.addEventListener("DOMContentLoaded", function() {
         // Initialize datatable on #datatable
         var table = $('#datatable').DataTable({
             responsive: true,

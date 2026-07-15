@@ -219,6 +219,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     <script src="<?php echo base_url('assets/js/app.js'); ?>"></script>
 
+    <!-- Dynamic page-specific JS -->
+    <?php if (isset($extra_js) && is_array($extra_js)): ?>
+        <?php foreach ($extra_js as $js): ?>
+            <script src="<?php echo base_url($js); ?>"></script>
+        <?php endforeach; ?>
+    <?php endif; ?>
+
 </body>
 
 </html>

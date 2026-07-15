@@ -30,6 +30,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <!-- Custom Dashboard Css -->
     <link href="<?php echo base_url('assets/css/custom-dashboard.css'); ?>" rel="stylesheet" type="text/css" />
 
+    <!-- Dynamic page-specific CSS -->
+    <?php if (isset($extra_css) && is_array($extra_css)): ?>
+        <?php foreach ($extra_css as $css): ?>
+            <link href="<?php echo base_url($css); ?>" rel="stylesheet" type="text/css" />
+        <?php endforeach; ?>
+    <?php endif; ?>
+
 </head>
 
 <body>
