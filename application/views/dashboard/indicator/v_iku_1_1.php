@@ -119,6 +119,104 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         background-color: #38c66c !important;
         border-color: #38c66c !important;
     }
+
+    /* Info Sidebar Styles */
+    .info-sidebar-card {
+        border-radius: 14px;
+        border: 1px solid #e2e8f0;
+        background-color: #ffffff;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.015);
+        height: fit-content;
+    }
+    .formula-container {
+        background-color: #f8fafc;
+        border: 1px dashed #cbd5e1;
+        border-radius: 8px;
+        padding: 15px 10px;
+    }
+    .formula-fraction {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        vertical-align: middle;
+        line-height: 1.2;
+    }
+    .fraction-numerator {
+        border-bottom: 1px solid #475569;
+        padding-bottom: 4px;
+        margin-bottom: 4px;
+        font-size: 11px;
+        font-weight: 600;
+        color: #1e293b;
+    }
+    .fraction-denominator {
+        font-size: 11px;
+        font-weight: 600;
+        color: #1e293b;
+    }
+    .formula-text {
+        font-size: 12px;
+        font-weight: 700;
+        color: #0f172a;
+    }
+    .info-list-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        margin-bottom: 16px;
+    }
+    .info-list-item:last-child {
+        margin-bottom: 0;
+    }
+    .info-list-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        background-color: rgba(56, 198, 108, 0.08);
+        color: #38c66c;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.9rem;
+        flex-shrink: 0;
+    }
+    .info-list-content {
+        flex-grow: 1;
+    }
+    .info-list-label {
+        font-size: 10px;
+        font-weight: 700;
+        color: #64748b;
+        text-transform: uppercase;
+        margin-bottom: 2px;
+        letter-spacing: 0.5px;
+    }
+    .info-list-value {
+        font-size: 13px;
+        font-weight: 600;
+        color: #1e293b;
+    }
+    .dasar-hukum-box {
+        background-color: rgba(56, 198, 108, 0.02);
+        border-left: 3px solid #38c66c;
+        border-radius: 4px;
+        padding: 12px;
+        font-size: 12px;
+        color: #334155;
+        line-height: 1.5;
+    }
+    .catatan-list {
+        font-size: 12px;
+        color: #475569;
+        padding-left: 18px;
+        margin-bottom: 0;
+    }
+    .catatan-list li {
+        margin-bottom: 8px;
+    }
+    .catatan-list li:last-child {
+        margin-bottom: 0;
+    }
 </style>
 
 <!-- start page title -->
@@ -216,10 +314,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     </div>
 </div>
 
-<div class="row">
-    <!-- Filter Card -->
-    <div class="col-12 mb-4">
-        <div class="card filter-card">
+<div class="row g-4">
+    <!-- Left Column: Filter & Table (Col 8/9) -->
+    <div class="col-lg-8 col-xl-9">
+        <!-- Filter Card -->
+        <div class="card filter-card mb-4">
             <div class="card-header bg-transparent border-0 pt-3 pb-0">
                 <h6 class="card-title fw-bold text-dark mb-0"><i class="fas fa-filter me-2 text-success"></i>Filter Capaian Data</h6>
             </div>
@@ -258,10 +357,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </form>
             </div>
         </div>
-    </div>
 
-    <!-- Datatable Card -->
-    <div class="col-12">
+        <!-- Datatable Card -->
         <div class="card data-card mb-4">
             <div class="card-header bg-transparent border-bottom border-light py-3">
                 <div class="d-flex align-items-center justify-content-between">
@@ -314,6 +411,74 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <?php endif; ?>
                         </tbody>
                     </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Column: IKU Metadata Sidebar (Col 4/3) -->
+    <div class="col-lg-4 col-xl-3 mb-4">
+        <div class="card info-sidebar-card">
+            <div class="card-header bg-transparent border-bottom border-light py-3">
+                <h6 class="card-title fw-bold mb-0 text-dark"><i class="fas fa-info-circle me-2 text-success"></i>Definisi & Aturan IKU</h6>
+            </div>
+            <div class="card-body">
+                <!-- Rumus Formula Perhitungan -->
+                <div class="formula-container text-center mb-4">
+                    <div class="fw-bold text-uppercase text-secondary mb-2 fs-10 text-start" style="letter-spacing: 0.5px;">Rumus Perhitungan</div>
+                    <div class="d-inline-flex align-items-center flex-wrap justify-content-center">
+                        <div class="formula-text me-2">Persentase =</div>
+                        <div class="formula-fraction">
+                            <span class="fraction-numerator">Jml Perkara Diselesaikan Tepat Waktu</span>
+                            <span class="fraction-denominator">Jml Perkara yang Diselesaikan</span>
+                        </div>
+                        <div class="formula-text ms-2">x 100%</div>
+                    </div>
+                </div>
+
+                <!-- Penanggung Jawab & Sumber Data -->
+                <div class="mb-4">
+                    <div class="info-list-item">
+                        <div class="info-list-icon">
+                            <i class="fas fa-user-shield"></i>
+                        </div>
+                        <div class="info-list-content">
+                            <div class="info-list-label">Penanggung Jawab</div>
+                            <div class="info-list-value">Panitera</div>
+                        </div>
+                    </div>
+                    
+                    <div class="info-list-item">
+                        <div class="info-list-icon">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <div class="info-list-content">
+                            <div class="info-list-label">Sumber Data</div>
+                            <div class="info-list-value">Laporan Bulanan & Laporan Tahunan</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dasar Hukum -->
+                <div class="mb-4">
+                    <div class="fw-bold text-uppercase text-secondary mb-2 fs-10" style="letter-spacing: 0.5px;">Dasar Hukum</div>
+                    <div class="dasar-hukum-box">
+                        <ul class="ps-2 mb-0" style="list-style-type: square; padding-left: 15px !important;">
+                            <li class="mb-2">Surat Edaran Mahkamah Agung Nomor 2 Tahun 2014 tanggal 13 Maret 2014 tentang Penyelesaian Perkara di Pengadilan Tingkat Pertama dan Tingkat Banding Pada 4 (Empat) Lingkungan Peradilan.</li>
+                            <li>Peraturan perundang-undangan atau kebijakan terkait yang mengatur batas waktu penyelesaian perkara.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Catatan Perhitungan -->
+                <div>
+                    <div class="fw-bold text-uppercase text-secondary mb-2 fs-10" style="letter-spacing: 0.5px;">Catatan Penting</div>
+                    <ol class="catatan-list ps-3">
+                        <li>Perhitungan penyelesaian perkara tingkat pertama secara tepat waktu yaitu penyelesaian perkara sejak mendapatkan nomor register hingga perkara di minutasi sesuai ketentuan peraturan perundang-undangan.</li>
+                        <li>Perkara yang proses pemanggilannya telah ditentukan oleh peraturan perundang-undangan (seperti panggilan tergugat melalui media massa dan berkedudukan di luar negeri) <strong>tidak termasuk</strong> dalam perhitungan indikator ini.</li>
+                        <li>Jumlah perkara yang diselesaikan dibandingkan dengan perkara yang harus diselesaikan (sisa awal tahun ditambahkan perkara yang masuk).</li>
+                        <li>Jumlah Perkara Yang Ada = Jumlah Perkara Yang Diterima Tahun Berjalan + Sisa Perkara Tahun Sebelumnya.</li>
+                    </ol>
                 </div>
             </div>
         </div>
