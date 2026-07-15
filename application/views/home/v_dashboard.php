@@ -43,19 +43,19 @@
                 <div class="navbar-logo-box">
                     <a href="<?php echo site_url('home'); ?>" class="logo logo-dark">
                         <span class="logo-sm">
-                            <img src="<?php echo base_url('assets/images/logo-sm.png'); ?>" alt="logo-sm-dark" height="20">
+                            <span class="logo-text fw-bold text-dark fs-20">e-C</span>
                         </span>
                         <span class="logo-lg">
-                            <img src="<?php echo base_url('assets/images/logo-dark.png'); ?>" alt="logo-dark" height="18">
+                            <span class="logo-text fw-bold text-primary fs-22">e-Capaian</span>
                         </span>
                     </a>
 
                     <a href="<?php echo site_url('home'); ?>" class="logo logo-light">
                         <span class="logo-sm">
-                            <img src="<?php echo base_url('assets/images/logo-sm.png'); ?>" alt="logo-sm-light" height="20">
+                            <span class="logo-text fw-bold text-white fs-20">e-C</span>
                         </span>
                         <span class="logo-lg">
-                            <img src="<?php echo base_url('assets/images/logo-light.png'); ?>" alt="logo-light" height="18">
+                            <span class="logo-text fw-bold text-white fs-22">e-Capaian</span>
                         </span>
                     </a>
 
@@ -163,53 +163,21 @@
                             </a>
                         </li>
 
-                        <li class="menu-title">Sasaran Kinerja</li>
+                        <li class="menu-title">Manajemen Akun</li>
 
                         <li>
-                            <a href="javascript: void(0);" class="has-arrow ">
-                                <i class="fa fa-database"></i>
-                                <span>12 Poin IKU</span>
+                            <a href="#" class="">
+                                <i class="fas fa-users-cog"></i>
+                                <span>Akun Pengguna</span>
                             </a>
-                            <ul class="sub-menu" aria-expanded="false">
-                                <li>
-                                    <a href="#">
-                                        <i class="mdi mdi-checkbox-blank-circle align-middle"></i>
-                                        Persentase penyelesaian perkara secara tepat waktu
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="mdi mdi-checkbox-blank-circle align-middle"></i>
-                                        Persentase penyediaan/pengiriman Salinan putusan tepat Waktu oleh pengadilan tingkat pertama kepada para pihak
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="mdi mdi-checkbox-blank-circle align-middle"></i>
-                                        Persentase pengiriman pemberitahuan petikan/amar putusan tingkat banding, kasasi dan PK secara tepat Waktu
-                                        oleh pengadilan pengaju kepada para pihak
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="mdi mdi-checkbox-blank-circle align-middle"></i>
-                                        Persentase pengiriman Salinan putusan perkara pidana tingkat banding, kasasi dan PK tepat waktu oleh
-                                        pengadilan pengaju kepada para pihak
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="mdi mdi-checkbox-blank-circle align-middle"></i>
-                                        Persentase putusan pengadilan yang diunggah pada direktori putusan
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="mdi mdi-checkbox-blank-circle align-middle"></i>
-                                        Persentase penyelesaian permohonan eksekusi putusan perdata
-                                    </a>
-                                </li>
-                            </ul>
+                        </li>
+
+                        <li class="menu-title">Manajemen Target</li>
+                        <li>
+                            <a href="#" class="">
+                                <i class="fas fa-chart-pie"></i>
+                                <span>Pengisian Target</span>
+                            </a>
                         </li>
                     </ul>
                 </div>
