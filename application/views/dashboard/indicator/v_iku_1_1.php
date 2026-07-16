@@ -102,7 +102,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <div class="col-md-3">
         <div class="card indicator-stat-card">
             <div class="card-body p-4">
-                <div class="d-flex align-items-center justify-content-between mb-2">
+                <div class="d-flex align-items-center justify-content-between">
                     <div>
                         <p class="text-muted mb-0 fs-13 fw-medium">Persentase Capaian</p>
                         <h3 class="fw-bold mb-0 text-dark"><?php echo $persentaseTepatWaktu; ?>%</h3>
@@ -111,6 +111,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <i class="fas fa-percentage"></i>
                     </div>
                 </div>
+                <!-- <div class="progress progress-sm" style="height: 6px;">
+                    <div class="progress-bar" role="progressbar" style="width: <?php echo $persentaseTepatWaktu; ?>%; background-color: #38c66c;"
+                        aria-valuenow="<?php echo $persentaseTepatWaktu; ?>" aria-valuemin="0" aria-valuemax="100"></div>
+                </div> -->
             </div>
         </div>
     </div>

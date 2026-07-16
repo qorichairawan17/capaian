@@ -18,8 +18,8 @@ class Indicator extends CI_Controller
         }
 
         // Dependency Resolution (Clean Architecture)
-        // Note: Using MockCaseRepository since case detail tables do not exist in current DB.
-        $caseRepository = new \App\Infrastructure\Repositories\MockCaseRepository();
+        // DbCaseRepository menggantikan MockCaseRepository setelah migration dijalankan.
+        $caseRepository = new \App\Infrastructure\Repositories\DbCaseRepository();
         $this->getCasesUseCase = new \App\UseCases\GetCasesUseCase($caseRepository);
     }
 
