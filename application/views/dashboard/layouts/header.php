@@ -181,7 +181,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <li class="menu-title">Manajemen Akun</li>
 
                         <li>
-                            <a href="#" class="">
+                            <a href="<?php echo site_url('usermanagement'); ?>" class="">
                                 <i class="fas fa-users-cog"></i>
                                 <span>Akun</span>
                             </a>
