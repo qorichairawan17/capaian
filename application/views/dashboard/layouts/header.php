@@ -28,7 +28,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <!-- App Css-->
     <link href="<?php echo base_url('assets/css/app.min.css'); ?>" id="app-style" rel="stylesheet" type="text/css" />
     <!-- Custom Dashboard Css -->
-    <link href="<?php echo base_url('assets/css/custom-dashboard.css'); ?>" rel="stylesheet" type="text/css" />
+    <link href="<?php echo base_url('assets/css/custom-dashboard.css?v=' . time()); ?>" rel="stylesheet" type="text/css" />
 
     <!-- Dynamic page-specific CSS -->
     <?php if (isset($extra_css) && is_array($extra_css)): ?>

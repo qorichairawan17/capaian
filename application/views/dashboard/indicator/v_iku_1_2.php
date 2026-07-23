@@ -2,19 +2,17 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
-
-
 <!-- start page title -->
 <div class="row">
     <div class="col-12">
         <div class="page-title-box d-flex align-items-center justify-content-between">
-            <h4 class="mb-sm-0">Detail Capaian IKU 1.1</h4>
+            <h4 class="mb-sm-0">Detail Capaian IKU 1.2</h4>
 
             <div class="page-title-right">
                 <ol class="breadcrumb m-0">
                     <li class="breadcrumb-item"><a href="<?php echo site_url('dashboard'); ?>">e-Capaian</a></li>
                     <li class="breadcrumb-item"><a href="<?php echo site_url('dashboard'); ?>">Kinerja</a></li>
-                    <li class="breadcrumb-item active">IKU 1.1</li>
+                    <li class="breadcrumb-item active">IKU 1.2</li>
                 </ol>
             </div>
         </div>
@@ -31,10 +29,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div>
                         <span class="badge welcome-badge px-3 py-1.5 rounded-pill fs-11 fw-bold text-success mb-2"
                             style="background-color: rgba(56, 198, 108, 0.08);">
-                            INDIKATOR KINERJA UTAMA 1.1
+                            INDIKATOR KINERJA UTAMA 1.2
                         </span>
-                        <h3 class="fw-bold text-dark mb-1">Penyelesaian Perkara Secara Tepat Waktu</h3>
-                        <p class="text-muted mb-0">Menampilkan rincian, durasi, dan status ketepatan waktu penyelesaian perkara hukum.</p>
+                        <h3 class="fw-bold text-dark mb-1">Penyediaan / Pengiriman Salinan Putusan Tepat Waktu</h3>
+                        <p class="text-muted mb-0">Menampilkan rincian, metode pengiriman, dan status ketepatan waktu pengiriman salinan putusan
+                            kepada para pihak / pengadilan pengaju.</p>
                     </div>
                 </div>
             </div>
@@ -44,28 +43,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <!-- Stats Row -->
 <div class="row mb-4 g-3">
-    <div class="col-md-3">
-        <div class="card indicator-stat-card">
-            <div class="card-body p-4">
-                <div class="d-flex align-items-center justify-content-between">
-                    <div>
-                        <p class="text-muted mb-1 fs-13 fw-medium">Total Perkara Terfilter</p>
-                        <h3 id="stat-total-count" class="fw-bold mb-0 text-dark"><?php echo $totalCount; ?></h3>
-                    </div>
-                    <div class="stat-icon">
-                        <i class="fas fa-folder-open"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <div class="col-md-3">
+    <div class="col-md-4">
         <div class="card indicator-stat-card">
             <div class="card-body p-4">
                 <div class="d-flex align-items-center justify-content-between">
                     <div>
-                        <p class="text-muted mb-1 fs-13 fw-medium">Selesai Tepat Waktu</p>
+                        <p class="text-muted mb-1 fs-13 fw-medium">Jumlah salinan putusan yang dikirimkan ke pengadilan pengaju secara tepat waktu</p>
                         <h3 id="stat-tepat-waktu" class="fw-bold mb-0 text-dark">
                             <span class="value"><?php echo $tepatWaktuCount; ?></span>
                             <span class="fs-14 text-muted fw-normal">/ <span class="total-value"><?php echo $totalCount; ?></span> Perkara</span>
@@ -79,27 +63,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
     </div>
 
-    <div class="col-md-3">
+    <div class="col-md-4">
         <div class="card indicator-stat-card">
             <div class="card-body p-4">
                 <div class="d-flex align-items-center justify-content-between">
                     <div>
-                        <p class="text-muted mb-1 fs-13 fw-medium">Tidak Tepat Waktu</p>
-                        <h3 id="stat-terlambat" class="fw-bold mb-0 text-dark">
-                            <span class="value"><?php echo $terlambatCount; ?></span>
-                            <span class="fs-14 text-muted fw-normal">/ <span class="total-value"><?php echo $totalCount; ?></span> Perkara</span>
+                        <p class="text-muted mb-1 fs-13 fw-medium">Jumlah Perkara Yang Diputus</p>
+                        <h3 id="stat-total-count" class="fw-bold mb-0 text-dark">
+                            <?php echo $totalCount; ?>
                         </h3>
                     </div>
-                    <div class="stat-icon"
-                        style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.08), rgba(248, 113, 113, 0.08)); color: #ef4444;">
-                        <i class="fas fa-exclamation-circle"></i>
+                    <div class="stat-icon">
+                        <i class="fas fa-folder-open"></i>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="col-md-3">
+    <div class="col-md-4">
         <div class="card indicator-stat-card">
             <div class="card-body p-4">
                 <div class="d-flex align-items-center justify-content-between">
@@ -111,10 +93,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <i class="fas fa-percentage"></i>
                     </div>
                 </div>
-                <!-- <div class="progress progress-sm" style="height: 6px;">
-                    <div class="progress-bar" role="progressbar" style="width: <?php echo $persentaseTepatWaktu; ?>%; background-color: #38c66c;"
-                        aria-valuenow="<?php echo $persentaseTepatWaktu; ?>" aria-valuemin="0" aria-valuemax="100"></div>
-                </div> -->
             </div>
         </div>
     </div>
@@ -129,7 +107,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <h6 class="card-title fw-bold text-dark mb-0"><i class="fas fa-filter me-2 text-success"></i>Filter Capaian Data</h6>
             </div>
             <div class="card-body pt-3">
-                <form id="filterForm" method="GET" action="<?php echo site_url('indicator/iku_1_1'); ?>">
+                <form id="filterForm" method="GET" action="<?php echo site_url('indicator/iku_1_2'); ?>">
                     <div class="row align-items-end g-3">
                         <div class="col-md-4">
                             <label for="jenis" class="form-label text-muted fs-12 fw-semibold">JENIS PERKARA</label>
@@ -168,7 +146,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div class="card data-card mb-4">
             <div class="card-header bg-transparent border-bottom border-light py-3">
                 <div class="d-flex align-items-center justify-content-between">
-                    <h5 class="card-title fw-bold mb-0 text-dark">Daftar Rincian Perkara (IKU 1.1)</h5>
+                    <h5 class="card-title fw-bold mb-0 text-dark">Daftar Rincian Pengiriman Salinan Putusan (IKU 1.2)</h5>
                 </div>
             </div>
             <div class="card-body">
@@ -179,9 +157,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <th style="width: 50px;">No</th>
                                 <th>Nomor Perkara</th>
                                 <th>Jenis Perkara</th>
-                                <th>Tanggal Pendaftaran</th>
+                                <th>Metode Pengiriman</th>
                                 <th>Tanggal Putusan</th>
-                                <th>Tanggal Minutasi</th>
+                                <th>Tanggal Pengiriman</th>
                                 <th>Jumlah Hari</th>
                             </tr>
                         </thead>
@@ -197,9 +175,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                 <?php echo html_escape($case->getJenisPerkara()); ?>
                                             </span>
                                         </td>
-                                        <td><?php echo date('d M Y', strtotime($case->getTanggalRegistrasi())); ?></td>
+                                        <td>
+                                            <?php if (strpos(strtolower($case->getMetodePengiriman()), 'elektronik') !== false): ?>
+                                                <span class="badge badge-metode-sip px-2.5 py-1.5 rounded-2 fs-11">
+                                                    <i class="fas fa-laptop me-1"></i><?php echo html_escape($case->getMetodePengiriman()); ?>
+                                                </span>
+                                            <?php else: ?>
+                                                <span class="badge badge-metode-pos px-2.5 py-1.5 rounded-2 fs-11">
+                                                    <i class="fas fa-shipping-fast me-1"></i><?php echo html_escape($case->getMetodePengiriman()); ?>
+                                                </span>
+                                            <?php endif; ?>
+                                        </td>
                                         <td><?php echo date('d M Y', strtotime($case->getTanggalPutusan())); ?></td>
-                                        <td><?php echo date('d M Y', strtotime($case->getTanggalMinutasi())); ?></td>
+                                        <td><?php echo date('d M Y', strtotime($case->getTanggalPengiriman())); ?></td>
                                         <td>
                                             <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
                                                 <span class="fw-semibold text-dark"><?php echo $case->getDurasiHari(); ?> Hari</span>
@@ -239,8 +227,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="d-inline-flex align-items-center flex-wrap justify-content-center">
                         <div class="formula-text me-2">Persentase =</div>
                         <div class="formula-fraction">
-                            <span class="fraction-numerator">Jml Perkara Diselesaikan Tepat Waktu</span>
-                            <span class="fraction-denominator">Jml Perkara yang Diselesaikan</span>
+                            <span class="fraction-numerator">Jumlah salinan putusan yang dikirimkan ke pengadilan pengaju secara tepat waktu</span>
+                            <span class="fraction-denominator">Jumlah perkara yang diputus</span>
                         </div>
                         <div class="formula-text ms-2">x 100%</div>
                     </div>
@@ -274,9 +262,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="fw-bold text-uppercase text-secondary mb-2 fs-10" style="letter-spacing: 0.5px;">Dasar Hukum</div>
                     <div class="dasar-hukum-box">
                         <ul class="ps-2 mb-0" style="list-style-type: square; padding-left: 15px !important;">
-                            <li class="mb-2">Surat Edaran Mahkamah Agung Nomor 2 Tahun 2014 tanggal 13 Maret 2014 tentang Penyelesaian Perkara di
-                                Pengadilan Tingkat Pertama dan Tingkat Banding Pada 4 (Empat) Lingkungan Peradilan.</li>
-                            <li>Peraturan perundang-undangan atau kebijakan terkait yang mengatur batas waktu penyelesaian perkara.</li>
+                            <li class="mb-2">Surat Keputusan Ketua Mahkamah Agung Nomor 026/KMA/SK/II/2012 tentang Standar Pelayanan Peradilan (Jangka
+                                Waktu Pengiriman Salinan Putusan).</li>
+                            <li>Ketentuan dan petunjuk teknis Mahkamah Agung RI terkait pengiriman salinan putusan perkara.</li>
                         </ul>
                     </div>
                 </div>
@@ -285,13 +273,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div>
                     <div class="fw-bold text-uppercase text-secondary mb-2 fs-10" style="letter-spacing: 0.5px;">Catatan Penting</div>
                     <ol class="catatan-list ps-3">
-                        <li>Perhitungan penyelesaian perkara tingkat pertama secara tepat waktu yaitu penyelesaian perkara sejak mendapatkan nomor
-                            register hingga perkara di minutasi sesuai ketentuan peraturan perundang-undangan.</li>
-                        <li>Perkara yang proses pemanggilannya telah ditentukan oleh peraturan perundang-undangan (seperti panggilan tergugat melalui
-                            media massa dan berkedudukan di luar negeri) <strong>tidak termasuk</strong> dalam perhitungan indikator ini.</li>
-                        <li>Jumlah perkara yang diselesaikan dibandingkan dengan perkara yang harus diselesaikan (sisa awal tahun ditambahkan perkara
-                            yang masuk).</li>
-                        <li>Jumlah Perkara Yang Ada = Jumlah Perkara Yang Diterima Tahun Berjalan + Sisa Perkara Tahun Sebelumnya.</li>
+                        <li class="mb-2"><strong>Metode Pengiriman Elektronik:</strong> Kinerja pengiriman dihitung sejak perkara diputus sampai
+                            salinan putusan diupload melalui SIP (Sistem Informasi Pengadilan).</li>
+                        <li class="mb-2"><strong>Metode Pihak Ketiga:</strong> Kinerja pengiriman melalui pihak ketiga (Pos/Ekspedisi) dihitung sejak
+                            perkara diputus sampai salinan putusan dikirim ke pengadilan pengaju / para pihak.</li>
+                        <li>Persentase dihitung dari perbandingan jumlah salinan putusan yang dikirim tepat waktu dengan seluruh perkara yang telah
+                            diputus pada periode bersangkutan.</li>
                     </ol>
                 </div>
             </div>
@@ -300,9 +287,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div>
 
 <script>
-    // Execute when DOM is fully loaded and all dependencies (like jQuery loaded in the footer) are ready
     document.addEventListener("DOMContentLoaded", function () {
-        // Initialize datatable on #datatable
+        // Initialize datatable
         var table = $('#datatable').DataTable({
             responsive: true,
             language: {
@@ -328,7 +314,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             var url = form.attr('action');
             var data = form.serialize();
 
-            // Fade stats cards and table wrapper to indicate loading
             $('.indicator-stat-card, #datatable_wrapper').css('opacity', '0.5');
             $('.btn-filter-apply').prop('disabled', true);
             $('.btn-filter-apply i').removeClass('fa-file-export').addClass('fa-spinner fa-spin');
@@ -343,7 +328,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 },
                 success: function (response) {
                     if (response.success) {
-                        // Update stats
                         $('#stat-total-count').text(response.totalCount);
                         $('#stat-tepat-waktu .value').text(response.tepatWaktuCount);
                         $('#stat-tepat-waktu .total-value').text(response.totalCount);
@@ -351,11 +335,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         $('#stat-terlambat .total-value').text(response.totalCount);
                         $('#stat-persentase').text(response.persentaseTepatWaktu + '%');
 
-                        // Update datatable
                         table.clear();
                         if (response.cases && response.cases.length > 0) {
                             $.each(response.cases, function (index, item) {
                                 var badgeJenis = '<span class="badge badge-jenis px-2.5 py-1.5 rounded-2 fs-11">' + escapeHtml(item.jenis_perkara) + '</span>';
+
+                                var badgeMetode = item.metode_pengiriman.toLowerCase().indexOf('elektronik') !== -1
+                                    ? '<span class="badge badge-metode-sip px-2.5 py-1.5 rounded-2 fs-11"><i class="fas fa-laptop me-1"></i>' + escapeHtml(item.metode_pengiriman) + '</span>'
+                                    : '<span class="badge badge-metode-pos px-2.5 py-1.5 rounded-2 fs-11"><i class="fas fa-shipping-fast me-1"></i>' + escapeHtml(item.metode_pengiriman) + '</span>';
 
                                 var badgeStatus = item.status === 'Tepat Waktu'
                                     ? '<span class="badge badge-tepat px-2.5 py-1 rounded-pill fs-10" style="font-size: 9.5px !important; padding: 3px 8px !important;">Tepat Waktu</span>'
@@ -370,9 +357,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     index + 1,
                                     '<span class="fw-medium text-dark">' + escapeHtml(item.nomor_perkara) + '</span>',
                                     badgeJenis,
-                                    item.tanggal_registrasi,
+                                    badgeMetode,
                                     item.tanggal_putusan,
-                                    item.tanggal_minutasi,
+                                    item.tanggal_pengiriman,
                                     durationHtml
                                 ]);
                             });
@@ -386,7 +373,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     console.error('AJAX Error:', error);
                 },
                 complete: function () {
-                    // Reset opacity with transition and enable button
                     $('.indicator-stat-card, #datatable_wrapper').animate({ opacity: 1 }, 150);
                     $('.btn-filter-apply').prop('disabled', false);
                     $('.btn-filter-apply i').removeClass('fa-spinner fa-spin').addClass('fa-file-export');
@@ -394,7 +380,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             });
         }
 
-        // HTML escaping helper
         function escapeHtml(text) {
             if (text === null || text === undefined) return '';
             return text
@@ -406,13 +391,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 .replace(/'/g, "&#039;");
         }
 
-        // Form submission behavior (clicks Apply Filter)
         $('#filterForm').on('submit', function (e) {
             e.preventDefault();
             applyFilter();
         });
 
-        // Trigger filter on dropdown changes automatically
         $('#jenis, #periode').on('change', function () {
             applyFilter();
         });

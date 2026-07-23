@@ -147,3 +147,77 @@
     transform: translateX(5px);
     color: inherit;
 }
+
+/* ============================================================== */
+/* Sidebar Collapse Fixes (Clean Layout and Alignment)            */
+/* ============================================================== */
+
+/* Keep sidebar fixed when collapsed */
+body.sidebar-collpsed .sidebar-left {
+    position: fixed !important;
+}
+
+/* Override SimpleBar overflow-hidden to allow hover menus to pop out */
+body.sidebar-collpsed .sidebar-left .simplebar-wrapper {
+    overflow: visible !important;
+}
+
+body.sidebar-collpsed .sidebar-left [data-simplebar] {
+    overflow: visible !important;
+}
+
+body.sidebar-collpsed .sidebar-left .simplebar-mask,
+body.sidebar-collpsed .sidebar-left .simplebar-content-wrapper {
+    overflow: visible !important;
+}
+
+/* Ensure hovered list items in collapsed sidebar overlay other content */
+body.sidebar-collpsed .sidebar-left #sidebar-menu > ul > li:hover {
+    z-index: 9999 !important;
+}
+
+body.sidebar-collpsed .sidebar-left #sidebar-menu > ul > li:hover > a {
+    z-index: 9999 !important;
+}
+
+body.sidebar-collpsed .sidebar-left #sidebar-menu > ul > li:hover > ul {
+    z-index: 9999 !important;
+}
+
+/* Correct topbar menu width when collapsed */
+body.sidebar-collpsed .menu-sm {
+    width: calc(100% - 70px) !important;
+}
+
+/* Center logo text & remove excessive padding when collapsed */
+body.sidebar-collpsed .navbar-logo-box {
+    padding: 0 !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+body.sidebar-collpsed .navbar-logo-box .logo {
+    display: block !important;
+    width: 100%;
+    text-align: center;
+    white-space: nowrap !important;
+    overflow: hidden;
+}
+
+body.sidebar-collpsed .navbar-logo-box .logo span.logo-sm {
+    display: block !important;
+    text-align: center;
+    width: 100%;
+    padding: 0 !important;
+    white-space: nowrap !important;
+}
+
+/* Micro-animation: Rotate collapse button icon when collapsed */
+body #sidebar-btn i {
+    transition: transform 0.3s ease;
+}
+
+body.sidebar-collpsed #sidebar-btn i {
+    transform: rotate(180deg);
+}

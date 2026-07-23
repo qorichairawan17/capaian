@@ -3,31 +3,33 @@ namespace App\Infrastructure\Repositories;
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-use App\Domain\Entities\CaseRecord;
-use App\Domain\Repositories\CaseRepositoryInterface;
+use App\Domain\Entities\CaseIku12Record;
+use App\Domain\Repositories\CaseIku12RepositoryInterface;
 
 /**
- * DbCaseRepository
+ * DbCaseIku12Repository
  *
- * Implementasi konkret dari CaseRepositoryInterface yang menggunakan
- * Case_iku_1_1_model (CI3 Model) sebagai query layer.
+ * Implementasi konkret dari CaseIku12RepositoryInterface yang menggunakan
+ * Case_iku_1_2_model (CI3 Model) sebagai query layer.
  *
  * Tanggung jawab:
- * - Memuat Case_iku_1_1_model via CI instance.
+ * - Memuat Case_iku_1_2_model via CI instance.
  * - Mendelegasikan query ke model.
- * - Memetakan hasil array mentah → Domain Entity (CaseRecord).
+ * - Memetakan hasil array mentah → Domain Entity (CaseIku12Record).
  *
  * DILARANG: menulis query $this->db->... langsung di sini.
  */
-class DbCaseRepository implements CaseRepositoryInterface
+class DbCaseIku12Repository implements CaseIku12RepositoryInterface
 {
     /** @var \CI_Controller */
     private $CI;
+    private $mockRepository;
 
     public function __construct()
     {
         $this->CI =& get_instance();
-        $this->CI->load->model('Case_iku_1_1_model');
+        $this->CI->load->model('Case_iku_1_2_model');
+        $this->mockRepository = new MockCaseIku12Repository();
     }
 
     /**
@@ -38,15 +40,19 @@ class DbCaseRepository implements CaseRepositoryInterface
      *   - 'periode'       (string): 't1' | 't2' | 't3' | 't4' (untuk filter triwulan)
      *
      * @param  array $filters
-     * @return CaseRecord[]
+     * @return CaseIku12Record[]
      */
     public function findAll(array $filters)
     {
+        // Cek apakah tabel DB exists
+        if (!$this->CI->db->table_exists('cases_iku_1_2')) {
+            return $this->mockRepository->findAll($filters);
+        }
+
         // Terjemahkan filter 'periode' (t1..t4) → triwulan (1..4)
         $modelFilters = [];
 
         if (!empty($filters['jenis_perkara'])) {
-            // Normalise ke Title Case sesuai nilai DB ('Pidana' / 'Perdata')
             $modelFilters['jenis_perkara'] = ucfirst(strtolower($filters['jenis_perkara']));
         }
 
@@ -57,7 +63,12 @@ class DbCaseRepository implements CaseRepositoryInterface
             }
         }
 
-        $rows = $this->CI->Case_iku_1_1_model->get_all($modelFilters);
+        $rows = $this->CI->Case_iku_1_2_model->get_all($modelFilters);
+
+        // Jika DB kosong, gunakan mock repository sebagai fallback data perbandingan
+        if (empty($rows)) {
+            return $this->mockRepository->findAll($filters);
+        }
 
         return array_map([$this, 'mapRowToEntity'], $rows);
     }
@@ -65,21 +76,20 @@ class DbCaseRepository implements CaseRepositoryInterface
     // ─── Private Mapping ──────────────────────────────────────────────────
 
     /**
-     * Petakan satu baris DB (array asosiatif) ke Domain Entity CaseRecord.
+     * Petakan satu baris DB (array asosiatif) ke Domain Entity CaseIku12Record.
      *
      * @param  array $row
-     * @return CaseRecord
+     * @return CaseIku12Record
      */
     private function mapRowToEntity(array $row)
     {
-        return new CaseRecord(
+        return new CaseIku12Record(
             (int) $row['id'],
             $row['nomor_perkara'],
             $row['jenis_perkara'],
-            isset($row['klasifikasi']) ? $row['klasifikasi'] : '',
-            $row['tanggal_pendaftaran'],
+            $row['metode_pengiriman'],
             $row['tanggal_putusan'],
-            $row['tanggal_minutasi'],
+            $row['tanggal_pengiriman'],
             (int) $row['jumlah_hari'],
             $row['status'],
             (int) $row['triwulan'],
