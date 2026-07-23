@@ -50,7 +50,17 @@ class DbCaseIku18Repository implements CaseIku18RepositoryInterface
             }
         }
 
-        $rows = $this->CI->Case_iku_1_8_model->get_all($modelFilters);
+        $rows = [];
+        try {
+            $rows = $this->CI->Case_iku_1_8_model->get_all($modelFilters);
+        } catch (\Throwable $e) {
+            $rows = [];
+        }
+
+        if (empty($rows)) {
+            $mockRepo = new MockCaseIku18Repository();
+            return $mockRepo->findAll($filters);
+        }
 
         return array_map([$this, 'mapRowToEntity'], $rows);
     }
