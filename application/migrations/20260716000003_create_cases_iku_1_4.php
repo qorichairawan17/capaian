@@ -5,6 +5,11 @@ class Migration_Create_cases_iku_1_4 extends CI_Migration
 {
     public function up()
     {
+        // Drop existing table if structure changed
+        if ($this->db->table_exists('cases_iku_1_4')) {
+            $this->dbforge->drop_table('cases_iku_1_4', TRUE);
+        }
+
         // ─── 1. Create Table ──────────────────────────────────────────────
         $this->dbforge->add_field([
             'id' => [
@@ -18,26 +23,31 @@ class Migration_Create_cases_iku_1_4 extends CI_Migration
                 'constraint' => 100,
                 'null' => FALSE,
             ],
-            'jenis_pengajuan' => [
+            'tingkat_peradilan' => [
                 'type' => 'VARCHAR',
                 'constraint' => 50,
                 'null' => FALSE,
             ],
-            'tanggal_pengajuan' => [
+            'metode_pengiriman' => [
+                'type' => 'VARCHAR',
+                'constraint' => 50,
+                'null' => FALSE,
+            ],
+            'tanggal_diterima' => [
                 'type' => 'DATE',
                 'null' => FALSE,
             ],
-            'pembanding' => [
-                'type' => 'VARCHAR',
-                'constraint' => 255,
+            'tanggal_dikirimkan' => [
+                'type' => 'DATE',
                 'null' => FALSE,
             ],
-            'terbanding' => [
-                'type' => 'VARCHAR',
-                'constraint' => 255,
+            'durasi_hari' => [
+                'type' => 'INT',
+                'constraint' => 5,
                 'null' => FALSE,
+                'default' => 0,
             ],
-            'status_ecourt' => [
+            'status' => [
                 'type' => 'VARCHAR',
                 'constraint' => 50,
                 'null' => FALSE,
@@ -67,8 +77,8 @@ class Migration_Create_cases_iku_1_4 extends CI_Migration
         );
         $this->_add_index_if_not_exists(
             'cases_iku_1_4',
-            'idx_cases_iku14_pengajuan',
-            'ADD INDEX `idx_cases_iku14_pengajuan` (`jenis_pengajuan`)'
+            'idx_cases_iku14_tingkat',
+            'ADD INDEX `idx_cases_iku14_tingkat` (`tingkat_peradilan`)'
         );
         $this->_add_index_if_not_exists(
             'cases_iku_1_4',
@@ -110,50 +120,40 @@ class Migration_Create_cases_iku_1_4 extends CI_Migration
             return;
         }
 
-        $pembandingList = [
-            'PT Bank Central Nusantara',
-            'H. Bambang Sugiarto',
-            'CV Tri Jaya Mandiri',
-            'Drs. Irwan Wijaya',
-            'Siti Rahmawati, S.H.',
-            'PT Graha Pembangunan',
-            'Koperasi Simpan Pinjam Sejahtera',
-            'Dr. Hendra Saputra'
-        ];
-
-        $terbandingList = [
-            'Dinas Perumahan Rakyat & Kawasan Pemukiman',
-            'Hj. Nurul Hasanah',
-            'PT Asuransi Jiwa Utama',
-            'Budi Santoso',
-            'CV Sukses Bersama',
-            'Ahmad Fauzi',
-            'PT Citra Perdana',
-            'Yayasan Pendidikan Bangsa'
-        ];
-
+        $tingkatList = ['Banding', 'Kasasi', 'PK'];
+        $metodeList = ['Jurusita', 'Elektronik', 'Surat Tercatat'];
         $rows = [];
 
         for ($i = 1; $i <= 60; $i++) {
-            $isECourt = ($i % 5 !== 0);
-            $jenisPengajuan = $isECourt ? 'e-Court' : 'Konvensional';
-            $statusECourt = $isECourt ? 'e-Court Active' : 'Konvensional';
+            $tingkatPeradilan = $tingkatList[$i % 3];
+            $metodePengiriman = $metodeList[$i % 3];
 
             $triwulan = ($i % 4) + 1;
             $month = ($triwulan - 1) * 3 + (($i % 3) + 1);
-            $day = (($i * 7) % 28) + 1;
+            $day = (($i * 5) % 25) + 1;
             $tahun = 2026;
 
-            $pengajuanStr = sprintf('%04d-%02d-%02d', $tahun, $month, $day);
-            $nomorPerkara = sprintf('%d/PDT/%04d/PT.Cpn', $i + 15, $tahun);
+            $diterimaTime = mktime(0, 0, 0, $month, $day, $tahun);
+            $tanggalDiterimaStr = date('Y-m-d', $diterimaTime);
+
+            $isTepat = ($i % 7 !== 0);
+            $durasiHari = $isTepat ? rand(0, 2) : rand(4, 8);
+            $status = $isTepat ? 'Tepat Waktu' : 'Terlambat';
+
+            $dikirimkanTime = strtotime("+{$durasiHari} days", $diterimaTime);
+            $tanggalDikirimkanStr = date('Y-m-d', $dikirimkanTime);
+
+            $suffix = ($i % 3 === 0) ? 'Pid.Sus' : 'Pid.B';
+            $nomorPerkara = sprintf('%d/%s/%04d/PN.Cpn', $i + 15, $suffix, $tahun);
 
             $rows[] = [
                 'nomor_perkara' => $nomorPerkara,
-                'jenis_pengajuan' => $jenisPengajuan,
-                'tanggal_pengajuan' => $pengajuanStr,
-                'pembanding' => $pembandingList[$i % count($pembandingList)],
-                'terbanding' => $terbandingList[$i % count($terbandingList)],
-                'status_ecourt' => $statusECourt,
+                'tingkat_peradilan' => $tingkatPeradilan,
+                'metode_pengiriman' => $metodePengiriman,
+                'tanggal_diterima' => $tanggalDiterimaStr,
+                'tanggal_dikirimkan' => $tanggalDikirimkanStr,
+                'durasi_hari' => $durasiHari,
+                'status' => $status,
                 'triwulan' => $triwulan,
                 'tahun' => $tahun,
             ];

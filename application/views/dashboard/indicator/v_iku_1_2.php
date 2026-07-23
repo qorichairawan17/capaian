@@ -31,9 +31,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             style="background-color: rgba(56, 198, 108, 0.08);">
                             INDIKATOR KINERJA UTAMA 1.2
                         </span>
-                        <h3 class="fw-bold text-dark mb-1">Penyediaan / Pengiriman Salinan Putusan Tepat Waktu</h3>
-                        <p class="text-muted mb-0">Menampilkan rincian, metode pengiriman, dan status ketepatan waktu pengiriman salinan putusan
-                            kepada para pihak / pengadilan pengaju.</p>
+                        <h3 class="fw-bold text-dark mb-1">Persentase Penyediaan/Pengiriman Salinan Putusan Tepat Waktu oleh Pengadilan Tingkat Pertama Kepada Para Pihak</h3>
+                        <p class="text-muted mb-0">Menampilkan rincian, metode pengiriman, dan status ketepatan waktu penyediaan dan pengiriman salinan putusan kepada para pihak.</p>
                     </div>
                 </div>
             </div>
@@ -49,7 +48,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div class="card-body p-4">
                 <div class="d-flex align-items-center justify-content-between">
                     <div>
-                        <p class="text-muted mb-1 fs-13 fw-medium">Jumlah salinan putusan yang dikirimkan ke pengadilan pengaju secara tepat waktu</p>
+                        <p class="text-muted mb-1 fs-13 fw-medium">Jumlah salinan putusan yang tersedia/dikirimkan kepada para pihak secara tepat waktu</p>
                         <h3 id="stat-tepat-waktu" class="fw-bold mb-0 text-dark">
                             <span class="value"><?php echo $tepatWaktuCount; ?></span>
                             <span class="fs-14 text-muted fw-normal">/ <span class="total-value"><?php echo $totalCount; ?></span> Perkara</span>
@@ -227,7 +226,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="d-inline-flex align-items-center flex-wrap justify-content-center">
                         <div class="formula-text me-2">Persentase =</div>
                         <div class="formula-fraction">
-                            <span class="fraction-numerator">Jumlah salinan putusan yang dikirimkan ke pengadilan pengaju secara tepat waktu</span>
+                            <span class="fraction-numerator">Jumlah salinan putusan yang tersedia/dikirimkan kepada para pihak secara tepat waktu</span>
                             <span class="fraction-denominator">Jumlah perkara yang diputus</span>
                         </div>
                         <div class="formula-text ms-2">x 100%</div>
@@ -252,7 +251,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </div>
                         <div class="info-list-content">
                             <div class="info-list-label">Sumber Data</div>
-                            <div class="info-list-value">Laporan Bulanan & Laporan Tahunan</div>
+                            <div class="info-list-value">Laporan Bulanan dan Laporan Tahunan</div>
                         </div>
                     </div>
                 </div>
@@ -262,9 +261,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="fw-bold text-uppercase text-secondary mb-2 fs-10" style="letter-spacing: 0.5px;">Dasar Hukum</div>
                     <div class="dasar-hukum-box">
                         <ul class="ps-2 mb-0" style="list-style-type: square; padding-left: 15px !important;">
-                            <li class="mb-2">Surat Keputusan Ketua Mahkamah Agung Nomor 026/KMA/SK/II/2012 tentang Standar Pelayanan Peradilan (Jangka
-                                Waktu Pengiriman Salinan Putusan).</li>
-                            <li>Ketentuan dan petunjuk teknis Mahkamah Agung RI terkait pengiriman salinan putusan perkara.</li>
+                            <li class="mb-2">Surat Keputusan Ketua Mahkamah Agung Nomor 026/KMA/SK/II/2012 tentang Standar Pelayanan Peradilan (Jangka Waktu Pengiriman Salinan Putusan).</li>
+                            <li>Ketentuan dan petunjuk teknis Mahkamah Agung RI terkait penyediaan dan pengiriman salinan putusan perkara.</li>
                         </ul>
                     </div>
                 </div>
@@ -273,12 +271,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div>
                     <div class="fw-bold text-uppercase text-secondary mb-2 fs-10" style="letter-spacing: 0.5px;">Catatan Penting</div>
                     <ol class="catatan-list ps-3">
-                        <li class="mb-2"><strong>Metode Pengiriman Elektronik:</strong> Kinerja pengiriman dihitung sejak perkara diputus sampai
-                            salinan putusan diupload melalui SIP (Sistem Informasi Pengadilan).</li>
-                        <li class="mb-2"><strong>Metode Pihak Ketiga:</strong> Kinerja pengiriman melalui pihak ketiga (Pos/Ekspedisi) dihitung sejak
-                            perkara diputus sampai salinan putusan dikirim ke pengadilan pengaju / para pihak.</li>
-                        <li>Persentase dihitung dari perbandingan jumlah salinan putusan yang dikirim tepat waktu dengan seluruh perkara yang telah
-                            diputus pada periode bersangkutan.</li>
+                        <li class="mb-2">Untuk perkara perdata sebagai pengadilan tingkat pertama, kinerja dihitung sejak putusan diucapkan sampai dengan tersedianya salinan putusan pada SIP (Sistem Informasi Pengadilan). Pada perkara konvensional dikurangi tenggang waktu penyelesaian putusan 14 hari kerja untuk perkara pidana 7 hari.</li>
+                        <li>Kinerja pengiriman salinan putusan untuk perkara pidana sebagai pengadilan tingkat pertama yang dilakukan secara konvensional/elektronik/surat tercatat dengan penjelasan sebagai berikut:
+                            <ol type="a" class="ps-3 mt-1 mb-0">
+                                <li>Kinerja pengiriman salinan putusan melalui jurusita dihitung sejak putusan diucapkan sampai dengan salinan putusan diterima oleh para pihak;</li>
+                                <li>Kinerja pengiriman salinan putusan dengan metode pengiriman elektronik dihitung pada hari dan tanggal yang sama dengan pengucapan putusan;</li>
+                                <li>Kinerja pengiriman salinan putusan melalui surat tercatat/pihak ketiga dihitung sejak putusan diucapkan sampai dengan salinan putusan disampaikan kepada para pihak.</li>
+                            </ol>
+                        </li>
                     </ol>
                 </div>
             </div>

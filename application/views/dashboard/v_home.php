@@ -71,7 +71,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <i class="fas fa-file-export"></i>
                     </div>
                 </div>
-                <h5 class="indicator-title">Penyediaan/pengiriman salinan putusan tepat waktu oleh pengadilan tingkat pertama kepada para pihak</h5>
+                <h5 class="indicator-title">Persentase penyediaan/pengiriman salinan putusan tepat waktu oleh pengadilan tingkat pertama kepada para pihak</h5>
                 <div class="indicator-footer">
                     <span>Lihat Rincian</span>
                     <i class="fas fa-arrow-right arrow-icon"></i>
@@ -87,10 +87,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="indicator-header">
                     <span class="code-badge">IKU 1.3</span>
                     <div class="icon-container">
-                        <i class="fas fa-upload"></i>
+                        <i class="fas fa-paper-plane"></i>
                     </div>
                 </div>
-                <h5 class="indicator-title">Persentase putusan pengadilan yang diunggah pada direktori putusan</h5>
+                <h5 class="indicator-title">Persentase pengiriman pemberitahuan petikan/amar putusan tingkat banding, kasasi dan PK secara tepat waktu oleh pengadilan pengaju kepada para pihak</h5>
                 <div class="indicator-footer">
                     <span>Lihat Rincian</span>
                     <i class="fas fa-arrow-right arrow-icon"></i>
@@ -106,10 +106,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="indicator-header">
                     <span class="code-badge">IKU 1.4</span>
                     <div class="icon-container">
-                        <i class="fas fa-gavel"></i>
+                        <i class="fas fa-file-export"></i>
                     </div>
                 </div>
-                <h5 class="indicator-title">Persentase perkara perdata pada tingkat banding yang menggunakan e-Court</h5>
+                <h5 class="indicator-title">Persentase pengiriman salinan putusan perkara pidana tingkat banding, kasasi dan PK tepat waktu oleh pengadilan pengaju kepada para pihak</h5>
                 <div class="indicator-footer">
                     <span>Lihat Rincian</span>
                     <i class="fas fa-arrow-right arrow-icon"></i>
@@ -120,15 +120,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     <!-- Card 1.5 -->
     <div class="col-xl-3 col-md-6">
-        <a href="<?php echo site_url('dashboard/indicator/1_5'); ?>" class="indicator-menu-card">
+        <a href="<?php echo site_url('indicator/iku_1_5'); ?>" class="indicator-menu-card">
             <div class="card-body">
                 <div class="indicator-header">
                     <span class="code-badge">IKU 1.5</span>
                     <div class="icon-container">
-                        <i class="fas fa-cloud-upload-alt"></i>
+                        <i class="fas fa-upload"></i>
                     </div>
                 </div>
-                <h5 class="indicator-title">Putusan pengadilan yang diunggah pada direktori putusan</h5>
+                <h5 class="indicator-title">Persentase putusan pengadilan yang diunggah pada direktori putusan</h5>
                 <div class="indicator-footer">
                     <span>Lihat Rincian</span>
                     <i class="fas fa-arrow-right arrow-icon"></i>
@@ -139,7 +139,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     <!-- Card 1.6 -->
     <div class="col-xl-3 col-md-6">
-        <a href="<?php echo site_url('dashboard/indicator/1_6'); ?>" class="indicator-menu-card">
+        <a href="<?php echo site_url('indicator/iku_1_6'); ?>" class="indicator-menu-card">
             <div class="card-body">
                 <div class="indicator-header">
                     <span class="code-badge">IKU 1.6</span>
@@ -147,7 +147,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <i class="fas fa-gavel"></i>
                     </div>
                 </div>
-                <h5 class="indicator-title">Penyelesaian permohonan eksekusi putusan perdata</h5>
+                <h5 class="indicator-title">Persentase penyelesaian permohonan eksekusi putusan perdata</h5>
                 <div class="indicator-footer">
                     <span>Lihat Rincian</span>
                     <i class="fas fa-arrow-right arrow-icon"></i>

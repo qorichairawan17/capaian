@@ -15,28 +15,17 @@ class MockCaseIku14Repository implements CaseIku14RepositoryInterface
         $this->generateMockData();
     }
 
-    /**
-     * Find all cases with given filters
-     *
-     * @param array $filters
-     * @return CaseIku14Record[]
-     */
     public function findAll(array $filters)
     {
         $filtered = $this->cases;
 
-        // Filter by Jenis Pengajuan
-        if (isset($filters['jenis_pengajuan'])) {
-            $pengajuan = strtolower($filters['jenis_pengajuan']);
-            $filtered = array_filter($filtered, function(CaseIku14Record $case) use ($pengajuan) {
-                if ($pengajuan === 'ecourt') {
-                    return strtolower($case->getJenisPengajuan()) === 'e-court';
-                }
-                return strtolower($case->getJenisPengajuan()) === strtolower($pengajuan);
+        if (isset($filters['tingkat_peradilan'])) {
+            $tingkatTarget = strtolower($filters['tingkat_peradilan']);
+            $filtered = array_filter($filtered, function(CaseIku14Record $case) use ($tingkatTarget) {
+                return strtolower($case->getTingkatPeradilan()) === $tingkatTarget;
             });
         }
 
-        // Filter by Triwulan (Periode)
         if (isset($filters['periode'])) {
             $periode = strtolower($filters['periode']); // 't1', 't2', 't3', 't4'
             if (preg_match('/^t([1-4])$/', $periode, $matches)) {
@@ -50,61 +39,44 @@ class MockCaseIku14Repository implements CaseIku14RepositoryInterface
         return array_values($filtered);
     }
 
-    /**
-     * Generate 60 realistic IKU 1.4 civil appeal case records
-     */
     private function generateMockData()
     {
-        $pembandingList = [
-            'PT Bank Central Nusantara',
-            'H. Bambang Sugiarto',
-            'CV Tri Jaya Mandiri',
-            'Drs. Irwan Wijaya',
-            'Siti Rahmawati, S.H.',
-            'PT Graha Pembangunan',
-            'Koperasi Simpan Pinjam Sejahtera',
-            'Dr. Hendra Saputra'
-        ];
-
-        $terbandingList = [
-            'Dinas Perumahan Rakyat & Kawasan Pemukiman',
-            'Hj. Nurul Hasanah',
-            'PT Asuransi Jiwa Utama',
-            'Budi Santoso',
-            'CV Sukses Bersama',
-            'Ahmad Fauzi',
-            'PT Citra Perdana',
-            'Yayasan Pendidikan Bangsa'
-        ];
+        $tingkatList = ['Banding', 'Kasasi', 'PK'];
+        $metodeList = ['Jurusita', 'Elektronik', 'Surat Tercatat'];
 
         for ($i = 1; $i <= 60; $i++) {
             $id = $i;
-            
-            // Submission type (Approx 80% e-Court, 20% Konvensional)
-            $isECourt = ($i % 5 !== 0);
-            $jenisPengajuan = $isECourt ? 'e-Court' : 'Konvensional';
-            $statusECourt = $isECourt ? 'e-Court Active' : 'Konvensional';
+            $tingkatPeradilan = $tingkatList[$i % 3];
+            $metodePengiriman = $metodeList[$i % 3];
 
-            // Quarter distribution (1 to 4)
             $triwulan = ($i % 4) + 1;
             $month = ($triwulan - 1) * 3 + (($i % 3) + 1);
-            $day = (($i * 7) % 28) + 1;
+            $day = (($i * 5) % 25) + 1;
             $tahun = 2026;
 
-            $pengajuanDateStr = sprintf('%04d-%02d-%02d', $tahun, $month, $day);
-            $nomorPerkara = sprintf('%d/PDT/%04d/PT.Cpn', $i + 15, $tahun);
+            $diterimaTime = mktime(0, 0, 0, $month, $day, $tahun);
+            $tanggalDiterimaStr = date('Y-m-d', $diterimaTime);
 
-            $pembanding = $pembandingList[$i % count($pembandingList)];
-            $terbanding = $terbandingList[$i % count($terbandingList)];
+            // Approx 85% Tepat Waktu (<= 3 days for notification), 15% Terlambat (> 3 days)
+            $isTepat = ($i % 7 !== 0);
+            $durasiHari = $isTepat ? rand(0, 2) : rand(4, 8);
+            $status = $isTepat ? 'Tepat Waktu' : 'Terlambat';
+
+            $dikirimkanTime = strtotime("+{$durasiHari} days", $diterimaTime);
+            $tanggalDikirimkanStr = date('Y-m-d', $dikirimkanTime);
+
+            $suffix = ($i % 3 === 0) ? 'Pid.Sus' : 'Pid.B';
+            $nomorPerkara = sprintf('%d/%s/%04d/PN.Cpn', $i + 15, $suffix, $tahun);
 
             $this->cases[] = new CaseIku14Record(
                 $id,
                 $nomorPerkara,
-                $jenisPengajuan,
-                $pengajuanDateStr,
-                $pembanding,
-                $terbanding,
-                $statusECourt,
+                $tingkatPeradilan,
+                $metodePengiriman,
+                $tanggalDiterimaStr,
+                $tanggalDikirimkanStr,
+                $durasiHari,
+                $status,
                 $triwulan,
                 $tahun
             );

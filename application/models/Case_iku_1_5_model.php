@@ -2,16 +2,16 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * Case_iku_1_3_model
+ * Case_iku_1_5_model
  *
- * Query layer (CI3 Model) untuk tabel `cases_iku_1_3`.
+ * Query layer (CI3 Model) untuk tabel `cases_iku_1_5`.
  * HANYA berisi query Active Record / raw SQL — tanpa logika bisnis.
  * Selalu mengembalikan data mentah (array/stdClass), BUKAN Domain Entity.
- * Dipanggil HANYA dari App\Infrastructure\Repositories\DbCaseIku13Repository.
+ * Dipanggil HANYA dari App\Infrastructure\Repositories\DbCaseIku15Repository.
  */
-class Case_iku_1_3_model extends CI_Model
+class Case_iku_1_5_model extends CI_Model
 {
-    private $table = 'cases_iku_1_3';
+    private $table = 'cases_iku_1_5';
 
     public function __construct()
     {
@@ -20,7 +20,7 @@ class Case_iku_1_3_model extends CI_Model
     }
 
     /**
-     * Ambil semua data perkara IKU 1.3 berdasarkan filter.
+     * Ambil semua data perkara IKU 1.5 berdasarkan filter.
      *
      * @param array $filters  Kunci yang didukung:
      *                          - 'jenis_perkara' (string): 'Pidana' atau 'Perdata'
@@ -42,7 +42,7 @@ class Case_iku_1_3_model extends CI_Model
             $this->db->where('tahun', (int) $filters['tahun']);
         }
 
-        $this->db->order_by('tanggal_diterima', 'ASC');
+        $this->db->order_by('tanggal_minutasi', 'ASC');
 
         $query = $this->db->get($this->table);
         return $query->result_array();

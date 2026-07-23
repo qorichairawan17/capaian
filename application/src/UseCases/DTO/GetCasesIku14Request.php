@@ -5,15 +5,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class GetCasesIku14Request
 {
-    private $jenisPengajuan; // 'semua' | 'ecourt' | 'konvensional'
+    private $tingkatPeradilan; // 'semua' | 'banding' | 'kasasi' | 'pk'
     private $periode;
 
-    public function __construct($jenisPengajuan = null, $periode = null)
+    public function __construct($tingkatPeradilan = null, $periode = null)
     {
-        $this->jenisPengajuan = $jenisPengajuan;
+        $this->tingkatPeradilan = $tingkatPeradilan;
         $this->periode = $periode;
     }
 
-    public function getJenisPengajuan() { return $this->jenisPengajuan; }
+    public function getTingkatPeradilan() { return $this->tingkatPeradilan; }
     public function getPeriode() { return $this->periode; }
 }

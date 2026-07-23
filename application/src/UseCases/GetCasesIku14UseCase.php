@@ -17,7 +17,7 @@ class GetCasesIku14UseCase
     }
 
     /**
-     * Get IKU 1.4 cases list and statistics based on filters
+     * Get IKU 1.4 criminal appeal/cassation/PK decision copy delivery cases list and statistics
      *
      * @param GetCasesIku14Request $request
      * @return GetCasesIku14Response
@@ -26,8 +26,8 @@ class GetCasesIku14UseCase
     {
         // Build filters array
         $filters = [];
-        if ($request->getJenisPengajuan() !== null && $request->getJenisPengajuan() !== 'semua') {
-            $filters['jenis_pengajuan'] = $request->getJenisPengajuan();
+        if ($request->getTingkatPeradilan() !== null && $request->getTingkatPeradilan() !== 'semua') {
+            $filters['tingkat_peradilan'] = $request->getTingkatPeradilan();
         }
         if ($request->getPeriode() !== null && $request->getPeriode() !== 'tahunan') {
             $filters['periode'] = $request->getPeriode();
@@ -37,27 +37,27 @@ class GetCasesIku14UseCase
         $cases = $this->caseRepository->findAll($filters);
 
         // Calculate statistics
-        $totalDiajukanCount = count($cases);
-        $eCourtCount = 0;
-        $konvensionalCount = 0;
+        $totalDiterimaCount = count($cases);
+        $tepatWaktuCount = 0;
+        $terlambatCount = 0;
 
         foreach ($cases as $case) {
-            if (strtolower($case->getJenisPengajuan()) === 'e-court') {
-                $eCourtCount++;
+            if ($case->getStatus() === 'Tepat Waktu') {
+                $tepatWaktuCount++;
             } else {
-                $konvensionalCount++;
+                $terlambatCount++;
             }
         }
 
-        $persentaseECourt = $totalDiajukanCount > 0 ? ($eCourtCount / $totalDiajukanCount) * 100 : 100.0;
-        $persentaseECourt = round($persentaseECourt, 2);
+        $persentaseTepatWaktu = $totalDiterimaCount > 0 ? ($tepatWaktuCount / $totalDiterimaCount) * 100 : 100.0;
+        $persentaseTepatWaktu = round($persentaseTepatWaktu, 2);
 
         return new GetCasesIku14Response(
             $cases,
-            $totalDiajukanCount,
-            $eCourtCount,
-            $konvensionalCount,
-            $persentaseECourt
+            $totalDiterimaCount,
+            $tepatWaktuCount,
+            $terlambatCount,
+            $persentaseTepatWaktu
         );
     }
 }

@@ -37,27 +37,27 @@ class GetCasesIku13UseCase
         $cases = $this->caseRepository->findAll($filters);
 
         // Calculate statistics
-        $totalMinutasiCount = count($cases);
-        $diunggahCount = 0;
-        $belumDiunggahCount = 0;
+        $totalDiterimaCount = count($cases);
+        $tepatWaktuCount = 0;
+        $terlambatCount = 0;
 
         foreach ($cases as $case) {
-            if ($case->getStatusUpload() === 'Diunggah') {
-                $diunggahCount++;
+            if ($case->getStatus() === 'Tepat Waktu') {
+                $tepatWaktuCount++;
             } else {
-                $belumDiunggahCount++;
+                $terlambatCount++;
             }
         }
 
-        $persentaseDiunggah = $totalMinutasiCount > 0 ? ($diunggahCount / $totalMinutasiCount) * 100 : 100.0;
-        $persentaseDiunggah = round($persentaseDiunggah, 2);
+        $persentaseTepatWaktu = $totalDiterimaCount > 0 ? ($tepatWaktuCount / $totalDiterimaCount) * 100 : 100.0;
+        $persentaseTepatWaktu = round($persentaseTepatWaktu, 2);
 
         return new GetCasesIku13Response(
             $cases,
-            $totalMinutasiCount,
-            $diunggahCount,
-            $belumDiunggahCount,
-            $persentaseDiunggah
+            $totalDiterimaCount,
+            $tepatWaktuCount,
+            $terlambatCount,
+            $persentaseTepatWaktu
         );
     }
 }

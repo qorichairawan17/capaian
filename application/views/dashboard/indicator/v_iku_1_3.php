@@ -31,8 +31,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             style="background-color: rgba(56, 198, 108, 0.08);">
                             INDIKATOR KINERJA UTAMA 1.3
                         </span>
-                        <h3 class="fw-bold text-dark mb-1">Persentase Putusan Pengadilan yang Diunggah pada Direktori Putusan</h3>
-                        <p class="text-muted mb-0">Menampilkan rincian, status pengunggahan, dan tanggal publikasi putusan perkara pada Direktori Putusan Mahkamah Agung RI.</p>
+                        <h3 class="fw-bold text-dark mb-1">Persentase Pengiriman Pemberitahuan Petikan/Amar Putusan Tingkat Banding, Kasasi dan PK Secara Tepat Waktu oleh Pengadilan Pengaju Kepada Para Pihak</h3>
+                        <p class="text-muted mb-0">Menampilkan rincian pemberitahuan isi/petikan putusan tingkat banding, kasasi, dan PK kepada para pihak secara tepat waktu.</p>
                     </div>
                 </div>
             </div>
@@ -47,14 +47,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div class="card-body p-4">
                 <div class="d-flex align-items-center justify-content-between">
                     <div>
-                        <p class="text-muted mb-1 fs-13 fw-medium">Jumlah putusan yang diunggah pada direktori putusan</p>
-                        <h3 id="stat-diunggah" class="fw-bold mb-0 text-dark">
-                            <span class="value"><?php echo $diunggahCount; ?></span>
-                            <span class="fs-14 text-muted fw-normal">/ <span class="total-value"><?php echo $totalMinutasiCount; ?></span> Perkara</span>
+                        <p class="text-muted mb-1 fs-13 fw-medium">Disampaikan Tepat Waktu</p>
+                        <h3 id="stat-tepat-waktu" class="fw-bold mb-0 text-dark">
+                            <span class="value"><?php echo $tepatWaktuCount; ?></span>
+                            <span class="fs-14 text-muted fw-normal">/ <span class="total-value"><?php echo $totalDiterimaCount; ?></span> Perkara</span>
                         </h3>
                     </div>
                     <div class="stat-icon" style="background: linear-gradient(135deg, rgba(56, 198, 108, 0.08), rgba(46, 168, 91, 0.08));">
-                        <i class="fas fa-upload"></i>
+                        <i class="fas fa-check-circle"></i>
                     </div>
                 </div>
             </div>
@@ -66,11 +66,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div class="card-body p-4">
                 <div class="d-flex align-items-center justify-content-between">
                     <div>
-                        <p class="text-muted mb-1 fs-13 fw-medium">Jumlah putusan yang telah diminutasi</p>
-                        <h3 id="stat-total-minutasi" class="fw-bold mb-0 text-dark"><?php echo $totalMinutasiCount; ?></h3>
+                        <p class="text-muted mb-1 fs-13 fw-medium">Total Diterima Pengadilan Pengaju</p>
+                        <h3 id="stat-total-diterima" class="fw-bold mb-0 text-dark"><?php echo $totalDiterimaCount; ?></h3>
                     </div>
                     <div class="stat-icon">
-                        <i class="fas fa-file-archive"></i>
+                        <i class="fas fa-inbox"></i>
                     </div>
                 </div>
             </div>
@@ -83,7 +83,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="d-flex align-items-center justify-content-between">
                     <div>
                         <p class="text-muted mb-0 fs-13 fw-medium">Persentase Capaian</p>
-                        <h3 id="stat-persentase" class="fw-bold mb-0 text-dark"><?php echo $persentaseDiunggah; ?>%</h3>
+                        <h3 id="stat-persentase" class="fw-bold mb-0 text-dark"><?php echo $persentaseTepatWaktu; ?>%</h3>
                     </div>
                     <div class="stat-icon">
                         <i class="fas fa-percentage"></i>
@@ -142,7 +142,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div class="card data-card mb-4">
             <div class="card-header bg-transparent border-bottom border-light py-3">
                 <div class="d-flex align-items-center justify-content-between">
-                    <h5 class="card-title fw-bold mb-0 text-dark">Daftar Rincian Unggah Putusan (IKU 1.3)</h5>
+                    <h5 class="card-title fw-bold mb-0 text-dark">Daftar Pemberitahuan Petikan/Amar Putusan (IKU 1.3)</h5>
                 </div>
             </div>
             <div class="card-body">
@@ -153,10 +153,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <th style="width: 50px;">No</th>
                                 <th>Nomor Perkara</th>
                                 <th>Jenis Perkara</th>
-                                <th>Tanggal Minutasi</th>
-                                <th>Tanggal Unggah</th>
-                                <th>Status Upload</th>
-                                <th>Link Direktori</th>
+                                <th>Tingkat Peradilan</th>
+                                <th>Tanggal Diterima</th>
+                                <th>Tanggal Diberitahukan</th>
+                                <th>Jumlah Hari / Status</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -171,31 +171,28 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                 <?php echo html_escape($case->getJenisPerkara()); ?>
                                             </span>
                                         </td>
-                                        <td><?php echo date('d M Y', strtotime($case->getTanggalMinutasi())); ?></td>
                                         <td>
-                                            <?php echo $case->getTanggalUnggah() ? date('d M Y', strtotime($case->getTanggalUnggah())) : '-'; ?>
+                                            <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle px-2.5 py-1 rounded-pill fs-11">
+                                                <?php echo html_escape($case->getTingkatPeradilan()); ?>
+                                            </span>
                                         </td>
+                                        <td><?php echo date('d M Y', strtotime($case->getTanggalDiterima())); ?></td>
+                                        <td><?php echo date('d M Y', strtotime($case->getTanggalDiberitahukan())); ?></td>
                                         <td>
-                                            <?php if ($case->getStatusUpload() === 'Diunggah'): ?>
-                                                <span class="badge badge-uploaded px-2.5 py-1 rounded-pill fs-10"
-                                                    style="font-size: 9.5px !important; padding: 3px 8px !important;">
-                                                    <i class="fas fa-check-circle me-1"></i>Diunggah
-                                                </span>
-                                            <?php else: ?>
-                                                <span class="badge badge-pending px-2.5 py-1 rounded-pill fs-10"
-                                                    style="font-size: 9.5px !important; padding: 3px 8px !important;">
-                                                    <i class="fas fa-clock me-1"></i>Belum Diunggah
-                                                </span>
-                                            <?php endif; ?>
-                                        </td>
-                                        <td>
-                                            <?php if (!empty($case->getUrlDirektori())): ?>
-                                                <a href="<?php echo html_escape($case->getUrlDirektori()); ?>" target="_blank" class="btn btn-xs btn-outline-primary rounded-pill px-2 py-1 fs-11">
-                                                    <i class="fas fa-external-link-alt me-1"></i>Buka Putusan
-                                                </a>
-                                            <?php else: ?>
-                                                <span class="text-muted fs-12">-</span>
-                                            <?php endif; ?>
+                                            <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+                                                <span class="fw-semibold text-dark"><?php echo $case->getDurasiHari(); ?> Hari</span>
+                                                <?php if ($case->getStatus() === 'Tepat Waktu'): ?>
+                                                    <span class="badge badge-tepat px-2.5 py-1 rounded-pill fs-10"
+                                                        style="font-size: 9.5px !important; padding: 3px 8px !important;">
+                                                        Tepat Waktu
+                                                    </span>
+                                                <?php else: ?>
+                                                    <span class="badge badge-terlambat px-2.5 py-1 rounded-pill fs-10"
+                                                        style="font-size: 9.5px !important; padding: 3px 8px !important;">
+                                                        Terlambat
+                                                    </span>
+                                                <?php endif; ?>
+                                            </div>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
@@ -220,8 +217,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="d-inline-flex align-items-center flex-wrap justify-content-center">
                         <div class="formula-text me-2">Persentase =</div>
                         <div class="formula-fraction">
-                            <span class="fraction-numerator">Jumlah putusan yang diunggah pada direktori putusan</span>
-                            <span class="fraction-denominator">Jumlah putusan yang telah diminutasi</span>
+                            <span class="fraction-numerator">Jumlah pemberitahuan petikan atau amar putusan tingkat banding,kasasi PK yang disampaikan kepada para pihak secara tepat waktu</span>
+                            <span class="fraction-denominator">Jumlah petikan atau amar putusan banding,kasasi dan PK yang diterima pengadilan pengaju</span>
                         </div>
                         <div class="formula-text ms-2">x 100%</div>
                     </div>
@@ -245,19 +242,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </div>
                         <div class="info-list-content">
                             <div class="info-list-label">Sumber Data</div>
-                            <div class="info-list-value">Laporan Bulanan & Laporan Tahunan</div>
+                            <div class="info-list-value">Laporan Bulanan dan Laporan Tahunan</div>
                         </div>
-                    </div>
-                </div>
-
-                <!-- Dasar Hukum -->
-                <div class="mb-4">
-                    <div class="fw-bold text-uppercase text-secondary mb-2 fs-10" style="letter-spacing: 0.5px;">Dasar Hukum</div>
-                    <div class="dasar-hukum-box">
-                        <ul class="ps-2 mb-0" style="list-style-type: square; padding-left: 15px !important;">
-                            <li class="mb-2">Surat Keputusan Ketua Mahkamah Agung Nomor 2-144/KMA/SK/VIII/2022 tentang Standar Pelayanan Informasi Publik di Pengadilan.</li>
-                            <li>Kebijakan Mahkamah Agung RI terkait Keterbukaan Informasi dan Publikasi Putusan pada Direktori Putusan.</li>
-                        </ul>
                     </div>
                 </div>
 
@@ -265,8 +251,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div>
                     <div class="fw-bold text-uppercase text-secondary mb-2 fs-10" style="letter-spacing: 0.5px;">Catatan Penting</div>
                     <ol class="catatan-list ps-3">
-                        <li class="mb-2">Indikator ini bertujuan untuk mengukur kepatuhan pengadilan untuk melakukan unggah putusan pada direktori putusan <strong>paling lambat pada saat perkara diminutasi</strong>.</li>
-                        <li>Perhitungan dilakukan dari persentase jumlah putusan yang diunggah ke direktori putusan dibandingkan dengan jumlah seluruh putusan yang telah diminutasi pada periode bersangkutan.</li>
+                        <li class="mb-2">Kinerja pemberitahuan isi putusan perkara perdata secara konvensional/elektronik/surat tercatat dengan penjelasan sebagai berikut:
+                            <ol type="a" class="ps-3 mt-1 mb-2">
+                                <li>Kinerja pemberitahuan isi putusan melalui jurusita dihitung sejak pemberitahuan isi putusan diterima pengadilan pengaju sampai diterima oleh para pihak;</li>
+                                <li>Kinerja pemberitahuan isi putusan dengan metode pengiriman elektronik dihitung sejak pemberitahuan isi putusan diterima pengadilan pengaju sampai dikirimkan melalui domisili elektronik para pihak;</li>
+                                <li>Kinerja pemberitahuan isi putusan melalui surat tercatat/pihak ketiga dihitung sejak pemberitahuan isi putusan diterima pengadilan pengaju sampai disampaikan kepada para pihak.</li>
+                            </ol>
+                        </li>
+                        <li>Kinerja pengiriman petikan isi putusan perkara pidana, secara konvensional/elektronik/surat tercatat dengan penjelasan sebagai berikut:
+                            <ol type="a" class="ps-3 mt-1 mb-0">
+                                <li>Kinerja pengiriman petikan isi putusan melalui jurusita dihitung sejak petikan isi putusan diterima pengadilan pengaju sampai diterima oleh para pihak;</li>
+                                <li>Kinerja pengiriman petikan isi putusan dengan metode pengiriman elektronik dihitung sejak petikan isi putusan diterima pengadilan pengaju sampai dikirimkan melalui domisili elektronik para pihak;</li>
+                                <li>Kinerja pengiriman petikan isi putusan melalui surat tercatat/pihak ketiga dihitung sejak petikan isi putusan diterima pengadilan pengaju sampai disampaikan kepada para pihak. (dikecualikan untuk penyampaian petikan/isi putusan Banding, Kasasi dan PK untuk para pihak yang berada di luar negeri melalui prosedur rogatori. Para pihak termasuk Penuntut Umum, Terdakwa dan Terpidana dikurangi dengan waktu toleransi pengiriman).</li>
+                            </ol>
+                        </li>
                     </ol>
                 </div>
             </div>
@@ -314,32 +312,35 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 },
                 success: function (response) {
                     if (response.success) {
-                        $('#stat-diunggah .value').text(response.diunggahCount);
-                        $('#stat-diunggah .total-value').text(response.totalMinutasiCount);
-                        $('#stat-total-minutasi').text(response.totalMinutasiCount);
-                        $('#stat-persentase').text(response.persentaseDiunggah + '%');
+                        $('#stat-tepat-waktu .value').text(response.tepatWaktuCount);
+                        $('#stat-tepat-waktu .total-value').text(response.totalDiterimaCount);
+                        $('#stat-total-diterima').text(response.totalDiterimaCount);
+                        $('#stat-persentase').text(response.persentaseTepatWaktu + '%');
 
                         table.clear();
                         if (response.cases && response.cases.length > 0) {
                             $.each(response.cases, function (index, item) {
                                 var badgeJenis = '<span class="badge badge-jenis px-2.5 py-1.5 rounded-2 fs-11">' + escapeHtml(item.jenis_perkara) + '</span>';
 
-                                var badgeStatus = item.status_upload === 'Diunggah'
-                                    ? '<span class="badge badge-uploaded px-2.5 py-1 rounded-pill fs-10" style="font-size: 9.5px !important; padding: 3px 8px !important;"><i class="fas fa-check-circle me-1"></i>Diunggah</span>'
-                                    : '<span class="badge badge-pending px-2.5 py-1 rounded-pill fs-10" style="font-size: 9.5px !important; padding: 3px 8px !important;"><i class="fas fa-clock me-1"></i>Belum Diunggah</span>';
+                                var badgeTingkat = '<span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle px-2.5 py-1 rounded-pill fs-11">' + escapeHtml(item.tingkat_peradilan) + '</span>';
 
-                                var linkHtml = item.url_direktori && item.url_direktori.length > 0
-                                    ? '<a href="' + escapeHtml(item.url_direktori) + '" target="_blank" class="btn btn-xs btn-outline-primary rounded-pill px-2 py-1 fs-11"><i class="fas fa-external-link-alt me-1"></i>Buka Putusan</a>'
-                                    : '<span class="text-muted fs-12">-</span>';
+                                var badgeStatus = item.status === 'Tepat Waktu'
+                                    ? '<span class="badge badge-tepat px-2.5 py-1 rounded-pill fs-10" style="font-size: 9.5px !important; padding: 3px 8px !important;">Tepat Waktu</span>'
+                                    : '<span class="badge badge-terlambat px-2.5 py-1 rounded-pill fs-10" style="font-size: 9.5px !important; padding: 3px 8px !important;">Terlambat</span>';
+
+                                var durationHtml = '<div class="d-flex align-items-center justify-content-between flex-wrap gap-2">' +
+                                    '<span class="fw-semibold text-dark">' + item.durasi_hari + ' Hari</span>' +
+                                    badgeStatus +
+                                    '</div>';
 
                                 table.row.add([
                                     index + 1,
                                     '<span class="fw-medium text-dark">' + escapeHtml(item.nomor_perkara) + '</span>',
                                     badgeJenis,
-                                    item.tanggal_minutasi,
-                                    item.tanggal_unggah,
-                                    badgeStatus,
-                                    linkHtml
+                                    badgeTingkat,
+                                    item.tanggal_diterima,
+                                    item.tanggal_diberitahukan,
+                                    durationHtml
                                 ]);
                             });
                         }

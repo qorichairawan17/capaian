@@ -8,22 +8,24 @@ class CaseIku13Record
     private $id;
     private $nomorPerkara;
     private $jenisPerkara; // 'Pidana' | 'Perdata'
-    private $tanggalMinutasi;
-    private $tanggalUnggah;
-    private $statusUpload; // 'Diunggah' | 'Belum Diunggah'
-    private $urlDirektori;
-    private $triwulan; // 1 | 2 | 3 | 4
+    private $tingkatPeradilan; // 'Banding' | 'Kasasi' | 'PK'
+    private $tanggalDiterima;
+    private $tanggalDiberitahukan;
+    private $durasiHari;
+    private $status; // 'Tepat Waktu' | 'Terlambat'
+    private $triwulan;
     private $tahun;
 
-    public function __construct($id, $nomorPerkara, $jenisPerkara, $tanggalMinutasi, $tanggalUnggah, $statusUpload, $urlDirektori, $triwulan, $tahun)
+    public function __construct($id, $nomorPerkara, $jenisPerkara, $tingkatPeradilan, $tanggalDiterima, $tanggalDiberitahukan, $durasiHari, $status, $triwulan, $tahun)
     {
         $this->id = $id;
         $this->nomorPerkara = $nomorPerkara;
         $this->jenisPerkara = $jenisPerkara;
-        $this->tanggalMinutasi = $tanggalMinutasi;
-        $this->tanggalUnggah = $tanggalUnggah;
-        $this->statusUpload = $statusUpload;
-        $this->urlDirektori = $urlDirektori;
+        $this->tingkatPeradilan = $tingkatPeradilan;
+        $this->tanggalDiterima = $tanggalDiterima;
+        $this->tanggalDiberitahukan = $tanggalDiberitahukan;
+        $this->durasiHari = $durasiHari;
+        $this->status = $status;
         $this->triwulan = $triwulan;
         $this->tahun = $tahun;
     }
@@ -31,10 +33,11 @@ class CaseIku13Record
     public function getId() { return $this->id; }
     public function getNomorPerkara() { return $this->nomorPerkara; }
     public function getJenisPerkara() { return $this->jenisPerkara; }
-    public function getTanggalMinutasi() { return $this->tanggalMinutasi; }
-    public function getTanggalUnggah() { return $this->tanggalUnggah; }
-    public function getStatusUpload() { return $this->statusUpload; }
-    public function getUrlDirektori() { return $this->urlDirektori; }
+    public function getTingkatPeradilan() { return $this->tingkatPeradilan; }
+    public function getTanggalDiterima() { return $this->tanggalDiterima; }
+    public function getTanggalDiberitahukan() { return $this->tanggalDiberitahukan; }
+    public function getDurasiHari() { return $this->durasiHari; }
+    public function getStatus() { return $this->status; }
     public function getTriwulan() { return $this->triwulan; }
     public function getTahun() { return $this->tahun; }
 }

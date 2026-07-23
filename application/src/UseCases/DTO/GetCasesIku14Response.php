@@ -6,23 +6,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class GetCasesIku14Response
 {
     private $cases;
-    private $totalDiajukanCount;
-    private $eCourtCount;
-    private $konvensionalCount;
-    private $persentaseECourt;
+    private $totalDiterimaCount;
+    private $tepatWaktuCount;
+    private $terlambatCount;
+    private $persentaseTepatWaktu;
 
-    public function __construct(array $cases, $totalDiajukanCount, $eCourtCount, $konvensionalCount, $persentaseECourt)
+    public function __construct(array $cases, $totalDiterimaCount, $tepatWaktuCount, $terlambatCount, $persentaseTepatWaktu)
     {
         $this->cases = $cases;
-        $this->totalDiajukanCount = $totalDiajukanCount;
-        $this->eCourtCount = $eCourtCount;
-        $this->konvensionalCount = $konvensionalCount;
-        $this->persentaseECourt = $persentaseECourt;
+        $this->totalDiterimaCount = $totalDiterimaCount;
+        $this->tepatWaktuCount = $tepatWaktuCount;
+        $this->terlambatCount = $terlambatCount;
+        $this->persentaseTepatWaktu = $persentaseTepatWaktu;
     }
 
     public function getCases() { return $this->cases; }
-    public function getTotalDiajukanCount() { return $this->totalDiajukanCount; }
-    public function getECourtCount() { return $this->eCourtCount; }
-    public function getKonvensionalCount() { return $this->konvensionalCount; }
-    public function getPersentaseECourt() { return $this->persentaseECourt; }
+    public function getTotalDiterimaCount() { return $this->totalDiterimaCount; }
+    public function getTepatWaktuCount() { return $this->tepatWaktuCount; }
+    public function getTerlambatCount() { return $this->terlambatCount; }
+    public function getPersentaseTepatWaktu() { return $this->persentaseTepatWaktu; }
 }

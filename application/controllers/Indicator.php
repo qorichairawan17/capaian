@@ -7,6 +7,8 @@ class Indicator extends CI_Controller
     private $getCasesIku12UseCase;
     private $getCasesIku13UseCase;
     private $getCasesIku14UseCase;
+    private $getCasesIku15UseCase;
+    private $getCasesIku16UseCase;
 
     public function __construct()
     {
@@ -32,6 +34,12 @@ class Indicator extends CI_Controller
 
         $caseIku14Repository = new \App\Infrastructure\Repositories\DbCaseIku14Repository();
         $this->getCasesIku14UseCase = new \App\UseCases\GetCasesIku14UseCase($caseIku14Repository);
+
+        $caseIku15Repository = new \App\Infrastructure\Repositories\DbCaseIku15Repository();
+        $this->getCasesIku15UseCase = new \App\UseCases\GetCasesIku15UseCase($caseIku15Repository);
+
+        $caseIku16Repository = new \App\Infrastructure\Repositories\DbCaseIku16Repository();
+        $this->getCasesIku16UseCase = new \App\UseCases\GetCasesIku16UseCase($caseIku16Repository);
     }
 
     /**
@@ -179,7 +187,7 @@ class Indicator extends CI_Controller
     }
 
     /**
-     * Render details page for IKU 1.3 (Persentase Putusan Diunggah pada Direktori Putusan)
+     * Render details page for IKU 1.3 (Persentase Pengiriman Pemberitahuan Petikan/Amar Putusan Tepat Waktu)
      */
     public function iku_1_3()
     {
@@ -192,6 +200,150 @@ class Indicator extends CI_Controller
 
         // 3. Execute application use case
         $response = $this->getCasesIku13UseCase->execute($request);
+
+        // If AJAX request, return statistics and case list as JSON
+        if ($this->input->is_ajax_request()) {
+            $casesArray = [];
+            foreach ($response->getCases() as $case) {
+                $casesArray[] = [
+                    'id' => $case->getId(),
+                    'nomor_perkara' => $case->getNomorPerkara(),
+                    'jenis_perkara' => $case->getJenisPerkara(),
+                    'tingkat_peradilan' => $case->getTingkatPeradilan(),
+                    'tanggal_diterima' => date('d M Y', strtotime($case->getTanggalDiterima())),
+                    'tanggal_diberitahukan' => date('d M Y', strtotime($case->getTanggalDiberitahukan())),
+                    'durasi_hari' => $case->getDurasiHari(),
+                    'status' => $case->getStatus()
+                ];
+            }
+
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode([
+                    'success' => true,
+                    'totalDiterimaCount' => $response->getTotalDiterimaCount(),
+                    'tepatWaktuCount' => $response->getTepatWaktuCount(),
+                    'terlambatCount' => $response->getTerlambatCount(),
+                    'persentaseTepatWaktu' => $response->getPersentaseTepatWaktu(),
+                    'cases' => $casesArray
+                ]));
+            return;
+        }
+
+        // 4. Map response data to layout view
+        $data = [
+            'title' => 'IKU 1.3 - Pengiriman Pemberitahuan Petikan/Amar Putusan Tepat Waktu',
+            'content_view' => 'dashboard/indicator/v_iku_1_3',
+            'extra_css' => [
+                'assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css',
+                'assets/libs/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css',
+                'assets/css/indicator/iku_1_3.css'
+            ],
+            'extra_js' => [
+                'assets/libs/datatables.net/js/jquery.dataTables.min.js',
+                'assets/libs/datatables.net-bs5/js/dataTables.bootstrap5.min.js',
+                'assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js',
+                'assets/libs/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js'
+            ],
+            'cases' => $response->getCases(),
+            'totalDiterimaCount' => $response->getTotalDiterimaCount(),
+            'tepatWaktuCount' => $response->getTepatWaktuCount(),
+            'terlambatCount' => $response->getTerlambatCount(),
+            'persentaseTepatWaktu' => $response->getPersentaseTepatWaktu(),
+            'selectedJenis' => $jenisPerkara ? $jenisPerkara : 'semua',
+            'selectedPeriode' => $periode ? $periode : 'tahunan'
+        ];
+
+        // 5. Load standard layout
+        $this->load->view('dashboard/layouts/body', $data);
+    }
+
+    /**
+     * Render details page for IKU 1.4 (Persentase Pengiriman Salinan Putusan Perkara Pidana Banding/Kasasi/PK Tepat Waktu)
+     */
+    public function iku_1_4()
+    {
+        // 1. Get input parameters from GET query string
+        $tingkatPeradilan = $this->input->get('tingkat', TRUE); // e.g. 'banding', 'kasasi', 'pk', 'semua'
+        $periode = $this->input->get('periode', TRUE);              // e.g. 't1', 't2', 't3', 't4', 'tahunan'
+
+        // 2. Map input to Request DTO
+        $request = new \App\UseCases\DTO\GetCasesIku14Request($tingkatPeradilan, $periode);
+
+        // 3. Execute application use case
+        $response = $this->getCasesIku14UseCase->execute($request);
+
+        // If AJAX request, return statistics and case list as JSON
+        if ($this->input->is_ajax_request()) {
+            $casesArray = [];
+            foreach ($response->getCases() as $case) {
+                $casesArray[] = [
+                    'id' => $case->getId(),
+                    'nomor_perkara' => $case->getNomorPerkara(),
+                    'tingkat_peradilan' => $case->getTingkatPeradilan(),
+                    'metode_pengiriman' => $case->getMetodePengiriman(),
+                    'tanggal_diterima' => date('d M Y', strtotime($case->getTanggalDiterima())),
+                    'tanggal_dikirimkan' => date('d M Y', strtotime($case->getTanggalDikirimkan())),
+                    'durasi_hari' => $case->getDurasiHari(),
+                    'status' => $case->getStatus()
+                ];
+            }
+
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode([
+                    'success' => true,
+                    'totalDiterimaCount' => $response->getTotalDiterimaCount(),
+                    'tepatWaktuCount' => $response->getTepatWaktuCount(),
+                    'terlambatCount' => $response->getTerlambatCount(),
+                    'persentaseTepatWaktu' => $response->getPersentaseTepatWaktu(),
+                    'cases' => $casesArray
+                ]));
+            return;
+        }
+
+        // 4. Map response data to layout view
+        $data = [
+            'title' => 'IKU 1.4 - Pengiriman Salinan Putusan Perkara Pidana Tepat Waktu',
+            'content_view' => 'dashboard/indicator/v_iku_1_4',
+            'extra_css' => [
+                'assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css',
+                'assets/libs/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css',
+                'assets/css/indicator/iku_1_4.css'
+            ],
+            'extra_js' => [
+                'assets/libs/datatables.net/js/jquery.dataTables.min.js',
+                'assets/libs/datatables.net-bs5/js/dataTables.bootstrap5.min.js',
+                'assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js',
+                'assets/libs/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js'
+            ],
+            'cases' => $response->getCases(),
+            'totalDiterimaCount' => $response->getTotalDiterimaCount(),
+            'tepatWaktuCount' => $response->getTepatWaktuCount(),
+            'terlambatCount' => $response->getTerlambatCount(),
+            'persentaseTepatWaktu' => $response->getPersentaseTepatWaktu(),
+            'selectedTingkat' => $tingkatPeradilan ? $tingkatPeradilan : 'semua',
+            'selectedPeriode' => $periode ? $periode : 'tahunan'
+        ];
+
+        // 5. Load standard layout
+        $this->load->view('dashboard/layouts/body', $data);
+    }
+
+    /**
+     * Render details page for IKU 1.5 (Persentase Putusan Pengadilan yang Diunggah pada Direktori Putusan)
+     */
+    public function iku_1_5()
+    {
+        // 1. Get input parameters from GET query string
+        $jenisPerkara = $this->input->get('jenis', TRUE); // e.g. 'pidana', 'perdata', 'semua'
+        $periode = $this->input->get('periode', TRUE);       // e.g. 't1', 't2', 't3', 't4', 'tahunan'
+
+        // 2. Map input to Request DTO
+        $request = new \App\UseCases\DTO\GetCasesIku15Request($jenisPerkara, $periode);
+
+        // 3. Execute application use case
+        $response = $this->getCasesIku15UseCase->execute($request);
 
         // If AJAX request, return statistics and case list as JSON
         if ($this->input->is_ajax_request()) {
@@ -223,12 +375,12 @@ class Indicator extends CI_Controller
 
         // 4. Map response data to layout view
         $data = [
-            'title' => 'IKU 1.3 - Putusan Diunggah pada Direktori Putusan',
-            'content_view' => 'dashboard/indicator/v_iku_1_3',
+            'title' => 'IKU 1.5 - Putusan Pengadilan yang Diunggah pada Direktori Putusan',
+            'content_view' => 'dashboard/indicator/v_iku_1_5',
             'extra_css' => [
                 'assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css',
                 'assets/libs/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css',
-                'assets/css/indicator/iku_1_3.css'
+                'assets/css/indicator/iku_1_5.css'
             ],
             'extra_js' => [
                 'assets/libs/datatables.net/js/jquery.dataTables.min.js',
@@ -250,19 +402,20 @@ class Indicator extends CI_Controller
     }
 
     /**
-     * Render details page for IKU 1.4 (Persentase Perkara Perdata Banding yang Menggunakan e-Court)
+     * Render details page for IKU 1.6 (Persentase Penyelesaian Permohonan Eksekusi Putusan Perdata)
      */
-    public function iku_1_4()
+    public function iku_1_6()
     {
         // 1. Get input parameters from GET query string
-        $jenisPengajuan = $this->input->get('jenis', TRUE); // e.g. 'ecourt', 'konvensional', 'semua'
-        $periode = $this->input->get('periode', TRUE);          // e.g. 't1', 't2', 't3', 't4', 'tahunan'
+        $statusEksekusi = $this->input->get('status', TRUE);         // e.g. 'diselesaikan', 'dalam_proses', 'semua'
+        $jenisEksekusi = $this->input->get('jenis_eksekusi', TRUE); // e.g. 'perkara', 'hak_tanggungan', 'semua'
+        $periode = $this->input->get('periode', TRUE);                  // e.g. 't1', 't2', 't3', 't4', 'tahunan'
 
         // 2. Map input to Request DTO
-        $request = new \App\UseCases\DTO\GetCasesIku14Request($jenisPengajuan, $periode);
+        $request = new \App\UseCases\DTO\GetCasesIku16Request($statusEksekusi, $jenisEksekusi, $periode);
 
         // 3. Execute application use case
-        $response = $this->getCasesIku14UseCase->execute($request);
+        $response = $this->getCasesIku16UseCase->execute($request);
 
         // If AJAX request, return statistics and case list as JSON
         if ($this->input->is_ajax_request()) {
@@ -271,11 +424,13 @@ class Indicator extends CI_Controller
                 $casesArray[] = [
                     'id' => $case->getId(),
                     'nomor_perkara' => $case->getNomorPerkara(),
-                    'jenis_pengajuan' => $case->getJenisPengajuan(),
-                    'tanggal_pengajuan' => date('d M Y', strtotime($case->getTanggalPengajuan())),
-                    'pembanding' => $case->getPembanding(),
-                    'terbanding' => $case->getTerbanding(),
-                    'status_ecourt' => $case->getStatusECourt()
+                    'jenis_eksekusi' => $case->getJenisEksekusi(),
+                    'pemohon' => $case->getPemohon(),
+                    'termohon' => $case->getTermohon(),
+                    'tanggal_permohonan' => date('d M Y', strtotime($case->getTanggalPermohonan())),
+                    'tanggal_selesai' => $case->getTanggalSelesai() ? date('d M Y', strtotime($case->getTanggalSelesai())) : '-',
+                    'status_eksekusi' => $case->getStatusEksekusi(),
+                    'is_diselesaikan' => $case->isDiselesaikan()
                 ];
             }
 
@@ -283,10 +438,10 @@ class Indicator extends CI_Controller
                 ->set_content_type('application/json')
                 ->set_output(json_encode([
                     'success' => true,
-                    'totalDiajukanCount' => $response->getTotalDiajukanCount(),
-                    'eCourtCount' => $response->getECourtCount(),
-                    'konvensionalCount' => $response->getKonvensionalCount(),
-                    'persentaseECourt' => $response->getPersentaseECourt(),
+                    'totalPermohonanCount' => $response->getTotalPermohonanCount(),
+                    'diselesaikanCount' => $response->getDiselesaikanCount(),
+                    'dalamProsesCount' => $response->getDalamProsesCount(),
+                    'persentaseDiselesaikan' => $response->getPersentaseDiselesaikan(),
                     'cases' => $casesArray
                 ]));
             return;
@@ -294,12 +449,12 @@ class Indicator extends CI_Controller
 
         // 4. Map response data to layout view
         $data = [
-            'title' => 'IKU 1.4 - Perkara Perdata Banding Menggunakan e-Court',
-            'content_view' => 'dashboard/indicator/v_iku_1_4',
+            'title' => 'IKU 1.6 - Penyelesaian Permohonan Eksekusi Putusan Perdata',
+            'content_view' => 'dashboard/indicator/v_iku_1_6',
             'extra_css' => [
                 'assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css',
                 'assets/libs/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css',
-                'assets/css/indicator/iku_1_4.css'
+                'assets/css/indicator/iku_1_6.css'
             ],
             'extra_js' => [
                 'assets/libs/datatables.net/js/jquery.dataTables.min.js',
@@ -308,11 +463,12 @@ class Indicator extends CI_Controller
                 'assets/libs/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js'
             ],
             'cases' => $response->getCases(),
-            'totalDiajukanCount' => $response->getTotalDiajukanCount(),
-            'eCourtCount' => $response->getECourtCount(),
-            'konvensionalCount' => $response->getKonvensionalCount(),
-            'persentaseECourt' => $response->getPersentaseECourt(),
-            'selectedJenis' => $jenisPengajuan ? $jenisPengajuan : 'semua',
+            'totalPermohonanCount' => $response->getTotalPermohonanCount(),
+            'diselesaikanCount' => $response->getDiselesaikanCount(),
+            'dalamProsesCount' => $response->getDalamProsesCount(),
+            'persentaseDiselesaikan' => $response->getPersentaseDiselesaikan(),
+            'selectedStatus' => $statusEksekusi ? $statusEksekusi : 'semua',
+            'selectedJenisEksekusi' => $jenisEksekusi ? $jenisEksekusi : 'semua',
             'selectedPeriode' => $periode ? $periode : 'tahunan'
         ];
 

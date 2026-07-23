@@ -6,23 +6,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class GetCasesIku13Response
 {
     private $cases;
-    private $totalMinutasiCount;
-    private $diunggahCount;
-    private $belumDiunggahCount;
-    private $persentaseDiunggah;
+    private $totalDiterimaCount;
+    private $tepatWaktuCount;
+    private $terlambatCount;
+    private $persentaseTepatWaktu;
 
-    public function __construct(array $cases, $totalMinutasiCount, $diunggahCount, $belumDiunggahCount, $persentaseDiunggah)
+    public function __construct(array $cases, $totalDiterimaCount, $tepatWaktuCount, $terlambatCount, $persentaseTepatWaktu)
     {
         $this->cases = $cases;
-        $this->totalMinutasiCount = $totalMinutasiCount;
-        $this->diunggahCount = $diunggahCount;
-        $this->belumDiunggahCount = $belumDiunggahCount;
-        $this->persentaseDiunggah = $persentaseDiunggah;
+        $this->totalDiterimaCount = $totalDiterimaCount;
+        $this->tepatWaktuCount = $tepatWaktuCount;
+        $this->terlambatCount = $terlambatCount;
+        $this->persentaseTepatWaktu = $persentaseTepatWaktu;
     }
 
     public function getCases() { return $this->cases; }
-    public function getTotalMinutasiCount() { return $this->totalMinutasiCount; }
-    public function getDiunggahCount() { return $this->diunggahCount; }
-    public function getBelumDiunggahCount() { return $this->belumDiunggahCount; }
-    public function getPersentaseDiunggah() { return $this->persentaseDiunggah; }
+    public function getTotalDiterimaCount() { return $this->totalDiterimaCount; }
+    public function getTepatWaktuCount() { return $this->tepatWaktuCount; }
+    public function getTerlambatCount() { return $this->terlambatCount; }
+    public function getPersentaseTepatWaktu() { return $this->persentaseTepatWaktu; }
 }

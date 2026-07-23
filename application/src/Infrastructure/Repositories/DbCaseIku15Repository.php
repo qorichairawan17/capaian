@@ -3,10 +3,10 @@ namespace App\Infrastructure\Repositories;
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-use App\Domain\Entities\CaseIku13Record;
-use App\Domain\Repositories\CaseIku13RepositoryInterface;
+use App\Domain\Entities\CaseIku15Record;
+use App\Domain\Repositories\CaseIku15RepositoryInterface;
 
-class DbCaseIku13Repository implements CaseIku13RepositoryInterface
+class DbCaseIku15Repository implements CaseIku15RepositoryInterface
 {
     /** @var \CI_Controller */
     private $CI;
@@ -15,13 +15,13 @@ class DbCaseIku13Repository implements CaseIku13RepositoryInterface
     public function __construct()
     {
         $this->CI =& get_instance();
-        $this->CI->load->model('Case_iku_1_3_model');
-        $this->mockRepository = new MockCaseIku13Repository();
+        $this->CI->load->model('Case_iku_1_5_model');
+        $this->mockRepository = new MockCaseIku15Repository();
     }
 
     public function findAll(array $filters)
     {
-        if (!$this->CI->db->table_exists('cases_iku_1_3')) {
+        if (!$this->CI->db->table_exists('cases_iku_1_5')) {
             return $this->mockRepository->findAll($filters);
         }
 
@@ -43,7 +43,7 @@ class DbCaseIku13Repository implements CaseIku13RepositoryInterface
             }
         }
 
-        $rows = $this->CI->Case_iku_1_3_model->get_all($modelFilters);
+        $rows = $this->CI->Case_iku_1_5_model->get_all($modelFilters);
 
         if (empty($rows)) {
             return $this->mockRepository->findAll($filters);
@@ -54,15 +54,14 @@ class DbCaseIku13Repository implements CaseIku13RepositoryInterface
 
     private function mapRowToEntity(array $row)
     {
-        return new CaseIku13Record(
+        return new CaseIku15Record(
             (int) $row['id'],
             $row['nomor_perkara'],
             $row['jenis_perkara'],
-            $row['tingkat_peradilan'],
-            $row['tanggal_diterima'],
-            $row['tanggal_diberitahukan'],
-            (int) $row['durasi_hari'],
-            $row['status'],
+            $row['tanggal_minutasi'],
+            $row['tanggal_unggah'],
+            $row['status_upload'],
+            $row['url_direktori'],
             (int) $row['triwulan'],
             (int) $row['tahun']
         );

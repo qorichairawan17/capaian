@@ -6,13 +6,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <div class="row">
     <div class="col-12">
         <div class="page-title-box d-flex align-items-center justify-content-between">
-            <h4 class="mb-sm-0">Detail Capaian IKU 1.4</h4>
+            <h4 class="mb-sm-0">Detail Capaian IKU 1.5</h4>
 
             <div class="page-title-right">
                 <ol class="breadcrumb m-0">
                     <li class="breadcrumb-item"><a href="<?php echo site_url('dashboard'); ?>">e-Capaian</a></li>
                     <li class="breadcrumb-item"><a href="<?php echo site_url('dashboard'); ?>">Kinerja</a></li>
-                    <li class="breadcrumb-item active">IKU 1.4</li>
+                    <li class="breadcrumb-item active">IKU 1.5</li>
                 </ol>
             </div>
         </div>
@@ -29,10 +29,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div>
                         <span class="badge welcome-badge px-3 py-1.5 rounded-pill fs-11 fw-bold text-success mb-2"
                             style="background-color: rgba(56, 198, 108, 0.08);">
-                            INDIKATOR KINERJA UTAMA 1.4
+                            INDIKATOR KINERJA UTAMA 1.5
                         </span>
-                        <h3 class="fw-bold text-dark mb-1">Persentase Pengiriman Salinan Putusan Perkara Pidana Tingkat Banding, Kasasi dan PK Tepat Waktu oleh Pengadilan Pengaju Kepada Para Pihak</h3>
-                        <p class="text-muted mb-0">Menampilkan rincian pengiriman salinan putusan perkara pidana tingkat banding, kasasi, dan PK kepada para pihak secara tepat waktu.</p>
+                        <h3 class="fw-bold text-dark mb-1">Persentase Putusan Pengadilan yang Diunggah pada Direktori Putusan</h3>
+                        <p class="text-muted mb-0">Menampilkan rincian, status pengunggahan, dan tanggal publikasi putusan perkara pada Direktori Putusan Mahkamah Agung RI.</p>
                     </div>
                 </div>
             </div>
@@ -47,14 +47,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div class="card-body p-4">
                 <div class="d-flex align-items-center justify-content-between">
                     <div>
-                        <p class="text-muted mb-1 fs-13 fw-medium">Dikirimkan Tepat Waktu</p>
-                        <h3 id="stat-tepat-waktu" class="fw-bold mb-0 text-dark">
-                            <span class="value"><?php echo $tepatWaktuCount; ?></span>
-                            <span class="fs-14 text-muted fw-normal">/ <span class="total-value"><?php echo $totalDiterimaCount; ?></span> Perkara</span>
+                        <p class="text-muted mb-1 fs-13 fw-medium">Jumlah putusan yang diunggah pada direktori putusan</p>
+                        <h3 id="stat-diunggah" class="fw-bold mb-0 text-dark">
+                            <span class="value"><?php echo $diunggahCount; ?></span>
+                            <span class="fs-14 text-muted fw-normal">/ <span class="total-value"><?php echo $totalMinutasiCount; ?></span> Perkara</span>
                         </h3>
                     </div>
                     <div class="stat-icon" style="background: linear-gradient(135deg, rgba(56, 198, 108, 0.08), rgba(46, 168, 91, 0.08));">
-                        <i class="fas fa-check-circle"></i>
+                        <i class="fas fa-upload"></i>
                     </div>
                 </div>
             </div>
@@ -66,11 +66,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div class="card-body p-4">
                 <div class="d-flex align-items-center justify-content-between">
                     <div>
-                        <p class="text-muted mb-1 fs-13 fw-medium">Total Diterima Pengadilan Pengaju</p>
-                        <h3 id="stat-total-diterima" class="fw-bold mb-0 text-dark"><?php echo $totalDiterimaCount; ?></h3>
+                        <p class="text-muted mb-1 fs-13 fw-medium">Jumlah putusan yang telah diminutasi</p>
+                        <h3 id="stat-total-minutasi" class="fw-bold mb-0 text-dark"><?php echo $totalMinutasiCount; ?></h3>
                     </div>
                     <div class="stat-icon">
-                        <i class="fas fa-inbox"></i>
+                        <i class="fas fa-file-archive"></i>
                     </div>
                 </div>
             </div>
@@ -83,7 +83,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="d-flex align-items-center justify-content-between">
                     <div>
                         <p class="text-muted mb-0 fs-13 fw-medium">Persentase Capaian</p>
-                        <h3 id="stat-persentase" class="fw-bold mb-0 text-dark"><?php echo $persentaseTepatWaktu; ?>%</h3>
+                        <h3 id="stat-persentase" class="fw-bold mb-0 text-dark"><?php echo $persentaseDiunggah; ?>%</h3>
                     </div>
                     <div class="stat-icon">
                         <i class="fas fa-percentage"></i>
@@ -103,15 +103,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <h6 class="card-title fw-bold text-dark mb-0"><i class="fas fa-filter me-2 text-success"></i>Filter Capaian Data</h6>
             </div>
             <div class="card-body pt-3">
-                <form id="filterForm" method="GET" action="<?php echo site_url('indicator/iku_1_4'); ?>">
+                <form id="filterForm" method="GET" action="<?php echo site_url('indicator/iku_1_5'); ?>">
                     <div class="row align-items-end g-3">
                         <div class="col-md-4">
-                            <label for="tingkat" class="form-label text-muted fs-12 fw-semibold">TINGKAT PERADILAN</label>
-                            <select name="tingkat" id="tingkat" class="form-select form-select-md border-light-subtle shadow-sm bg-body-tertiary">
-                                <option value="semua" <?php echo $selectedTingkat === 'semua' ? 'selected' : ''; ?>>Semua Tingkat</option>
-                                <option value="banding" <?php echo $selectedTingkat === 'banding' ? 'selected' : ''; ?>>Banding</option>
-                                <option value="kasasi" <?php echo $selectedTingkat === 'kasasi' ? 'selected' : ''; ?>>Kasasi</option>
-                                <option value="pk" <?php echo $selectedTingkat === 'pk' ? 'selected' : ''; ?>>PK</option>
+                            <label for="jenis" class="form-label text-muted fs-12 fw-semibold">JENIS PERKARA</label>
+                            <select name="jenis" id="jenis" class="form-select form-select-md border-light-subtle shadow-sm bg-body-tertiary">
+                                <option value="semua" <?php echo $selectedJenis === 'semua' ? 'selected' : ''; ?>>Semua Perkara</option>
+                                <option value="pidana" <?php echo $selectedJenis === 'pidana' ? 'selected' : ''; ?>>Pidana</option>
+                                <option value="perdata" <?php echo $selectedJenis === 'perdata' ? 'selected' : ''; ?>>Perdata</option>
                             </select>
                         </div>
                         <div class="col-md-4">
@@ -143,7 +142,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div class="card data-card mb-4">
             <div class="card-header bg-transparent border-bottom border-light py-3">
                 <div class="d-flex align-items-center justify-content-between">
-                    <h5 class="card-title fw-bold mb-0 text-dark">Daftar Pengiriman Salinan Putusan Perkara Pidana (IKU 1.4)</h5>
+                    <h5 class="card-title fw-bold mb-0 text-dark">Daftar Rincian Unggah Putusan (IKU 1.5)</h5>
                 </div>
             </div>
             <div class="card-body">
@@ -153,11 +152,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <tr>
                                 <th style="width: 50px;">No</th>
                                 <th>Nomor Perkara</th>
-                                <th>Tingkat Peradilan</th>
-                                <th>Metode Pengiriman</th>
-                                <th>Tanggal Diterima</th>
-                                <th>Tanggal Dikirimkan</th>
-                                <th>Jumlah Hari / Status</th>
+                                <th>Jenis Perkara</th>
+                                <th>Tanggal Minutasi</th>
+                                <th>Tanggal Unggah</th>
+                                <th>Status Upload</th>
+                                <th>Link Direktori</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -168,38 +167,35 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         <td><?php echo $no++; ?></td>
                                         <td class="fw-medium text-dark"><?php echo html_escape($case->getNomorPerkara()); ?></td>
                                         <td>
-                                            <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle px-2.5 py-1 rounded-pill fs-11">
-                                                <?php echo html_escape($case->getTingkatPeradilan()); ?>
+                                            <span class="badge badge-jenis px-2.5 py-1.5 rounded-2 fs-11">
+                                                <?php echo html_escape($case->getJenisPerkara()); ?>
                                             </span>
                                         </td>
+                                        <td><?php echo date('d M Y', strtotime($case->getTanggalMinutasi())); ?></td>
                                         <td>
-                                            <?php if (strpos(strtolower($case->getMetodePengiriman()), 'elektronik') !== false): ?>
-                                                <span class="badge badge-ecourt px-2.5 py-1.5 rounded-2 fs-11">
-                                                    <i class="fas fa-laptop me-1"></i><?php echo html_escape($case->getMetodePengiriman()); ?>
+                                            <?php echo $case->getTanggalUnggah() ? date('d M Y', strtotime($case->getTanggalUnggah())) : '-'; ?>
+                                        </td>
+                                        <td>
+                                            <?php if ($case->getStatusUpload() === 'Diunggah'): ?>
+                                                <span class="badge badge-uploaded px-2.5 py-1 rounded-pill fs-10"
+                                                    style="font-size: 9.5px !important; padding: 3px 8px !important;">
+                                                    <i class="fas fa-check-circle me-1"></i>Diunggah
                                                 </span>
                                             <?php else: ?>
-                                                <span class="badge badge-konvensional px-2.5 py-1.5 rounded-2 fs-11">
-                                                    <i class="fas fa-paper-plane me-1"></i><?php echo html_escape($case->getMetodePengiriman()); ?>
+                                                <span class="badge badge-pending px-2.5 py-1 rounded-pill fs-10"
+                                                    style="font-size: 9.5px !important; padding: 3px 8px !important;">
+                                                    <i class="fas fa-clock me-1"></i>Belum Diunggah
                                                 </span>
                                             <?php endif; ?>
                                         </td>
-                                        <td><?php echo date('d M Y', strtotime($case->getTanggalDiterima())); ?></td>
-                                        <td><?php echo date('d M Y', strtotime($case->getTanggalDikirimkan())); ?></td>
                                         <td>
-                                            <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
-                                                <span class="fw-semibold text-dark"><?php echo $case->getDurasiHari(); ?> Hari</span>
-                                                <?php if ($case->getStatus() === 'Tepat Waktu'): ?>
-                                                    <span class="badge badge-tepat px-2.5 py-1 rounded-pill fs-10"
-                                                        style="font-size: 9.5px !important; padding: 3px 8px !important;">
-                                                        Tepat Waktu
-                                                    </span>
-                                                <?php else: ?>
-                                                    <span class="badge badge-terlambat px-2.5 py-1 rounded-pill fs-10"
-                                                        style="font-size: 9.5px !important; padding: 3px 8px !important;">
-                                                        Terlambat
-                                                    </span>
-                                                <?php endif; ?>
-                                            </div>
+                                            <?php if (!empty($case->getUrlDirektori())): ?>
+                                                <a href="<?php echo html_escape($case->getUrlDirektori()); ?>" target="_blank" class="btn btn-xs btn-outline-primary rounded-pill px-2 py-1 fs-11">
+                                                    <i class="fas fa-external-link-alt me-1"></i>Buka Putusan
+                                                </a>
+                                            <?php else: ?>
+                                                <span class="text-muted fs-12">-</span>
+                                            <?php endif; ?>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
@@ -224,8 +220,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="d-inline-flex align-items-center flex-wrap justify-content-center">
                         <div class="formula-text me-2">Persentase =</div>
                         <div class="formula-fraction">
-                            <span class="fraction-numerator">Jumlah salinan putusan yang dikirimkan kepada para pihak secara tepat waktu</span>
-                            <span class="fraction-denominator">Jumlah salinan putusan banding kasasi dan PK yang diterima pengadilan pengaju</span>
+                            <span class="fraction-numerator">Jumlah putusan yang diunggah pada direktori putusan</span>
+                            <span class="fraction-denominator">Jumlah putusan yang telah diminutasi</span>
                         </div>
                         <div class="formula-text ms-2">x 100%</div>
                     </div>
@@ -254,16 +250,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                 </div>
 
+                <!-- Dasar Hukum -->
+                <div class="mb-4">
+                    <div class="fw-bold text-uppercase text-secondary mb-2 fs-10" style="letter-spacing: 0.5px;">Dasar Hukum</div>
+                    <div class="dasar-hukum-box">
+                        <ul class="ps-2 mb-0" style="list-style-type: square; padding-left: 15px !important;">
+                            <li class="mb-2">Surat Keputusan Ketua Mahkamah Agung Nomor 2-144/KMA/SK/VIII/2022 tentang Standar Pelayanan Informasi Publik di Pengadilan.</li>
+                        </ul>
+                    </div>
+                </div>
+
                 <!-- Catatan Perhitungan -->
                 <div>
                     <div class="fw-bold text-uppercase text-secondary mb-2 fs-10" style="letter-spacing: 0.5px;">Catatan Penting</div>
-                    <p class="fs-12 text-muted mb-2">Kinerja pengiriman salinan putusan perkara pidana secara konvensional/elektronik/surat tercatat dengan penjelasan sebagai berikut:</p>
-                    <ol type="a" class="catatan-list ps-3">
-                        <li class="mb-2">Kinerja salinan putusan melalui jurusita dihitung sejak salinan putusan diterima pengadilan pengaju sampai diterima oleh para pihak;</li>
-                        <li class="mb-2">Kinerja salinan putusan dengan metode pengiriman elektronik dihitung sejak salinan putusan diterima pengadilan pengaju sampai dikirimkan melalui domisili elektronik para pihak;</li>
-                        <li class="mb-2">Kinerja salinan putusan melalui surat tercatat/pihak ketiga dihitung sejak salinan putusan diterima pengadilan pengaju sampai disampaikan kepada para pihak;</li>
-                        <li>Para pihak termasuk penuntut umum, terdakwa dan terpidana.</li>
-                    </ol>
+                    <p class="fs-12 text-muted mb-0">Indikator ini bertujuan untuk mengukur kepatuhan pengadilan tingkat pertama untuk melakukan unggah putusan pada direktori putusan paling lambat pada saat perkara diminutasi.</p>
                 </div>
             </div>
         </div>
@@ -310,38 +310,32 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 },
                 success: function (response) {
                     if (response.success) {
-                        $('#stat-tepat-waktu .value').text(response.tepatWaktuCount);
-                        $('#stat-tepat-waktu .total-value').text(response.totalDiterimaCount);
-                        $('#stat-total-diterima').text(response.totalDiterimaCount);
-                        $('#stat-persentase').text(response.persentaseTepatWaktu + '%');
+                        $('#stat-diunggah .value').text(response.diunggahCount);
+                        $('#stat-diunggah .total-value').text(response.totalMinutasiCount);
+                        $('#stat-total-minutasi').text(response.totalMinutasiCount);
+                        $('#stat-persentase').text(response.persentaseDiunggah + '%');
 
                         table.clear();
                         if (response.cases && response.cases.length > 0) {
                             $.each(response.cases, function (index, item) {
-                                var badgeTingkat = '<span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle px-2.5 py-1 rounded-pill fs-11">' + escapeHtml(item.tingkat_peradilan) + '</span>';
+                                var badgeJenis = '<span class="badge badge-jenis px-2.5 py-1.5 rounded-2 fs-11">' + escapeHtml(item.jenis_perkara) + '</span>';
 
-                                var isElektronik = item.metode_pengiriman.toLowerCase().indexOf('elektronik') !== -1;
-                                var badgeMetode = isElektronik
-                                    ? '<span class="badge badge-ecourt px-2.5 py-1.5 rounded-2 fs-11"><i class="fas fa-laptop me-1"></i>' + escapeHtml(item.metode_pengiriman) + '</span>'
-                                    : '<span class="badge badge-konvensional px-2.5 py-1.5 rounded-2 fs-11"><i class="fas fa-paper-plane me-1"></i>' + escapeHtml(item.metode_pengiriman) + '</span>';
+                                var badgeStatus = item.status_upload === 'Diunggah'
+                                    ? '<span class="badge badge-uploaded px-2.5 py-1 rounded-pill fs-10" style="font-size: 9.5px !important; padding: 3px 8px !important;"><i class="fas fa-check-circle me-1"></i>Diunggah</span>'
+                                    : '<span class="badge badge-pending px-2.5 py-1 rounded-pill fs-10" style="font-size: 9.5px !important; padding: 3px 8px !important;"><i class="fas fa-clock me-1"></i>Belum Diunggah</span>';
 
-                                var badgeStatus = item.status === 'Tepat Waktu'
-                                    ? '<span class="badge badge-tepat px-2.5 py-1 rounded-pill fs-10" style="font-size: 9.5px !important; padding: 3px 8px !important;">Tepat Waktu</span>'
-                                    : '<span class="badge badge-terlambat px-2.5 py-1 rounded-pill fs-10" style="font-size: 9.5px !important; padding: 3px 8px !important;">Terlambat</span>';
-
-                                var durationHtml = '<div class="d-flex align-items-center justify-content-between flex-wrap gap-2">' +
-                                    '<span class="fw-semibold text-dark">' + item.durasi_hari + ' Hari</span>' +
-                                    badgeStatus +
-                                    '</div>';
+                                var linkHtml = item.url_direktori && item.url_direktori.length > 0
+                                    ? '<a href="' + escapeHtml(item.url_direktori) + '" target="_blank" class="btn btn-xs btn-outline-primary rounded-pill px-2 py-1 fs-11"><i class="fas fa-external-link-alt me-1"></i>Buka Putusan</a>'
+                                    : '<span class="text-muted fs-12">-</span>';
 
                                 table.row.add([
                                     index + 1,
                                     '<span class="fw-medium text-dark">' + escapeHtml(item.nomor_perkara) + '</span>',
-                                    badgeTingkat,
-                                    badgeMetode,
-                                    item.tanggal_diterima,
-                                    item.tanggal_dikirimkan,
-                                    durationHtml
+                                    badgeJenis,
+                                    item.tanggal_minutasi,
+                                    item.tanggal_unggah,
+                                    badgeStatus,
+                                    linkHtml
                                 ]);
                             });
                         }
@@ -377,7 +371,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             applyFilter();
         });
 
-        $('#tingkat, #periode').on('change', function () {
+        $('#jenis, #periode').on('change', function () {
             applyFilter();
         });
     });

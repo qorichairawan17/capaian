@@ -7,34 +7,37 @@ class CaseIku14Record
 {
     private $id;
     private $nomorPerkara;
-    private $jenisPengajuan; // 'e-Court' | 'Konvensional'
-    private $tanggalPengajuan;
-    private $pembanding;
-    private $terbanding;
-    private $statusECourt;
-    private $triwulan; // 1 | 2 | 3 | 4
+    private $tingkatPeradilan; // 'Banding' | 'Kasasi' | 'PK'
+    private $metodePengiriman; // 'Jurusita' | 'Elektronik' | 'Surat Tercatat'
+    private $tanggalDiterima;
+    private $tanggalDikirimkan;
+    private $durasiHari;
+    private $status; // 'Tepat Waktu' | 'Terlambat'
+    private $triwulan;
     private $tahun;
 
-    public function __construct($id, $nomorPerkara, $jenisPengajuan, $tanggalPengajuan, $pembanding, $terbanding, $statusECourt, $triwulan, $tahun)
+    public function __construct($id, $nomorPerkara, $tingkatPeradilan, $metodePengiriman, $tanggalDiterima, $tanggalDikirimkan, $durasiHari, $status, $triwulan, $tahun)
     {
         $this->id = $id;
         $this->nomorPerkara = $nomorPerkara;
-        $this->jenisPengajuan = $jenisPengajuan;
-        $this->tanggalPengajuan = $tanggalPengajuan;
-        $this->pembanding = $pembanding;
-        $this->terbanding = $terbanding;
-        $this->statusECourt = $statusECourt;
+        $this->tingkatPeradilan = $tingkatPeradilan;
+        $this->metodePengiriman = $metodePengiriman;
+        $this->tanggalDiterima = $tanggalDiterima;
+        $this->tanggalDikirimkan = $tanggalDikirimkan;
+        $this->durasiHari = $durasiHari;
+        $this->status = $status;
         $this->triwulan = $triwulan;
         $this->tahun = $tahun;
     }
 
     public function getId() { return $this->id; }
     public function getNomorPerkara() { return $this->nomorPerkara; }
-    public function getJenisPengajuan() { return $this->jenisPengajuan; }
-    public function getTanggalPengajuan() { return $this->tanggalPengajuan; }
-    public function getPembanding() { return $this->pembanding; }
-    public function getTerbanding() { return $this->terbanding; }
-    public function getStatusECourt() { return $this->statusECourt; }
+    public function getTingkatPeradilan() { return $this->tingkatPeradilan; }
+    public function getMetodePengiriman() { return $this->metodePengiriman; }
+    public function getTanggalDiterima() { return $this->tanggalDiterima; }
+    public function getTanggalDikirimkan() { return $this->tanggalDikirimkan; }
+    public function getDurasiHari() { return $this->durasiHari; }
+    public function getStatus() { return $this->status; }
     public function getTriwulan() { return $this->triwulan; }
     public function getTahun() { return $this->tahun; }
 }

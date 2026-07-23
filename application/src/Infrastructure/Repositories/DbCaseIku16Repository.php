@@ -3,10 +3,10 @@ namespace App\Infrastructure\Repositories;
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-use App\Domain\Entities\CaseIku13Record;
-use App\Domain\Repositories\CaseIku13RepositoryInterface;
+use App\Domain\Entities\CaseIku16Record;
+use App\Domain\Repositories\CaseIku16RepositoryInterface;
 
-class DbCaseIku13Repository implements CaseIku13RepositoryInterface
+class DbCaseIku16Repository implements CaseIku16RepositoryInterface
 {
     /** @var \CI_Controller */
     private $CI;
@@ -15,25 +15,24 @@ class DbCaseIku13Repository implements CaseIku13RepositoryInterface
     public function __construct()
     {
         $this->CI =& get_instance();
-        $this->CI->load->model('Case_iku_1_3_model');
-        $this->mockRepository = new MockCaseIku13Repository();
+        $this->CI->load->model('Case_iku_1_6_model');
+        $this->mockRepository = new MockCaseIku16Repository();
     }
 
     public function findAll(array $filters)
     {
-        if (!$this->CI->db->table_exists('cases_iku_1_3')) {
+        if (!$this->CI->db->table_exists('cases_iku_1_6')) {
             return $this->mockRepository->findAll($filters);
         }
 
         $modelFilters = [];
 
-        if (!empty($filters['jenis_perkara'])) {
-            $jenis = strtolower($filters['jenis_perkara']);
-            if ($jenis === 'pidana') {
-                $modelFilters['jenis_perkara'] = 'Pidana';
-            } else if ($jenis === 'perdata') {
-                $modelFilters['jenis_perkara'] = 'Perdata';
-            }
+        if (!empty($filters['status_eksekusi'])) {
+            $modelFilters['status_eksekusi'] = $filters['status_eksekusi'];
+        }
+
+        if (!empty($filters['jenis_eksekusi'])) {
+            $modelFilters['jenis_eksekusi'] = $filters['jenis_eksekusi'];
         }
 
         if (!empty($filters['periode'])) {
@@ -43,7 +42,7 @@ class DbCaseIku13Repository implements CaseIku13RepositoryInterface
             }
         }
 
-        $rows = $this->CI->Case_iku_1_3_model->get_all($modelFilters);
+        $rows = $this->CI->Case_iku_1_6_model->get_all($modelFilters);
 
         if (empty($rows)) {
             return $this->mockRepository->findAll($filters);
@@ -54,15 +53,15 @@ class DbCaseIku13Repository implements CaseIku13RepositoryInterface
 
     private function mapRowToEntity(array $row)
     {
-        return new CaseIku13Record(
+        return new CaseIku16Record(
             (int) $row['id'],
             $row['nomor_perkara'],
-            $row['jenis_perkara'],
-            $row['tingkat_peradilan'],
-            $row['tanggal_diterima'],
-            $row['tanggal_diberitahukan'],
-            (int) $row['durasi_hari'],
-            $row['status'],
+            isset($row['jenis_eksekusi']) ? $row['jenis_eksekusi'] : 'Eksekusi Terhadap Perkara',
+            $row['pemohon'],
+            $row['termohon'],
+            $row['tanggal_permohonan'],
+            $row['tanggal_selesai'],
+            $row['status_eksekusi'],
             (int) $row['triwulan'],
             (int) $row['tahun']
         );
