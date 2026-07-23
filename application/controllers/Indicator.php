@@ -5,6 +5,8 @@ class Indicator extends CI_Controller
 {
     private $getCasesUseCase;
     private $getCasesIku12UseCase;
+    private $getCasesIku13UseCase;
+    private $getCasesIku14UseCase;
 
     public function __construct()
     {
@@ -24,6 +26,12 @@ class Indicator extends CI_Controller
 
         $caseIku12Repository = new \App\Infrastructure\Repositories\DbCaseIku12Repository();
         $this->getCasesIku12UseCase = new \App\UseCases\GetCasesIku12UseCase($caseIku12Repository);
+
+        $caseIku13Repository = new \App\Infrastructure\Repositories\DbCaseIku13Repository();
+        $this->getCasesIku13UseCase = new \App\UseCases\GetCasesIku13UseCase($caseIku13Repository);
+
+        $caseIku14Repository = new \App\Infrastructure\Repositories\DbCaseIku14Repository();
+        $this->getCasesIku14UseCase = new \App\UseCases\GetCasesIku14UseCase($caseIku14Repository);
     }
 
     /**
@@ -163,6 +171,148 @@ class Indicator extends CI_Controller
             'terlambatCount' => $response->getTerlambatCount(),
             'persentaseTepatWaktu' => $response->getPersentaseTepatWaktu(),
             'selectedJenis' => $jenisPerkara ? $jenisPerkara : 'semua',
+            'selectedPeriode' => $periode ? $periode : 'tahunan'
+        ];
+
+        // 5. Load standard layout
+        $this->load->view('dashboard/layouts/body', $data);
+    }
+
+    /**
+     * Render details page for IKU 1.3 (Persentase Putusan Diunggah pada Direktori Putusan)
+     */
+    public function iku_1_3()
+    {
+        // 1. Get input parameters from GET query string
+        $jenisPerkara = $this->input->get('jenis', TRUE); // e.g. 'pidana', 'perdata', 'semua'
+        $periode = $this->input->get('periode', TRUE);       // e.g. 't1', 't2', 't3', 't4', 'tahunan'
+
+        // 2. Map input to Request DTO
+        $request = new \App\UseCases\DTO\GetCasesIku13Request($jenisPerkara, $periode);
+
+        // 3. Execute application use case
+        $response = $this->getCasesIku13UseCase->execute($request);
+
+        // If AJAX request, return statistics and case list as JSON
+        if ($this->input->is_ajax_request()) {
+            $casesArray = [];
+            foreach ($response->getCases() as $case) {
+                $casesArray[] = [
+                    'id' => $case->getId(),
+                    'nomor_perkara' => $case->getNomorPerkara(),
+                    'jenis_perkara' => $case->getJenisPerkara(),
+                    'tanggal_minutasi' => date('d M Y', strtotime($case->getTanggalMinutasi())),
+                    'tanggal_unggah' => $case->getTanggalUnggah() ? date('d M Y', strtotime($case->getTanggalUnggah())) : '-',
+                    'status_upload' => $case->getStatusUpload(),
+                    'url_direktori' => $case->getUrlDirektori()
+                ];
+            }
+
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode([
+                    'success' => true,
+                    'totalMinutasiCount' => $response->getTotalMinutasiCount(),
+                    'diunggahCount' => $response->getDiunggahCount(),
+                    'belumDiunggahCount' => $response->getBelumDiunggahCount(),
+                    'persentaseDiunggah' => $response->getPersentaseDiunggah(),
+                    'cases' => $casesArray
+                ]));
+            return;
+        }
+
+        // 4. Map response data to layout view
+        $data = [
+            'title' => 'IKU 1.3 - Putusan Diunggah pada Direktori Putusan',
+            'content_view' => 'dashboard/indicator/v_iku_1_3',
+            'extra_css' => [
+                'assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css',
+                'assets/libs/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css',
+                'assets/css/indicator/iku_1_3.css'
+            ],
+            'extra_js' => [
+                'assets/libs/datatables.net/js/jquery.dataTables.min.js',
+                'assets/libs/datatables.net-bs5/js/dataTables.bootstrap5.min.js',
+                'assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js',
+                'assets/libs/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js'
+            ],
+            'cases' => $response->getCases(),
+            'totalMinutasiCount' => $response->getTotalMinutasiCount(),
+            'diunggahCount' => $response->getDiunggahCount(),
+            'belumDiunggahCount' => $response->getBelumDiunggahCount(),
+            'persentaseDiunggah' => $response->getPersentaseDiunggah(),
+            'selectedJenis' => $jenisPerkara ? $jenisPerkara : 'semua',
+            'selectedPeriode' => $periode ? $periode : 'tahunan'
+        ];
+
+        // 5. Load standard layout
+        $this->load->view('dashboard/layouts/body', $data);
+    }
+
+    /**
+     * Render details page for IKU 1.4 (Persentase Perkara Perdata Banding yang Menggunakan e-Court)
+     */
+    public function iku_1_4()
+    {
+        // 1. Get input parameters from GET query string
+        $jenisPengajuan = $this->input->get('jenis', TRUE); // e.g. 'ecourt', 'konvensional', 'semua'
+        $periode = $this->input->get('periode', TRUE);          // e.g. 't1', 't2', 't3', 't4', 'tahunan'
+
+        // 2. Map input to Request DTO
+        $request = new \App\UseCases\DTO\GetCasesIku14Request($jenisPengajuan, $periode);
+
+        // 3. Execute application use case
+        $response = $this->getCasesIku14UseCase->execute($request);
+
+        // If AJAX request, return statistics and case list as JSON
+        if ($this->input->is_ajax_request()) {
+            $casesArray = [];
+            foreach ($response->getCases() as $case) {
+                $casesArray[] = [
+                    'id' => $case->getId(),
+                    'nomor_perkara' => $case->getNomorPerkara(),
+                    'jenis_pengajuan' => $case->getJenisPengajuan(),
+                    'tanggal_pengajuan' => date('d M Y', strtotime($case->getTanggalPengajuan())),
+                    'pembanding' => $case->getPembanding(),
+                    'terbanding' => $case->getTerbanding(),
+                    'status_ecourt' => $case->getStatusECourt()
+                ];
+            }
+
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode([
+                    'success' => true,
+                    'totalDiajukanCount' => $response->getTotalDiajukanCount(),
+                    'eCourtCount' => $response->getECourtCount(),
+                    'konvensionalCount' => $response->getKonvensionalCount(),
+                    'persentaseECourt' => $response->getPersentaseECourt(),
+                    'cases' => $casesArray
+                ]));
+            return;
+        }
+
+        // 4. Map response data to layout view
+        $data = [
+            'title' => 'IKU 1.4 - Perkara Perdata Banding Menggunakan e-Court',
+            'content_view' => 'dashboard/indicator/v_iku_1_4',
+            'extra_css' => [
+                'assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css',
+                'assets/libs/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css',
+                'assets/css/indicator/iku_1_4.css'
+            ],
+            'extra_js' => [
+                'assets/libs/datatables.net/js/jquery.dataTables.min.js',
+                'assets/libs/datatables.net-bs5/js/dataTables.bootstrap5.min.js',
+                'assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js',
+                'assets/libs/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js'
+            ],
+            'cases' => $response->getCases(),
+            'totalDiajukanCount' => $response->getTotalDiajukanCount(),
+            'eCourtCount' => $response->getECourtCount(),
+            'konvensionalCount' => $response->getKonvensionalCount(),
+            'persentaseECourt' => $response->getPersentaseECourt(),
+            'selectedJenis' => $jenisPengajuan ? $jenisPengajuan : 'semua',
             'selectedPeriode' => $periode ? $periode : 'tahunan'
         ];
 

@@ -82,16 +82,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     <!-- Card 1.3 -->
     <div class="col-xl-3 col-md-6">
-        <a href="<?php echo site_url('dashboard/indicator/1_3'); ?>" class="indicator-menu-card">
+        <a href="<?php echo site_url('indicator/iku_1_3'); ?>" class="indicator-menu-card">
             <div class="card-body">
                 <div class="indicator-header">
                     <span class="code-badge">IKU 1.3</span>
                     <div class="icon-container">
-                        <i class="fas fa-bell"></i>
+                        <i class="fas fa-upload"></i>
                     </div>
                 </div>
-                <h5 class="indicator-title">Pengiriman pemberitahuan petikan/amar putusan tingkat banding, kasasi dan PK secara tepat waktu oleh
-                    pengadilan pengaju kepada para pihak</h5>
+                <h5 class="indicator-title">Persentase putusan pengadilan yang diunggah pada direktori putusan</h5>
                 <div class="indicator-footer">
                     <span>Lihat Rincian</span>
                     <i class="fas fa-arrow-right arrow-icon"></i>
@@ -102,16 +101,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     <!-- Card 1.4 -->
     <div class="col-xl-3 col-md-6">
-        <a href="<?php echo site_url('dashboard/indicator/1_4'); ?>" class="indicator-menu-card">
+        <a href="<?php echo site_url('indicator/iku_1_4'); ?>" class="indicator-menu-card">
             <div class="card-body">
                 <div class="indicator-header">
                     <span class="code-badge">IKU 1.4</span>
                     <div class="icon-container">
-                        <i class="fas fa-balance-scale"></i>
+                        <i class="fas fa-gavel"></i>
                     </div>
                 </div>
-                <h5 class="indicator-title">Pengiriman salinan putusan perkara pidana tingkat banding, kasasi dan PK tepat waktu oleh pengadilan
-                    pengaju kepada para pihak</h5>
+                <h5 class="indicator-title">Persentase perkara perdata pada tingkat banding yang menggunakan e-Court</h5>
                 <div class="indicator-footer">
                     <span>Lihat Rincian</span>
                     <i class="fas fa-arrow-right arrow-icon"></i>
