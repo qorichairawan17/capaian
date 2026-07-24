@@ -38,6 +38,60 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
             </div>
         </div>
+
+        <div class="card info-sidebar-card">
+            <div class="card-header bg-transparent border-bottom border-light py-3">
+                <h6 class="card-title fw-bold mb-0 text-dark"><i class="fas fa-info-circle me-2 text-success"></i>Definisi & Aturan IKU</h6>
+            </div>
+            <div class="card-body">
+                <!-- Rumus Formula Perhitungan -->
+                <div class="formula-container text-center mb-4">
+                    <div class="fw-bold text-uppercase text-secondary mb-2 fs-10 text-start" style="letter-spacing: 0.5px;">Rumus Perhitungan</div>
+                    <div class="d-inline-flex align-items-center flex-wrap justify-content-center">
+                        <div class="formula-text me-2">Persentase =</div>
+                        <div class="formula-fraction">
+                            <span class="fraction-numerator">Jumlah permohonan eksekusi putusan perdata yang diselesaikan</span>
+                            <span class="fraction-denominator">Jumlah putusan perdata yang dimohonkan eksekusi</span>
+                        </div>
+                        <div class="formula-text ms-2">x 100%</div>
+                    </div>
+                </div>
+
+                <!-- Penanggung Jawab & Sumber Data -->
+                <div class="mb-4">
+                    <div class="info-list-item">
+                        <div class="info-list-icon">
+                            <i class="fas fa-user-shield"></i>
+                        </div>
+                        <div class="info-list-content">
+                            <div class="info-list-label">Penanggung Jawab</div>
+                            <div class="info-list-value">Panitera</div>
+                        </div>
+                    </div>
+
+                    <div class="info-list-item">
+                        <div class="info-list-icon">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <div class="info-list-content">
+                            <div class="info-list-label">Sumber Data</div>
+                            <div class="info-list-value">Laporan Bulanan dan Laporan Tahunan</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Catatan Perhitungan -->
+                <div>
+                    <div class="fw-bold text-uppercase text-secondary mb-2 fs-10" style="letter-spacing: 0.5px;">Catatan Penting</div>
+                    <p class="fs-12 text-muted mb-2">Permohonan eksekusi yang diselesaikan meliputi:</p>
+                    <ol type="a" class="catatan-list ps-3">
+                        <li class="mb-2">Berhasil dilaksanakan eksekusi;</li>
+                        <li class="mb-2">Dicabut; dan</li>
+                        <li>Dicoret dari register termasuk <i>non executable</i>.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -98,7 +152,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <div class="row g-4">
     <!-- Left Column: Filter & Table (Col 8/9) -->
-    <div class="col-lg-8 col-xl-9">
+    <div class="col-lg-12">
         <!-- Filter Card -->
         <div class="card filter-card mb-4">
             <div class="card-header bg-transparent border-0 pt-3 pb-0">
@@ -200,63 +254,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <?php endif; ?>
                         </tbody>
                     </table>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Right Column: IKU Metadata Sidebar (Col 4/3) -->
-    <div class="col-lg-4 col-xl-3 mb-4">
-        <div class="card info-sidebar-card">
-            <div class="card-header bg-transparent border-bottom border-light py-3">
-                <h6 class="card-title fw-bold mb-0 text-dark"><i class="fas fa-info-circle me-2 text-success"></i>Definisi & Aturan IKU</h6>
-            </div>
-            <div class="card-body">
-                <!-- Rumus Formula Perhitungan -->
-                <div class="formula-container text-center mb-4">
-                    <div class="fw-bold text-uppercase text-secondary mb-2 fs-10 text-start" style="letter-spacing: 0.5px;">Rumus Perhitungan</div>
-                    <div class="d-inline-flex align-items-center flex-wrap justify-content-center">
-                        <div class="formula-text me-2">Persentase =</div>
-                        <div class="formula-fraction">
-                            <span class="fraction-numerator">Jumlah permohonan eksekusi putusan perdata yang diselesaikan</span>
-                            <span class="fraction-denominator">Jumlah putusan perdata yang dimohonkan eksekusi</span>
-                        </div>
-                        <div class="formula-text ms-2">x 100%</div>
-                    </div>
-                </div>
-
-                <!-- Penanggung Jawab & Sumber Data -->
-                <div class="mb-4">
-                    <div class="info-list-item">
-                        <div class="info-list-icon">
-                            <i class="fas fa-user-shield"></i>
-                        </div>
-                        <div class="info-list-content">
-                            <div class="info-list-label">Penanggung Jawab</div>
-                            <div class="info-list-value">Panitera</div>
-                        </div>
-                    </div>
-
-                    <div class="info-list-item">
-                        <div class="info-list-icon">
-                            <i class="fas fa-database"></i>
-                        </div>
-                        <div class="info-list-content">
-                            <div class="info-list-label">Sumber Data</div>
-                            <div class="info-list-value">Laporan Bulanan dan Laporan Tahunan</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Catatan Perhitungan -->
-                <div>
-                    <div class="fw-bold text-uppercase text-secondary mb-2 fs-10" style="letter-spacing: 0.5px;">Catatan Penting</div>
-                    <p class="fs-12 text-muted mb-2">Permohonan eksekusi yang diselesaikan meliputi:</p>
-                    <ol type="a" class="catatan-list ps-3">
-                        <li class="mb-2">Berhasil dilaksanakan eksekusi;</li>
-                        <li class="mb-2">Dicabut; dan</li>
-                        <li>Dicoret dari register termasuk <i>non executable</i>.</li>
-                    </ol>
                 </div>
             </div>
         </div>

@@ -48,6 +48,69 @@ $selectedPeriode = isset($selectedPeriode) ? $selectedPeriode : 'tahunan';
                 </div>
             </div>
         </div>
+
+        <div class="card info-sidebar-card">
+            <div class="card-header bg-transparent border-bottom border-light py-3">
+                <h6 class="card-title fw-bold mb-0 text-dark"><i class="fas fa-info-circle me-2 text-success"></i>Definisi & Aturan IKU</h6>
+            </div>
+            <div class="card-body">
+                <!-- Rumus Formula Perhitungan -->
+                <div class="formula-container text-center mb-4">
+                    <div class="fw-bold text-uppercase text-secondary mb-2 fs-10 text-start" style="letter-spacing: 0.5px;">Rumus Perhitungan</div>
+                    <div class="d-inline-flex align-items-center flex-wrap justify-content-center">
+                        <div class="formula-text me-2">Persentase =</div>
+                        <div class="formula-fraction">
+                            <span class="fraction-numerator">Jml Perkara Perdata Tingkat Pertama Diajukan e-Court</span>
+                            <span class="fraction-denominator">Jml Perkara Perdata Tingkat Pertama Diajukan</span>
+                        </div>
+                        <div class="formula-text ms-2">x 100%</div>
+                    </div>
+                </div>
+
+                <!-- Penanggung Jawab & Sumber Data -->
+                <div class="mb-4">
+                    <div class="info-list-item">
+                        <div class="info-list-icon">
+                            <i class="fas fa-user-shield"></i>
+                        </div>
+                        <div class="info-list-content">
+                            <div class="info-list-label">Penanggung Jawab</div>
+                            <div class="info-list-value">Panitera</div>
+                        </div>
+                    </div>
+
+                    <div class="info-list-item">
+                        <div class="info-list-icon">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <div class="info-list-content">
+                            <div class="info-list-label">Sumber Data</div>
+                            <div class="info-list-value">Laporan Bulanan & Laporan Tahunan</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dasar Hukum -->
+                <div class="mb-4">
+                    <div class="fw-bold text-uppercase text-secondary mb-2 fs-10" style="letter-spacing: 0.5px;">Dasar Hukum</div>
+                    <div class="dasar-hukum-box">
+                        <ul class="ps-2 mb-0" style="list-style-type: square; padding-left: 15px !important;">
+                            <li class="mb-2">Peraturan Mahkamah Agung Nomor 7 Tahun 2022 tentang Perubahan Atas PERMA No. 1 Tahun 2019 tentang Administrasi Perkara dan Persidangan di Pengadilan Secara Elektronik.</li>
+                            <li>Keputusan Ketua Mahkamah Agung Nomor 363/KMA/SK/XII/2022 tentang Petunjuk Teknis Administrasi dan Persidangan Perkara Perdata, Perkara Agama, dan Tata Usaha Negara di Pengadilan Secara Elektronik.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Catatan Kriteria -->
+                <div>
+                    <div class="fw-bold text-uppercase text-secondary mb-2 fs-10" style="letter-spacing: 0.5px;">Catatan Kriteria</div>
+                    <ol class="catatan-list">
+                        <li>Jumlah perkara perdata yang didaftarkan meliputi jumlah perkara perdata yang diajukan secara elektronik melalui e-Court dan perkara perdata yang diajukan secara konvensional.</li>
+                        <li>Pembagi jumlah perkara perdata tingkat pertama yang diajukan sama dengan didaftarkan.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -60,23 +123,23 @@ $selectedPeriode = isset($selectedPeriode) ? $selectedPeriode : 'tahunan';
                 <div class="d-flex align-items-center justify-content-between">
                     <div>
                         <p class="text-muted mb-1 fs-13 fw-medium">Total Perkara Diajukan</p>
-                        <h3 id="stat-total-count" class="fw-bold mb-0 text-dark"><?php echo $totalDiajukanCount; ?></h3>
+                        <h3 id="stat-total-diajukan-count" class="fw-bold mb-0 text-dark"><?php echo $totalDiajukanCount; ?></h3>
                     </div>
                     <div class="stat-icon">
-                        <i class="fas fa-folder"></i>
+                        <i class="fas fa-folder-open"></i>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Card 2: Diajukan Melalui e-Court -->
+    <!-- Card 2: Perkara Via e-Court (Pembilang) -->
     <div class="col-md-3">
         <div class="card indicator-stat-card">
             <div class="card-body p-4">
                 <div class="d-flex align-items-center justify-content-between">
                     <div>
-                        <p class="text-muted mb-1 fs-13 fw-medium">Penggunaan e-Court</p>
+                        <p class="text-muted mb-1 fs-13 fw-medium">Perkara e-Court</p>
                         <h3 id="stat-ecourt" class="fw-bold mb-0 text-dark">
                             <span class="value"><?php echo $ecourtCount; ?></span>
                             <span class="fs-14 text-muted fw-normal">/ <span class="total-value"><?php echo $totalDiajukanCount; ?></span> Perkara</span>
@@ -90,28 +153,27 @@ $selectedPeriode = isset($selectedPeriode) ? $selectedPeriode : 'tahunan';
         </div>
     </div>
 
-    <!-- Card 3: Diajukan Secara Konvensional -->
+    <!-- Card 3: Perkara Konvensional -->
     <div class="col-md-3">
         <div class="card indicator-stat-card">
             <div class="card-body p-4">
                 <div class="d-flex align-items-center justify-content-between">
                     <div>
-                        <p class="text-muted mb-1 fs-13 fw-medium">Konvensional</p>
+                        <p class="text-muted mb-1 fs-13 fw-medium">Perkara Konvensional</p>
                         <h3 id="stat-konvensional" class="fw-bold mb-0 text-dark">
                             <span class="value"><?php echo $konvensionalCount; ?></span>
                             <span class="fs-14 text-muted fw-normal">/ <span class="total-value"><?php echo $totalDiajukanCount; ?></span> Perkara</span>
                         </h3>
                     </div>
-                    <div class="stat-icon"
-                        style="background: linear-gradient(135deg, rgba(100, 116, 139, 0.08), rgba(71, 85, 105, 0.08)); color: #64748b;">
-                        <i class="fas fa-file-alt"></i>
+                    <div class="stat-icon" style="background: linear-gradient(135deg, rgba(108, 117, 125, 0.08), rgba(173, 181, 189, 0.08)); color: #6c757d;">
+                        <i class="fas fa-building"></i>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Card 4: Persentase Capaian e-Court -->
+    <!-- Card 4: Persentase Capaian -->
     <div class="col-md-3">
         <div class="card indicator-stat-card">
             <div class="card-body p-4">
@@ -131,7 +193,7 @@ $selectedPeriode = isset($selectedPeriode) ? $selectedPeriode : 'tahunan';
 
 <div class="row g-4">
     <!-- Left Column: Filter & Table (Col 8/9) -->
-    <div class="col-lg-8 col-xl-9">
+    <div class="col-lg-12">
         <!-- Filter Card -->
         <div class="card filter-card mb-4">
             <div class="card-header bg-transparent border-0 pt-3 pb-0">
@@ -220,72 +282,6 @@ $selectedPeriode = isset($selectedPeriode) ? $selectedPeriode : 'tahunan';
                             <?php endif; ?>
                         </tbody>
                     </table>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Right Column: IKU Metadata Sidebar (Col 4/3) -->
-    <div class="col-lg-4 col-xl-3 mb-4">
-        <div class="card info-sidebar-card">
-            <div class="card-header bg-transparent border-bottom border-light py-3">
-                <h6 class="card-title fw-bold mb-0 text-dark"><i class="fas fa-info-circle me-2 text-success"></i>Definisi & Aturan IKU</h6>
-            </div>
-            <div class="card-body">
-                <!-- Rumus Formula Perhitungan -->
-                <div class="formula-container text-center mb-4">
-                    <div class="fw-bold text-uppercase text-secondary mb-2 fs-10 text-start" style="letter-spacing: 0.5px;">Rumus Perhitungan</div>
-                    <div class="d-inline-flex align-items-center flex-wrap justify-content-center">
-                        <div class="formula-text me-2">Persentase =</div>
-                        <div class="formula-fraction">
-                            <span class="fraction-numerator">Jml Perkara Perdata Tingkat Pertama Diajukan e-Court</span>
-                            <span class="fraction-denominator">Jml Perkara Perdata Tingkat Pertama Diajukan</span>
-                        </div>
-                        <div class="formula-text ms-2">x 100%</div>
-                    </div>
-                </div>
-
-                <!-- Penanggung Jawab & Sumber Data -->
-                <div class="mb-4">
-                    <div class="info-list-item">
-                        <div class="info-list-icon">
-                            <i class="fas fa-user-shield"></i>
-                        </div>
-                        <div class="info-list-content">
-                            <div class="info-list-label">Penanggung Jawab</div>
-                            <div class="info-list-value">Panitera</div>
-                        </div>
-                    </div>
-
-                    <div class="info-list-item">
-                        <div class="info-list-icon">
-                            <i class="fas fa-database"></i>
-                        </div>
-                        <div class="info-list-content">
-                            <div class="info-list-label">Sumber Data</div>
-                            <div class="info-list-value">Laporan Bulanan & Laporan Tahunan</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Dasar Hukum -->
-                <div class="mb-4">
-                    <div class="fw-bold text-uppercase text-secondary mb-2 fs-10" style="letter-spacing: 0.5px;">Dasar Hukum</div>
-                    <div class="dasar-hukum-box">
-                        <ul class="ps-2 mb-0" style="list-style-type: square; padding-left: 15px !important;">
-                            <li class="mb-2">Peraturan Mahkamah Agung Nomor 7 Tahun 2022 tentang Perubahan Atas PERMA No. 1 Tahun 2019 tentang Administrasi Perkara dan Persidangan di Pengadilan Secara Elektronik.</li>
-                            <li>Keputusan Ketua Mahkamah Agung Nomor 363/KMA/SK/XII/2022 tentang Petunjuk Teknis Administrasi dan Persidangan Perkara Perdata, Perkara Agama, dan Tata Usaha Negara di Pengadilan Secara Elektronik.</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Catatan Kriteria -->
-                <div>
-                    <div class="fw-bold text-uppercase text-secondary mb-2 fs-10" style="letter-spacing: 0.5px;">Catatan Kriteria</div>
-                    <ol class="catatan-list">
-                        <li>Jumlah perkara perdata yang didaftarkan meliputi jumlah perkara perdata yang diajukan secara elektronik melalui e-Court dan perkara perdata yang diajukan secara konvensional.</li>
-                        <li>Pembagi jumlah perkara perdata tingkat pertama yang diajukan sama dengan didaftarkan.</li>
-                    </ol>
                 </div>
             </div>
         </div>

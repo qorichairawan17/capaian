@@ -37,12 +37,80 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
             </div>
         </div>
+
+        <div class="card info-sidebar-card">
+            <div class="card-header bg-transparent border-bottom border-light py-3">
+                <h6 class="card-title fw-bold mb-0 text-dark"><i class="fas fa-info-circle me-2 text-success"></i>Definisi & Aturan IKU</h6>
+            </div>
+            <div class="card-body">
+                <!-- Rumus Formula Perhitungan -->
+                <div class="formula-container text-center mb-4">
+                    <div class="fw-bold text-uppercase text-secondary mb-2 fs-10 text-start" style="letter-spacing: 0.5px;">Rumus Perhitungan</div>
+                    <div class="d-inline-flex align-items-center flex-wrap justify-content-center">
+                        <div class="formula-text me-2">Persentase =</div>
+                        <div class="formula-fraction">
+                            <span class="fraction-numerator">Jumlah salinan putusan yang tersedia/dikirimkan kepada para pihak secara tepat waktu</span>
+                            <span class="fraction-denominator">Jumlah perkara yang diputus</span>
+                        </div>
+                        <div class="formula-text ms-2">x 100%</div>
+                    </div>
+                </div>
+
+                <!-- Penanggung Jawab & Sumber Data -->
+                <div class="mb-4">
+                    <div class="info-list-item">
+                        <div class="info-list-icon">
+                            <i class="fas fa-user-shield"></i>
+                        </div>
+                        <div class="info-list-content">
+                            <div class="info-list-label">Penanggung Jawab</div>
+                            <div class="info-list-value">Panitera</div>
+                        </div>
+                    </div>
+
+                    <div class="info-list-item">
+                        <div class="info-list-icon">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <div class="info-list-content">
+                            <div class="info-list-label">Sumber Data</div>
+                            <div class="info-list-value">Laporan Bulanan dan Laporan Tahunan</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dasar Hukum -->
+                <div class="mb-4">
+                    <div class="fw-bold text-uppercase text-secondary mb-2 fs-10" style="letter-spacing: 0.5px;">Dasar Hukum</div>
+                    <div class="dasar-hukum-box">
+                        <ul class="ps-2 mb-0" style="list-style-type: square; padding-left: 15px !important;">
+                            <li class="mb-2">Surat Keputusan Ketua Mahkamah Agung Nomor 026/KMA/SK/II/2012 tentang Standar Pelayanan Peradilan (Jangka Waktu Pengiriman Salinan Putusan).</li>
+                            <li>Ketentuan dan petunjuk teknis Mahkamah Agung RI terkait penyediaan dan pengiriman salinan putusan perkara.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Catatan Perhitungan -->
+                <div>
+                    <div class="fw-bold text-uppercase text-secondary mb-2 fs-10" style="letter-spacing: 0.5px;">Catatan Penting</div>
+                    <ol class="catatan-list ps-3">
+                        <li class="mb-2">Untuk perkara perdata sebagai pengadilan tingkat pertama, kinerja dihitung sejak putusan diucapkan sampai dengan tersedianya salinan putusan pada SIP (Sistem Informasi Pengadilan). Pada perkara konvensional dikurangi tenggang waktu penyelesaian putusan 14 hari kerja untuk perkara pidana 7 hari.</li>
+                        <li>Kinerja pengiriman salinan putusan untuk perkara pidana sebagai pengadilan tingkat pertama yang dilakukan secara konvensional/elektronik/surat tercatat dengan penjelasan sebagai berikut:
+                            <ol type="a" class="ps-3 mt-1 mb-0">
+                                <li>Kinerja pengiriman salinan putusan melalui jurusita dihitung sejak putusan diucapkan sampai dengan salinan putusan diterima oleh para pihak;</li>
+                                <li>Kinerja pengiriman salinan putusan dengan metode pengiriman elektronik dihitung pada hari dan tanggal yang sama dengan pengucapan putusan;</li>
+                                <li>Kinerja pengiriman salinan putusan melalui surat tercatat/pihak ketiga dihitung sejak putusan diucapkan sampai dengan salinan putusan disampaikan kepada para pihak.</li>
+                            </ol>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
 <!-- Stats Row -->
 <div class="row mb-4 g-3">
-
     <div class="col-md-4">
         <div class="card indicator-stat-card">
             <div class="card-body p-4">
@@ -99,7 +167,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <div class="row g-4">
     <!-- Left Column: Filter & Table (Col 8/9) -->
-    <div class="col-lg-8 col-xl-9">
+    <div class="col-lg-12">
         <!-- Filter Card -->
         <div class="card filter-card mb-4">
             <div class="card-header bg-transparent border-0 pt-3 pb-0">
@@ -208,78 +276,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <?php endif; ?>
                         </tbody>
                     </table>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Right Column: IKU Metadata Sidebar (Col 4/3) -->
-    <div class="col-lg-4 col-xl-3 mb-4">
-        <div class="card info-sidebar-card">
-            <div class="card-header bg-transparent border-bottom border-light py-3">
-                <h6 class="card-title fw-bold mb-0 text-dark"><i class="fas fa-info-circle me-2 text-success"></i>Definisi & Aturan IKU</h6>
-            </div>
-            <div class="card-body">
-                <!-- Rumus Formula Perhitungan -->
-                <div class="formula-container text-center mb-4">
-                    <div class="fw-bold text-uppercase text-secondary mb-2 fs-10 text-start" style="letter-spacing: 0.5px;">Rumus Perhitungan</div>
-                    <div class="d-inline-flex align-items-center flex-wrap justify-content-center">
-                        <div class="formula-text me-2">Persentase =</div>
-                        <div class="formula-fraction">
-                            <span class="fraction-numerator">Jumlah salinan putusan yang tersedia/dikirimkan kepada para pihak secara tepat waktu</span>
-                            <span class="fraction-denominator">Jumlah perkara yang diputus</span>
-                        </div>
-                        <div class="formula-text ms-2">x 100%</div>
-                    </div>
-                </div>
-
-                <!-- Penanggung Jawab & Sumber Data -->
-                <div class="mb-4">
-                    <div class="info-list-item">
-                        <div class="info-list-icon">
-                            <i class="fas fa-user-shield"></i>
-                        </div>
-                        <div class="info-list-content">
-                            <div class="info-list-label">Penanggung Jawab</div>
-                            <div class="info-list-value">Panitera</div>
-                        </div>
-                    </div>
-
-                    <div class="info-list-item">
-                        <div class="info-list-icon">
-                            <i class="fas fa-database"></i>
-                        </div>
-                        <div class="info-list-content">
-                            <div class="info-list-label">Sumber Data</div>
-                            <div class="info-list-value">Laporan Bulanan dan Laporan Tahunan</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Dasar Hukum -->
-                <div class="mb-4">
-                    <div class="fw-bold text-uppercase text-secondary mb-2 fs-10" style="letter-spacing: 0.5px;">Dasar Hukum</div>
-                    <div class="dasar-hukum-box">
-                        <ul class="ps-2 mb-0" style="list-style-type: square; padding-left: 15px !important;">
-                            <li class="mb-2">Surat Keputusan Ketua Mahkamah Agung Nomor 026/KMA/SK/II/2012 tentang Standar Pelayanan Peradilan (Jangka Waktu Pengiriman Salinan Putusan).</li>
-                            <li>Ketentuan dan petunjuk teknis Mahkamah Agung RI terkait penyediaan dan pengiriman salinan putusan perkara.</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Catatan Perhitungan -->
-                <div>
-                    <div class="fw-bold text-uppercase text-secondary mb-2 fs-10" style="letter-spacing: 0.5px;">Catatan Penting</div>
-                    <ol class="catatan-list ps-3">
-                        <li class="mb-2">Untuk perkara perdata sebagai pengadilan tingkat pertama, kinerja dihitung sejak putusan diucapkan sampai dengan tersedianya salinan putusan pada SIP (Sistem Informasi Pengadilan). Pada perkara konvensional dikurangi tenggang waktu penyelesaian putusan 14 hari kerja untuk perkara pidana 7 hari.</li>
-                        <li>Kinerja pengiriman salinan putusan untuk perkara pidana sebagai pengadilan tingkat pertama yang dilakukan secara konvensional/elektronik/surat tercatat dengan penjelasan sebagai berikut:
-                            <ol type="a" class="ps-3 mt-1 mb-0">
-                                <li>Kinerja pengiriman salinan putusan melalui jurusita dihitung sejak putusan diucapkan sampai dengan salinan putusan diterima oleh para pihak;</li>
-                                <li>Kinerja pengiriman salinan putusan dengan metode pengiriman elektronik dihitung pada hari dan tanggal yang sama dengan pengucapan putusan;</li>
-                                <li>Kinerja pengiriman salinan putusan melalui surat tercatat/pihak ketiga dihitung sejak putusan diucapkan sampai dengan salinan putusan disampaikan kepada para pihak.</li>
-                            </ol>
-                        </li>
-                    </ol>
                 </div>
             </div>
         </div>

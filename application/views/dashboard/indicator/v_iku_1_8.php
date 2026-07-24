@@ -41,6 +41,67 @@ $selectedPeriode = isset($selectedPeriode) ? $selectedPeriode : 'tahunan';
                 </div>
             </div>
         </div>
+
+        <div class="card info-sidebar-card">
+            <div class="card-header bg-transparent border-bottom border-light py-3">
+                <h6 class="card-title fw-bold mb-0 text-dark"><i class="fas fa-info-circle me-2 text-success"></i>Definisi & Aturan IKU</h6>
+            </div>
+            <div class="card-body">
+                <!-- Rumus Formula Perhitungan -->
+                <div class="formula-container text-center mb-4">
+                    <div class="fw-bold text-uppercase text-secondary mb-2 fs-10 text-start" style="letter-spacing: 0.5px;">Rumus Perhitungan</div>
+                    <div class="d-inline-flex align-items-center flex-wrap justify-content-center">
+                        <div class="formula-text me-2">Persentase =</div>
+                        <div class="formula-fraction">
+                            <span class="fraction-numerator">Jml Perkara Berhasil Diselesaikan Melalui Mediasi</span>
+                            <span class="fraction-denominator">Jml Perkara yang Wajib Dilaksanakan Mediasi</span>
+                        </div>
+                        <div class="formula-text ms-2">x 100%</div>
+                    </div>
+                </div>
+
+                <!-- Penanggung Jawab & Sumber Data -->
+                <div class="mb-4">
+                    <div class="info-list-item">
+                        <div class="info-list-icon">
+                            <i class="fas fa-user-shield"></i>
+                        </div>
+                        <div class="info-list-content">
+                            <div class="info-list-label">Penanggung Jawab</div>
+                            <div class="info-list-value">Panitera</div>
+                        </div>
+                    </div>
+
+                    <div class="info-list-item">
+                        <div class="info-list-icon">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <div class="info-list-content">
+                            <div class="info-list-label">Sumber Data</div>
+                            <div class="info-list-value">Laporan Bulanan & Laporan Tahunan</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Catatan Penjelasan -->
+                <div>
+                    <div class="fw-bold text-uppercase text-secondary mb-2 fs-10" style="letter-spacing: 0.5px;">Catatan Penjelasan</div>
+                    <ol class="catatan-list ps-3 mb-0" style="font-size: 11.5px;">
+                        <li class="mb-2">
+                            <strong>Perkara yang berhasil diselesaikan mediasi meliputi:</strong>
+                            <ul class="ps-3 mt-1 mb-0" style="list-style-type: circle;">
+                                <li>Perkara yang berhasil didamaikan seluruhnya dengan akta perdamaian atau pencabutan perkara;</li>
+                                <li>Perkara yang berhasil didamaikan sebagian.</li>
+                            </ul>
+                        </li>
+                        <li class="mb-2">Kinerja mediasi dihitung atas keberhasilan mediasi yang dilaksanakan oleh <strong>mediator hakim</strong>
+                            ataupun <strong>non hakim</strong>.</li>
+                        <li>Jumlah perkara yang wajib dilaksanakan mediasi <strong>tidak termasuk</strong> perkara yang tidak dapat dilaksanakan
+                            mediasi karena ketidakhadiran salah satu pihak.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -51,11 +112,11 @@ $selectedPeriode = isset($selectedPeriode) ? $selectedPeriode : 'tahunan';
             <div class="card-body p-4">
                 <div class="d-flex align-items-center justify-content-between">
                     <div>
-                        <p class="text-muted mb-1 fs-13 fw-medium">Wajib Dilaksanakan Mediasi</p>
-                        <h3 id="stat-total-count" class="fw-bold mb-0 text-dark"><?php echo $totalWajibMediasiCount; ?></h3>
+                        <p class="text-muted mb-1 fs-13 fw-medium">Perkara Wajib Mediasi</p>
+                        <h3 id="stat-wajib-mediasi-count" class="fw-bold mb-0 text-dark"><?php echo $wajibMediasiCount; ?></h3>
                     </div>
                     <div class="stat-icon">
-                        <i class="fas fa-folder-open"></i>
+                        <i class="fas fa-balance-scale"></i>
                     </div>
                 </div>
             </div>
@@ -68,14 +129,13 @@ $selectedPeriode = isset($selectedPeriode) ? $selectedPeriode : 'tahunan';
                 <div class="d-flex align-items-center justify-content-between">
                     <div>
                         <p class="text-muted mb-1 fs-13 fw-medium">Berhasil Mediasi</p>
-                        <h3 id="stat-berhasil" class="fw-bold mb-0 text-dark">
+                        <h3 id="stat-berhasil-mediasi" class="fw-bold mb-0 text-dark">
                             <span class="value"><?php echo $berhasilMediasiCount; ?></span>
-                            <span class="fs-14 text-muted fw-normal">/ <span class="total-value"><?php echo $totalWajibMediasiCount; ?></span>
-                                Perkara</span>
+                            <span class="fs-14 text-muted fw-normal">/ <span class="total-value"><?php echo $wajibMediasiCount; ?></span> Perkara</span>
                         </h3>
                     </div>
                     <div class="stat-icon" style="background: linear-gradient(135deg, rgba(56, 198, 108, 0.08), rgba(46, 168, 91, 0.08));">
-                        <i class="fas fa-users"></i>
+                        <i class="fas fa-handshake"></i>
                     </div>
                 </div>
             </div>
@@ -88,10 +148,9 @@ $selectedPeriode = isset($selectedPeriode) ? $selectedPeriode : 'tahunan';
                 <div class="d-flex align-items-center justify-content-between">
                     <div>
                         <p class="text-muted mb-1 fs-13 fw-medium">Tidak Berhasil Mediasi</p>
-                        <h3 id="stat-gagal" class="fw-bold mb-0 text-dark">
-                            <span class="value"><?php echo $gagalMediasiCount; ?></span>
-                            <span class="fs-14 text-muted fw-normal">/ <span class="total-value"><?php echo $totalWajibMediasiCount; ?></span>
-                                Perkara</span>
+                        <h3 id="stat-tidak-berhasil-mediasi" class="fw-bold mb-0 text-dark">
+                            <span class="value"><?php echo $tidakBerhasilMediasiCount; ?></span>
+                            <span class="fs-14 text-muted fw-normal">/ <span class="total-value"><?php echo $wajibMediasiCount; ?></span> Perkara</span>
                         </h3>
                     </div>
                     <div class="stat-icon"
@@ -122,7 +181,7 @@ $selectedPeriode = isset($selectedPeriode) ? $selectedPeriode : 'tahunan';
 
 <div class="row g-4">
     <!-- Left Column: Filter & Table (Col 8/9) -->
-    <div class="col-lg-8 col-xl-9">
+    <div class="col-lg-12">
         <!-- Filter Card -->
         <div class="card filter-card mb-4">
             <div class="card-header bg-transparent border-0 pt-3 pb-0">
@@ -219,70 +278,6 @@ $selectedPeriode = isset($selectedPeriode) ? $selectedPeriode : 'tahunan';
                             <?php endif; ?>
                         </tbody>
                     </table>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Right Column: IKU Metadata Sidebar (Col 4/3) -->
-    <div class="col-lg-4 col-xl-3 mb-4">
-        <div class="card info-sidebar-card">
-            <div class="card-header bg-transparent border-bottom border-light py-3">
-                <h6 class="card-title fw-bold mb-0 text-dark"><i class="fas fa-info-circle me-2 text-success"></i>Definisi & Aturan IKU</h6>
-            </div>
-            <div class="card-body">
-                <!-- Rumus Formula Perhitungan -->
-                <div class="formula-container text-center mb-4">
-                    <div class="fw-bold text-uppercase text-secondary mb-2 fs-10 text-start" style="letter-spacing: 0.5px;">Rumus Perhitungan</div>
-                    <div class="d-inline-flex align-items-center flex-wrap justify-content-center">
-                        <div class="formula-text me-2">Persentase =</div>
-                        <div class="formula-fraction">
-                            <span class="fraction-numerator">Jml Perkara Berhasil Diselesaikan Melalui Mediasi</span>
-                            <span class="fraction-denominator">Jml Perkara yang Wajib Dilaksanakan Mediasi</span>
-                        </div>
-                        <div class="formula-text ms-2">x 100%</div>
-                    </div>
-                </div>
-
-                <!-- Penanggung Jawab & Sumber Data -->
-                <div class="mb-4">
-                    <div class="info-list-item">
-                        <div class="info-list-icon">
-                            <i class="fas fa-user-shield"></i>
-                        </div>
-                        <div class="info-list-content">
-                            <div class="info-list-label">Penanggung Jawab</div>
-                            <div class="info-list-value">Panitera</div>
-                        </div>
-                    </div>
-
-                    <div class="info-list-item">
-                        <div class="info-list-icon">
-                            <i class="fas fa-database"></i>
-                        </div>
-                        <div class="info-list-content">
-                            <div class="info-list-label">Sumber Data</div>
-                            <div class="info-list-value">Laporan Bulanan & Laporan Tahunan</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Catatan Penjelasan -->
-                <div>
-                    <div class="fw-bold text-uppercase text-secondary mb-2 fs-10" style="letter-spacing: 0.5px;">Catatan Penjelasan</div>
-                    <ol class="catatan-list ps-3 mb-0" style="font-size: 11.5px;">
-                        <li class="mb-2">
-                            <strong>Perkara yang berhasil diselesaikan mediasi meliputi:</strong>
-                            <ul class="ps-3 mt-1 mb-0" style="list-style-type: circle;">
-                                <li>Perkara yang berhasil didamaikan seluruhnya dengan akta perdamaian atau pencabutan perkara;</li>
-                                <li>Perkara yang berhasil didamaikan sebagian.</li>
-                            </ul>
-                        </li>
-                        <li class="mb-2">Kinerja mediasi dihitung atas keberhasilan mediasi yang dilaksanakan oleh <strong>mediator hakim</strong>
-                            ataupun <strong>non hakim</strong>.</li>
-                        <li>Jumlah perkara yang wajib dilaksanakan mediasi <strong>tidak termasuk</strong> perkara yang tidak dapat dilaksanakan
-                            mediasi karena ketidakhadiran salah satu pihak.</li>
-                    </ol>
                 </div>
             </div>
         </div>
