@@ -1,0 +1,209 @@
+/* ==========================================
+   IKU 1.11 Perkara Pidana Dilimpahkan via e-Berpadu Custom Styling
+   (Themed to match IKU 1.1)
+   ========================================== */
+
+.indicator-banner {
+    background: #ffffff;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.015);
+    position: relative;
+    overflow: hidden;
+}
+.indicator-banner::before {
+    content: '';
+    position: absolute;
+    width: 6px;
+    height: 100%;
+    background-color: #38c66c;
+    left: 0;
+    top: 0;
+}
+.indicator-stat-card {
+    background: #ffffff;
+    border-radius: 14px;
+    border: 1px solid #e2e8f0;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.01);
+}
+.indicator-stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(56, 198, 108, 0.06);
+}
+.indicator-stat-card .stat-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    background: linear-gradient(135deg, rgba(56, 198, 108, 0.08), rgba(65, 195, 169, 0.08));
+    color: #38c66c;
+}
+.filter-card {
+    border-radius: 14px;
+    border: 1px solid #e2e8f0;
+    background-color: #ffffff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.01);
+}
+.data-card {
+    border-radius: 14px;
+    border: 1px solid #e2e8f0;
+    background-color: #ffffff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.015);
+}
+.btn-filter-apply {
+    background-color: #38c66c;
+    border-color: #38c66c;
+    color: #ffffff;
+    font-weight: 600;
+    padding: 0.55rem 1.5rem;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+.btn-filter-apply:hover, .btn-filter-apply:focus {
+    background-color: #2ea85b;
+    border-color: #2ea85b;
+    color: #ffffff;
+}
+.btn-filter-reset {
+    border-radius: 8px;
+    padding: 0.55rem 1.25rem;
+    font-weight: 500;
+}
+.badge-eberpadu {
+    background-color: rgba(56, 198, 108, 0.1);
+    color: #1e824c;
+    font-weight: 600;
+    border: 1px solid rgba(56, 198, 108, 0.2);
+}
+.badge-konvensional {
+    background-color: #f1f5f9;
+    color: #475569;
+    font-weight: 600;
+    border: 1px solid #cbd5e1;
+}
+.badge-jenis {
+    background-color: rgba(14, 165, 233, 0.08);
+    color: #0284c7;
+    font-weight: 550;
+    border: 1px solid rgba(14, 165, 233, 0.18);
+}
+
+/* Customize table look */
+table.dataTable {
+    border-collapse: collapse !important;
+}
+table.dataTable thead th {
+    background-color: #f8fafc;
+    color: #334155;
+    font-weight: 600;
+    border-bottom: 2px solid #e2e8f0 !important;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+    padding: 12px 16px !important;
+}
+table.dataTable tbody td {
+    padding: 12px 16px !important;
+    vertical-align: middle;
+    border-bottom: 1px solid #f1f5f9 !important;
+    color: #334155;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button.active .page-link {
+    background-color: #38c66c !important;
+    border-color: #38c66c !important;
+}
+
+/* Info Sidebar Styles */
+.info-sidebar-card {
+    border-radius: 14px;
+    border: 1px solid #e2e8f0;
+    background-color: #ffffff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.015);
+    height: fit-content;
+}
+.formula-container {
+    background-color: #f8fafc;
+    border: 1px dashed #cbd5e1;
+    border-radius: 8px;
+    padding: 15px 10px;
+}
+.formula-fraction {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    vertical-align: middle;
+    line-height: 1.2;
+}
+.fraction-numerator {
+    border-bottom: 1px solid #475569;
+    padding-bottom: 4px;
+    margin-bottom: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #1e293b;
+    text-align: center;
+}
+.fraction-denominator {
+    font-size: 11px;
+    font-weight: 600;
+    color: #1e293b;
+    text-align: center;
+}
+.formula-text {
+    font-size: 12px;
+    font-weight: 700;
+    color: #0f172a;
+}
+.info-list-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+.info-list-item:last-child {
+    margin-bottom: 0;
+}
+.info-list-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background-color: rgba(56, 198, 108, 0.08);
+    color: #38c66c;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+.info-list-content {
+    flex-grow: 1;
+}
+.info-list-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+    letter-spacing: 0.5px;
+}
+.info-list-value {
+    font-size: 13px;
+    font-weight: 600;
+    color: #1e293b;
+}
+.catatan-list {
+    font-size: 12px;
+    color: #475569;
+    padding-left: 18px;
+    margin-bottom: 0;
+}
+.catatan-list li {
+    margin-bottom: 8px;
+}
+.catatan-list li:last-child {
+    margin-bottom: 0;
+}

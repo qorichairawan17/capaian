@@ -600,3 +600,306 @@ Contoh: fitur **"Update User Profile"**.
 | Kontrak akses data                                      | Domain         | `App\Domain\Repositories\...Interface`               |
 | Session/flashdata/redirect                              | Presentation   | Controller                                           |
 | Tampilan HTML                                           | Presentation   | `application/views`                                  |
+
+---
+
+## 14. Design System — Panduan Tampilan UI (Futuristic & Clean)
+
+> [!IMPORTANT]
+> Semua tampilan baru di project ini **wajib** mengikuti design system di bawah ini. Jangan menggunakan warna, font, atau class ad-hoc yang tidak konsisten dengan palette yang sudah ada. Cek file CSS yang relevan di `assets/css/` sebelum menulis HTML/CSS baru.
+
+### 14.1 Color Palette (Token Resmi Project)
+
+Seluruh warna bersumber dari CSS Custom Properties yang sudah didefinisikan di `assets/css/custom-home.css` dan digunakan secara konsisten di semua halaman.
+
+| Token CSS                  | Nilai HEX / RGB               | Peran                                          |
+| -------------------------- | ----------------------------- | ---------------------------------------------- |
+| `--home-primary`           | `#38c66c`                     | Primary brand color — CTA, badge, link, border |
+| `--home-primary-rgb`       | `56, 198, 108`                | Versi RGB untuk `rgba(...)` overlay/glassmorphism |
+| `--home-primary-dark`      | `#2ea85b`                     | Hover state primary                            |
+| `--home-primary-darker`    | `#227741`                     | Active state / badge text                      |
+| `--home-accent`            | `#41c3a9`                     | Accent teal — gradient pair dengan primary     |
+| `--home-accent-rgb`        | `65, 195, 169`                | Versi RGB untuk rgba accent overlay            |
+| `--home-text-dark`         | `#0f172a`                     | Heading utama, teks paling gelap               |
+| `--home-text`              | `#1e293b`                     | Body text default                              |
+| `--home-text-muted`        | `#64748b`                     | Teks sekunder / subtitle                       |
+| `--home-text-light`        | `#94a3b8`                     | Placeholder, label kecil, footer note          |
+| `--home-bg`                | `#f8fafc`                     | Background halaman                             |
+| `--home-card-bg`           | `#ffffff`                     | Background kartu/panel                         |
+| `--home-border`            | `#e2e8f0`                     | Border kartu, divider                          |
+| `--home-card-radius`       | `20px`                        | Border radius kartu besar                      |
+| `--home-transition`        | `cubic-bezier(0.25, 0.8, 0.25, 1)` | Easing default untuk transisi hover       |
+
+**Aturan warna tambahan:**
+- Gunakan **putih murni** (`#ffffff`) sebagai background kartu, bukan abu-abu atau off-white.
+- Hindari warna merah/biru/kuning generik. Gunakan varian dari palette di atas.
+- Gradient selalu diagonal: `linear-gradient(135deg, #38c66c, #41c3a9)` atau `linear-gradient(135deg, rgba(...primary-rgb..., 0.08), rgba(...accent-rgb..., 0.06))`.
+
+### 14.2 Typography
+
+| Font Stack                       | Penggunaan                                      |
+| -------------------------------- | ----------------------------------------------- |
+| `'Inter', 'Outfit', sans-serif`  | **Utama** — heading, label, badge, number       |
+| `'Outfit', sans-serif`           | Body text, form field, paragraph                |
+| `'Inter', monospace`             | Kode, badge kode (IKU/indikator), angka metrik  |
+
+**Import Google Fonts wajib di setiap custom CSS baru:**
+```css
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@400;500;600;700&display=swap');
+```
+
+**Aturan tipografi:**
+- Heading utama: `font-weight: 700–800`, `letter-spacing: -0.5px`
+- Label kecil/uppercase: `font-weight: 600`, `letter-spacing: 2px`, `text-transform: uppercase`
+- Body text: `font-size: 0.9rem–0.95rem`, `line-height: 1.6`
+- Jangan gunakan font-size di atas `2rem` kecuali untuk hero section.
+
+### 14.3 Efek Visual & Animasi Wajib
+
+Setiap halaman baru **harus** menggunakan minimal tiga dari pola berikut:
+
+1. **Entrance animation** (`@keyframes fadeFadeUp`):
+   ```css
+   @keyframes pageFadeUp {
+       from { opacity: 0; transform: translateY(24px); }
+       to   { opacity: 1; transform: translateY(0); }
+   }
+   .my-element { animation: pageFadeUp 0.6s ease-out both; }
+   ```
+
+2. **Glow/gradient border on hover** (pseudo-element `::before`):
+   ```css
+   .my-card::before {
+       content: '';
+       position: absolute;
+       inset: -1px;
+       border-radius: inherit;
+       padding: 1px;
+       background: linear-gradient(135deg, transparent, transparent);
+       -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+       -webkit-mask-composite: xor;
+       mask-composite: exclude;
+       transition: background 0.4s ease;
+   }
+   .my-card:hover::before {
+       background: linear-gradient(135deg, var(--home-primary), var(--home-accent));
+   }
+   ```
+
+3. **Glassmorphism badge/overlay:**
+   ```css
+   .my-badge {
+       background: rgba(56, 198, 108, 0.06);
+       backdrop-filter: blur(10px);
+       border: 1px solid rgba(56, 198, 108, 0.1);
+   }
+   ```
+
+4. **Radial gradient mesh background (page wrapper):**
+   ```css
+   .page-wrapper::before {
+       content: '';
+       position: fixed;
+       inset: 0;
+       z-index: -2;
+       background:
+           radial-gradient(ellipse 80% 50% at 20% 10%, rgba(56, 198, 108, 0.06) 0%, transparent 60%),
+           radial-gradient(ellipse 60% 40% at 80% 80%, rgba(65, 195, 169, 0.05) 0%, transparent 60%);
+       pointer-events: none;
+   }
+   ```
+
+5. **Card lift on hover:**
+   ```css
+   .my-card:hover {
+       transform: translateY(-6px);
+       box-shadow: 0 20px 40px rgba(56, 198, 108, 0.08), 0 8px 16px rgba(0,0,0,0.04);
+   }
+   ```
+
+6. **Staggered entrance animation** (untuk grid/list):
+   ```css
+   .my-card[data-delay="1"] { animation-delay: 0.05s; }
+   .my-card[data-delay="2"] { animation-delay: 0.10s; }
+   /* dst... */
+   ```
+
+7. **Pulse dot** (untuk status "aktif"/"live"):
+   ```css
+   .pulse-dot {
+       width: 8px; height: 8px;
+       border-radius: 50%;
+       background: var(--home-primary);
+       animation: pulseRing 2s ease-in-out infinite;
+   }
+   @keyframes pulseRing {
+       0%, 100% { box-shadow: 0 0 0 0 rgba(56, 198, 108, 0.5); }
+       50%       { box-shadow: 0 0 0 8px rgba(56, 198, 108, 0); }
+   }
+   ```
+
+### 14.4 Komponen UI Standar
+
+#### Kartu/Panel (Card)
+```css
+.page-card {
+    background: #ffffff;
+    border-radius: 18px;          /* atau 14px untuk kartu kecil */
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.03), 0 1px 4px rgba(0, 0, 0, 0.02);
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    overflow: hidden;
+}
+```
+
+#### Banner/Hero Section
+- Background: `linear-gradient(135deg, #ffffff 0%, #f0fdf4 50%, #f8fafc 100%)`
+- Selalu tambahkan **grid overlay** untuk efek futuristik:
+  ```css
+  background-image:
+      linear-gradient(rgba(56, 198, 108, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(56, 198, 108, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  ```
+- Left accent bar (`::before`): `width: 6px; background: linear-gradient(180deg, #38c66c, #2ea85b);`
+
+#### Badge/Chip
+```css
+.page-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.35rem 0.75rem;
+    border-radius: 8px;           /* atau 20px untuk pill badge */
+    font-size: 0.75rem;
+    font-weight: 700;
+    background: rgba(56, 198, 108, 0.07);
+    color: #227741;
+    border: 1px solid rgba(56, 198, 108, 0.1);
+}
+```
+
+#### Icon Container
+```css
+.page-icon {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem;
+    background: linear-gradient(135deg, rgba(56, 198, 108, 0.08), rgba(65, 195, 169, 0.06));
+    color: #38c66c;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+```
+
+#### Tombol Utama (CTA)
+```css
+.btn-primary-custom {
+    background: linear-gradient(135deg, #38c66c, #2ea85b);
+    border: none;
+    border-radius: 10px;
+    color: #ffffff;
+    font-weight: 600;
+    padding: 0.65rem 1.5rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 14px rgba(56, 198, 108, 0.25);
+}
+.btn-primary-custom:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(56, 198, 108, 0.35);
+}
+```
+
+#### Section Header
+```html
+<div class="section-header" style="display:flex; align-items:center; gap:0.75rem; margin-bottom:1.5rem;">
+    <div class="section-icon" style="width:38px; height:38px; border-radius:10px; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg, rgba(56,198,108,0.12), rgba(65,195,169,0.08)); color:#38c66c;">
+        <i class="mdi mdi-chart-bar"></i>
+    </div>
+    <div>
+        <h5 style="margin:0; font-weight:700; color:#0f172a;">Judul Seksi</h5>
+        <p style="margin:0; font-size:0.8rem; color:#64748b;">Sub-judul opsional</p>
+    </div>
+</div>
+```
+
+### 14.5 Grid Layout Responsif
+
+Gunakan CSS Grid (bukan Bootstrap col saja) untuk layout kartu yang modern:
+
+```css
+.page-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);  /* default desktop */
+    gap: 1.25rem;
+}
+@media (max-width: 1199.98px) { .page-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 991.98px)  { .page-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 575.98px)  { .page-grid { grid-template-columns: 1fr; } }
+```
+
+---
+
+## 15. Pemetaan CSS File per Halaman
+
+Gunakan tabel ini sebagai referensi: **CSS mana yang sudah ada, dan mana yang perlu dibuat baru** saat mengerjakan halaman tertentu.
+
+| Halaman / Fitur                    | CSS File yang Digunakan                                    | View File                                   |
+| ---------------------------------- | ---------------------------------------------------------- | ------------------------------------------- |
+| Login / Autentikasi                | `assets/css/custom-login.css`                              | `application/views/auth/`                   |
+| Dashboard Utama                    | `assets/css/custom-dashboard.css`                          | `application/views/dashboard/`              |
+| Home / Beranda (Daftar Indikator)  | `assets/css/custom-home.css`                               | `application/views/dashboard/v_home.php`    |
+| User Management                    | `assets/css/user_management.css`                           | `application/views/users/`                  |
+| Migration / Setup                  | `assets/css/custom-migrate.css`                            | `application/views/migrate/`                |
+| Error Pages                        | `assets/css/custom-errors.css`                             | `application/views/errors/`                 |
+| Indikator IKU 1.1                  | `assets/css/indicator/iku_1_1.css`                         | `application/views/indicator/iku_1_1/`      |
+| Indikator IKU 1.2                  | `assets/css/indicator/iku_1_2.css`                         | `application/views/indicator/iku_1_2/`      |
+| Indikator IKU 1.3–1.9              | `assets/css/indicator/iku_1_3.css` – `iku_1_9.css`        | `application/views/indicator/iku_1_x/`      |
+| Halaman baru (fitur baru)          | Buat `assets/css/custom-[nama-fitur].css`                  | Sesuaikan dengan nama halaman               |
+
+> **Aturan AI Agent:**
+> - Jika mengerjakan halaman yang sudah ada CSS-nya → **baca dulu file CSS yang relevan** sebelum menambah style baru.
+> - Jika membuat halaman baru → **buat file CSS baru** di `assets/css/custom-[nama-fitur].css` dengan pola yang sama.
+> - **Jangan** menulis inline style yang panjang atau menaruh style di `<style>` tag di View — semua CSS wajib di file terpisah.
+
+---
+
+## 16. Skill & Checklist Desain UI
+
+Gunakan checklist ini setiap kali AI Agent **membuat atau memodifikasi tampilan View**:
+
+### ✅ Checklist Wajib Sebelum Submit View
+
+- [ ] **Font**: Sudah menggunakan `Inter` / `Outfit` dari Google Fonts? Import ada di CSS file?
+- [ ] **Warna**: Semua warna merujuk ke token palette resmi (`#38c66c`, `#41c3a9`, `#0f172a`, `#f8fafc`, dll)?
+- [ ] **Background halaman**: Menggunakan `#f8fafc` dengan radial gradient mesh overlay?
+- [ ] **Kartu/Panel**: Sudah menggunakan `border-radius: 14px–20px`, `border: 1px solid #e2e8f0`, `box-shadow` subtle?
+- [ ] **Animasi entrance**: Ada `@keyframes fadeFadeUp` atau `homeSlideIn` pada elemen utama?
+- [ ] **Hover effect**: Kartu atau link punya `transform: translateY(-4px)` dan `box-shadow` saat hover?
+- [ ] **Badge/Label kode**: Indikator/kode menggunakan glassmorphism badge (`rgba(56, 198, 108, 0.07)` + border tipis)?
+- [ ] **Icon container**: Icon dibungkus `div` dengan background gradient tipis + rounded corner?
+- [ ] **Section header**: Setiap seksi memiliki section icon + title + subtitle sesuai §14.4?
+- [ ] **Responsif**: Grid sudah menggunakan CSS Grid dengan breakpoint 4-3-2-1 kolom?
+- [ ] **Output di-escape**: Semua output PHP menggunakan `html_escape()` atau `htmlspecialchars()`?
+- [ ] **CSS file**: Style diletakkan di file CSS terpisah (bukan `<style>` inline di View)?
+
+### ✅ Checklist Kualitas Visual
+
+- [ ] **Tidak ada warna generik**: Tidak ada `color: red`, `background: blue`, `#333`, `#666` tanpa alasan.
+- [ ] **Tidak ada font browser default**: Tidak ada elemen yang menggunakan Times New Roman / Arial default.
+- [ ] **Tidak ada border kasar**: Gunakan `border: 1px solid #e2e8f0` bukan `border: 1px solid black`.
+- [ ] **Spacing konsisten**: Gunakan kelipatan `0.25rem` (mis. `0.5rem`, `1rem`, `1.5rem`, `2rem`).
+- [ ] **Loading state**: Jika ada data dari DB, ada skeleton loader atau spinner yang on-brand?
+- [ ] **Empty state**: Jika data kosong, ada ilustrasi atau pesan yang estetik (bukan tabel kosong polos)?
+
+### Referensi Visual Utama
+
+| Halaman Referensi | Lokasi CSS                        | Fitur Visual Unggulan                                    |
+| ----------------- | --------------------------------- | -------------------------------------------------------- |
+| Home / Beranda    | `assets/css/custom-home.css`      | Floating particles, hero card, staggered card animation  |
+| Dashboard         | `assets/css/custom-dashboard.css` | Welcome card, indicator menu card, sidebar collapse fix  |
+| Login             | `assets/css/custom-login.css`     | Minimal clean card, focus glow input, fade entrance      |
+| User Management   | `assets/css/user_management.css`  | Banner accent bar, stat cards, table styling             |
+
+> [!TIP]
+> Untuk inspirasi cepat: buka `assets/css/custom-home.css` — file ini adalah implementasi paling lengkap dari design system project, mencakup particles background, hero card, grid layout, hover glow border, glassmorphism badge, dan staggered animation.

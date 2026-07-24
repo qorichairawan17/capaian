@@ -117,75 +117,75 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <?php
     $indicators = [
         [
-            'code'  => 'IKU 1.1',
-            'url'   => site_url('indicator/iku_1_1'),
-            'icon'  => 'fas fa-hourglass-half',
+            'code' => 'IKU 1.1',
+            'url' => site_url('indicator/iku_1_1'),
+            'icon' => 'fas fa-hourglass-half',
             'title' => 'Penyelesaian perkara secara tepat waktu',
         ],
         [
-            'code'  => 'IKU 1.2',
-            'url'   => site_url('indicator/iku_1_2'),
-            'icon'  => 'fas fa-file-export',
+            'code' => 'IKU 1.2',
+            'url' => site_url('indicator/iku_1_2'),
+            'icon' => 'fas fa-file-export',
             'title' => 'Persentase penyediaan/pengiriman salinan putusan tepat waktu oleh pengadilan tingkat pertama kepada para pihak',
         ],
         [
-            'code'  => 'IKU 1.3',
-            'url'   => site_url('indicator/iku_1_3'),
-            'icon'  => 'fas fa-paper-plane',
+            'code' => 'IKU 1.3',
+            'url' => site_url('indicator/iku_1_3'),
+            'icon' => 'fas fa-paper-plane',
             'title' => 'Persentase pengiriman pemberitahuan petikan/amar putusan tingkat banding, kasasi dan PK secara tepat waktu oleh pengadilan pengaju kepada para pihak',
         ],
         [
-            'code'  => 'IKU 1.4',
-            'url'   => site_url('indicator/iku_1_4'),
-            'icon'  => 'fas fa-file-export',
+            'code' => 'IKU 1.4',
+            'url' => site_url('indicator/iku_1_4'),
+            'icon' => 'fas fa-file-export',
             'title' => 'Persentase pengiriman salinan putusan perkara pidana tingkat banding, kasasi dan PK tepat waktu oleh pengadilan pengaju kepada para pihak',
         ],
         [
-            'code'  => 'IKU 1.5',
-            'url'   => site_url('indicator/iku_1_5'),
-            'icon'  => 'fas fa-upload',
+            'code' => 'IKU 1.5',
+            'url' => site_url('indicator/iku_1_5'),
+            'icon' => 'fas fa-upload',
             'title' => 'Persentase putusan pengadilan yang diunggah pada direktori putusan',
         ],
         [
-            'code'  => 'IKU 1.6',
-            'url'   => site_url('indicator/iku_1_6'),
-            'icon'  => 'fas fa-gavel',
+            'code' => 'IKU 1.6',
+            'url' => site_url('indicator/iku_1_6'),
+            'icon' => 'fas fa-gavel',
             'title' => 'Persentase penyelesaian permohonan eksekusi putusan perdata',
         ],
         [
-            'code'  => 'IKU 1.7',
-            'url'   => site_url('indicator/iku_1_7'),
-            'icon'  => 'fas fa-handshake',
-            'title' => 'Perkara yang berhasil diselesaikan melalui pendekatan keadilan restorative',
+            'code' => 'IKU 1.7',
+            'url' => site_url('indicator/iku_1_7'),
+            'icon' => 'fas fa-handshake',
+            'title' => 'Persentase Perkara yang berhasil diselesaikan melalui pendekatan keadilan restorative',
         ],
         [
-            'code'  => 'IKU 1.8',
-            'url'   => site_url('indicator/iku_1_8'),
-            'icon'  => 'fas fa-users',
-            'title' => 'Perkara yang berhasil diselesaikan melalui mediasi',
+            'code' => 'IKU 1.8',
+            'url' => site_url('indicator/iku_1_8'),
+            'icon' => 'fas fa-users',
+            'title' => 'Persentase Perkara yang berhasil diselesaikan melalui mediasi',
         ],
         [
-            'code'  => 'IKU 1.9',
-            'url'   => site_url('indicator/iku_1_9'),
-            'icon'  => 'fas fa-child',
-            'title' => 'Perkara anak yang berhasil diselesaikan melalui diversi',
+            'code' => 'IKU 1.9',
+            'url' => site_url('indicator/iku_1_9'),
+            'icon' => 'fas fa-child',
+            'title' => 'Persentase Perkara anak yang berhasil diselesaikan melalui diversi',
         ],
         [
-            'code'  => 'IKU 1.10',
-            'url'   => site_url('dashboard/indicator/1_10'),
-            'icon'  => 'fas fa-laptop',
-            'title' => 'Perkara perdata tingkat pertama yang menggunakan e-Court',
+            'code' => 'IKU 1.10',
+            'url' => site_url('indicator/iku_1_10'),
+            'icon' => 'fas fa-laptop',
+            'title' => 'Persentase Perkara perdata tingkat pertama yang menggunakan e-Court',
         ],
         [
-            'code'  => 'IKU 1.11',
-            'url'   => site_url('dashboard/indicator/1_11'),
-            'icon'  => 'fas fa-exchange-alt',
-            'title' => 'Perkara pidana yang dilimpahkan secara elektronik (e-Berpadu)',
+            'code' => 'IKU 1.11',
+            'url' => site_url('indicator/iku_1_11'),
+            'icon' => 'fas fa-exchange-alt',
+            'title' => 'Persentase Perkara pidana yang dilimpahkan secara elektronik (e-Berpadu)',
         ],
         [
-            'code'  => 'IKU 1.12',
-            'url'   => site_url('dashboard/indicator/1_12'),
-            'icon'  => 'fas fa-user-shield',
+            'code' => 'IKU 1.12',
+            'url' => site_url('dashboard/indicator/1_12'),
+            'icon' => 'fas fa-user-shield',
             'title' => 'Layanan perkara pidana yang diajukan secara elektronik (e-Berpadu)',
         ],
     ];
@@ -193,27 +193,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     <div class="home-grid mb-5">
         <?php foreach ($indicators as $i => $ind): ?>
-        <a href="<?= $ind['url'] ?>" class="home-indicator-card" data-delay="<?= $i + 1 ?>">
-            <div class="home-card-accent"></div>
-            <div class="home-card-body">
-                <div class="home-card-header">
-                    <span class="home-code-badge">
-                        <i class="fas fa-circle" style="font-size:5px;vertical-align:middle;color:var(--home-primary)"></i>
-                        <?= $ind['code'] ?>
-                    </span>
-                    <div class="home-card-icon">
-                        <i class="<?= $ind['icon'] ?>"></i>
+            <a href="<?= $ind['url'] ?>" class="home-indicator-card" data-delay="<?= $i + 1 ?>">
+                <div class="home-card-accent"></div>
+                <div class="home-card-body">
+                    <div class="home-card-header">
+                        <span class="home-code-badge">
+                            <i class="fas fa-circle" style="font-size:5px;vertical-align:middle;color:var(--home-primary)"></i>
+                            <?= $ind['code'] ?>
+                        </span>
+                        <div class="home-card-icon">
+                            <i class="<?= $ind['icon'] ?>"></i>
+                        </div>
+                    </div>
+                    <h5 class="home-card-title"><?= $ind['title'] ?></h5>
+                    <div class="home-card-footer">
+                        <span class="home-card-action">
+                            Lihat Rincian
+                            <span class="arrow-circle"><i class="fas fa-arrow-right"></i></span>
+                        </span>
                     </div>
                 </div>
-                <h5 class="home-card-title"><?= $ind['title'] ?></h5>
-                <div class="home-card-footer">
-                    <span class="home-card-action">
-                        Lihat Rincian
-                        <span class="arrow-circle"><i class="fas fa-arrow-right"></i></span>
-                    </span>
-                </div>
-            </div>
-        </a>
+            </a>
         <?php endforeach; ?>
     </div>
 
@@ -226,16 +226,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <!-- Live Clock Script -->
 <script>
-(function() {
-    var clockEl = document.getElementById('home-live-clock');
-    if (!clockEl) return;
-    function updateClock() {
-        var now = new Date();
-        var h = String(now.getHours()).padStart(2, '0');
-        var m = String(now.getMinutes()).padStart(2, '0');
-        var s = String(now.getSeconds()).padStart(2, '0');
-        clockEl.textContent = h + ':' + m + ':' + s;
-    }
-    setInterval(updateClock, 1000);
-})();
+    (function () {
+        var clockEl = document.getElementById('home-live-clock');
+        if (!clockEl) return;
+        function updateClock() {
+            var now = new Date();
+            var h = String(now.getHours()).padStart(2, '0');
+            var m = String(now.getMinutes()).padStart(2, '0');
+            var s = String(now.getSeconds()).padStart(2, '0');
+            clockEl.textContent = h + ':' + m + ':' + s;
+        }
+        setInterval(updateClock, 1000);
+    })();
 </script>

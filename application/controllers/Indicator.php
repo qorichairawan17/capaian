@@ -12,6 +12,8 @@ class Indicator extends CI_Controller
     private $getCasesIku17UseCase;
     private $getCasesIku18UseCase;
     private $getCasesIku19UseCase;
+    private $getCasesIku110UseCase;
+    private $getCasesIku111UseCase;
 
     public function __construct()
     {
@@ -48,6 +50,12 @@ class Indicator extends CI_Controller
 
         $caseIku19Repository = new \App\Infrastructure\Repositories\DbCaseIku19Repository();
         $this->getCasesIku19UseCase = new \App\UseCases\GetCasesIku19UseCase($caseIku19Repository);
+
+        $caseIku110Repository = new \App\Infrastructure\Repositories\DbCaseIku110Repository();
+        $this->getCasesIku110UseCase = new \App\UseCases\GetCasesIku110UseCase($caseIku110Repository);
+
+        $caseIku111Repository = new \App\Infrastructure\Repositories\DbCaseIku111Repository();
+        $this->getCasesIku111UseCase = new \App\UseCases\GetCasesIku111UseCase($caseIku111Repository);
     }
 
     /**
@@ -699,6 +707,153 @@ class Indicator extends CI_Controller
             'gagalDiversiCount' => $response->getGagalDiversiCount(),
             'persentaseBerhasilDiversi' => $response->getPersentaseBerhasilDiversi(),
             'selectedStatus' => $statusDiversi ? $statusDiversi : 'semua',
+            'selectedPeriode' => $periode ? $periode : 'tahunan'
+        ];
+
+        // 5. Load standard layout
+        $this->load->view('dashboard/layouts/body', $data);
+    }
+
+    /**
+     * Render details page for IKU 1.10 (Persentase Perkara Perdata Tingkat Pertama Menggunakan e-Court)
+     */
+    public function iku_1_10()
+    {
+        // 1. Get input parameters from GET query string
+        $metodePendaftaran = $this->input->get('metode', TRUE); // e.g. 'ecourt', 'konvensional', 'semua'
+        $periode = $this->input->get('periode', TRUE);          // e.g. 't1', 't2', 't3', 't4', 'tahunan'
+
+        // 2. Map input to Request DTO
+        $request = new \App\UseCases\DTO\GetCasesIku110Request($periode, $metodePendaftaran);
+
+        // 3. Execute application use case
+        $response = $this->getCasesIku110UseCase->execute($request);
+
+        // If AJAX request, return statistics and case list as JSON
+        if ($this->input->is_ajax_request()) {
+            $casesArray = [];
+            foreach ($response->getCases() as $case) {
+                $casesArray[] = [
+                    'id' => $case->getId(),
+                    'nomor_perkara' => $case->getNomorPerkara(),
+                    'para_pihak' => $case->getParaPihak(),
+                    'jenis_perdata' => $case->getJenisPerdata(),
+                    'metode_pendaftaran' => $case->getMetodePendaftaran(),
+                    'tanggal_pendaftaran' => date('d M Y', strtotime($case->getTanggalPendaftaran())),
+                    'nomor_register_ecourt' => $case->getNomorRegisterEcourt(),
+                    'is_ecourt' => $case->isEcourt(),
+                    'is_konvensional' => $case->isKonvensional()
+                ];
+            }
+
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode([
+                    'success' => true,
+                    'totalDiajukanCount' => $response->getTotalDiajukanCount(),
+                    'ecourtCount' => $response->getEcourtCount(),
+                    'konvensionalCount' => $response->getKonvensionalCount(),
+                    'persentaseEcourt' => $response->getPersentaseEcourt(),
+                    'cases' => $casesArray
+                ]));
+            return;
+        }
+
+        // 4. Map response data to layout view
+        $data = [
+            'title' => 'IKU 1.10 - Perkara Perdata Menggunakan e-Court',
+            'content_view' => 'dashboard/indicator/v_iku_1_10',
+            'extra_css' => [
+                'assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css',
+                'assets/libs/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css',
+                'assets/css/indicator/iku_1_10.css'
+            ],
+            'extra_js' => [
+                'assets/libs/datatables.net/js/jquery.dataTables.min.js',
+                'assets/libs/datatables.net-bs5/js/dataTables.bootstrap5.min.js',
+                'assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js',
+                'assets/libs/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js'
+            ],
+            'cases' => $response->getCases(),
+            'totalDiajukanCount' => $response->getTotalDiajukanCount(),
+            'ecourtCount' => $response->getEcourtCount(),
+            'konvensionalCount' => $response->getKonvensionalCount(),
+            'persentaseEcourt' => $response->getPersentaseEcourt(),
+            'selectedMetode' => $metodePendaftaran ? $metodePendaftaran : 'semua',
+            'selectedPeriode' => $periode ? $periode : 'tahunan'
+        ];
+
+        // 5. Load standard layout
+        $this->load->view('dashboard/layouts/body', $data);
+    }
+
+    /**
+     * Render details page for IKU 1.11 (Persentase Perkara Pidana yang Dilimpahkan Secara Elektronik e-Berpadu)
+     */
+    public function iku_1_11()
+    {
+        // 1. Get input parameters from GET query string
+        $metodePelimpahan = $this->input->get('metode', TRUE); // e.g. 'eberpadu', 'konvensional', 'semua'
+        $periode = $this->input->get('periode', TRUE);          // e.g. 't1', 't2', 't3', 't4', 'tahunan'
+
+        // 2. Map input to Request DTO
+        $request = new \App\UseCases\DTO\GetCasesIku111Request($periode, $metodePelimpahan);
+
+        // 3. Execute application use case
+        $response = $this->getCasesIku111UseCase->execute($request);
+
+        // If AJAX request, return statistics and case list as JSON
+        if ($this->input->is_ajax_request()) {
+            $casesArray = [];
+            foreach ($response->getCases() as $case) {
+                $casesArray[] = [
+                    'id' => $case->getId(),
+                    'nomor_perkara' => $case->getNomorPerkara(),
+                    'nama_terdakwa' => $case->getNamaTerdakwa(),
+                    'jenis_pidana' => $case->getJenisPidana(),
+                    'metode_pelimpahan' => $case->getMetodePelimpahan(),
+                    'tanggal_pelimpahan' => date('d M Y', strtotime($case->getTanggalPelimpahan())),
+                    'nomor_register_eberpadu' => $case->getNomorRegisterEberpadu(),
+                    'kejaksaan_penuntut' => $case->getKejaksaanPenuntut(),
+                    'is_eberpadu' => $case->isEberpadu(),
+                    'is_konvensional' => $case->isKonvensional()
+                ];
+            }
+
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode([
+                    'success' => true,
+                    'totalDilimpahkanCount' => $response->getTotalDilimpahkanCount(),
+                    'eberpaduCount' => $response->getEberpaduCount(),
+                    'konvensionalCount' => $response->getKonvensionalCount(),
+                    'persentaseEberpadu' => $response->getPersentaseEberpadu(),
+                    'cases' => $casesArray
+                ]));
+            return;
+        }
+
+        // 4. Map response data to layout view
+        $data = [
+            'title' => 'IKU 1.11 - Perkara Pidana Dilimpahkan Secara Elektronik (e-Berpadu)',
+            'content_view' => 'dashboard/indicator/v_iku_1_11',
+            'extra_css' => [
+                'assets/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css',
+                'assets/libs/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css',
+                'assets/css/indicator/iku_1_11.css'
+            ],
+            'extra_js' => [
+                'assets/libs/datatables.net/js/jquery.dataTables.min.js',
+                'assets/libs/datatables.net-bs5/js/dataTables.bootstrap5.min.js',
+                'assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js',
+                'assets/libs/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js'
+            ],
+            'cases' => $response->getCases(),
+            'totalDilimpahkanCount' => $response->getTotalDilimpahkanCount(),
+            'eberpaduCount' => $response->getEberpaduCount(),
+            'konvensionalCount' => $response->getKonvensionalCount(),
+            'persentaseEberpadu' => $response->getPersentaseEberpadu(),
+            'selectedMetode' => $metodePelimpahan ? $metodePelimpahan : 'semua',
             'selectedPeriode' => $periode ? $periode : 'tahunan'
         ];
 
