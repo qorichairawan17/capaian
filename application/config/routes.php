@@ -52,3 +52,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'dashboard';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+
+/* Indicator Routes */
+$route['indicator/export_iku_1_1'] = 'indicator/Iku_1_1/export';
+$route['indicator/iku_1_1'] = 'indicator/Iku_1_1/index';
+$route['indicator/iku_1_2'] = 'indicator/Iku_1_2/index';
+$route['indicator/iku_1_3'] = 'indicator/Iku_1_3/index';
+$route['indicator/iku_1_4'] = 'indicator/Iku_1_4/index';
+$route['indicator/iku_1_5'] = 'indicator/Iku_1_5/index';
+$route['indicator/iku_1_6'] = 'indicator/Iku_1_6/index';
+$route['indicator/iku_1_7'] = 'indicator/Iku_1_7/index';
+$route['indicator/iku_1_8'] = 'indicator/Iku_1_8/index';
+$route['indicator/iku_1_9'] = 'indicator/Iku_1_9/index';
+$route['indicator/iku_1_10'] = 'indicator/Iku_1_10/index';
+$route['indicator/iku_1_11'] = 'indicator/Iku_1_11/index';
+$route['indicator/iku_1_12'] = 'indicator/Iku_1_12/index';
