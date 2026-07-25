@@ -81,6 +81,7 @@ class Indicator extends CI_Controller
                     'id' => $case->getId(),
                     'nomor_perkara' => $case->getNomorPerkara(),
                     'jenis_perkara' => $case->getJenisPerkara(),
+                    'klasifikasi' => $case->getKlasifikasi(),
                     'tanggal_registrasi' => date('d M Y', strtotime($case->getTanggalRegistrasi())),
                     'tanggal_putusan' => date('d M Y', strtotime($case->getTanggalPutusan())),
                     'tanggal_minutasi' => date('d M Y', strtotime($case->getTanggalMinutasi())),
@@ -128,6 +129,38 @@ class Indicator extends CI_Controller
 
         // 5. Load standard layout
         $this->load->view('dashboard/layouts/body', $data);
+    }
+
+    /**
+     * Export IKU 1.1 report to Microsoft Word format (.doc)
+     */
+    public function export_iku_1_1()
+    {
+        $jenisPerkara = $this->input->get('jenis', TRUE);
+        $periode = $this->input->get('periode', TRUE);
+
+        $request = new \App\UseCases\DTO\GetCasesRequest($jenisPerkara, $periode);
+        $response = $this->getCasesUseCase->execute($request);
+
+        $data = [
+            'cases' => $response->getCases(),
+            'totalCount' => $response->getTotalCount(),
+            'tepatWaktuCount' => $response->getTepatWaktuCount(),
+            'terlambatCount' => $response->getTerlambatCount(),
+            'persentaseTepatWaktu' => $response->getPersentaseTepatWaktu(),
+            'selectedJenis' => $jenisPerkara ? $jenisPerkara : 'semua',
+            'selectedPeriode' => $periode ? $periode : 'tahunan'
+        ];
+
+        $filename = 'Laporan_Capaian_IKU_1.1_' . date('Ymd_His') . '.doc';
+
+        header("Content-Type: application/vnd.ms-word; charset=utf-8");
+        header("Content-Disposition: attachment; filename=\"{$filename}\"");
+        header("Expires: 0");
+        header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+        header("Pragma: public");
+
+        $this->load->view('dashboard/indicator/export_iku_1_1_word', $data);
     }
 
     /**

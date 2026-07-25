@@ -219,7 +219,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="col-md-4">
                             <div class="d-flex gap-2">
                                 <button type="button" id="btnExport" class="btn btn-filter-apply w-100 shadow-sm">
-                                    <i class="fas fa-file-export me-1.5"></i>&nbsp;Export
+                                    <i class="fas fa-file-word me-1.5"></i>&nbsp;Export Word
                                 </button>
                                 <a href="<?php echo site_url('dashboard'); ?>" class="btn btn-outline-secondary btn-filter-reset shadow-sm w-50">
                                     Kembali
@@ -258,7 +258,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 foreach ($cases as $case): ?>
                                     <tr>
                                         <td><?php echo $no++; ?></td>
-                                        <td class="fw-medium text-dark"><?php echo html_escape($case->getNomorPerkara()); ?></td>
+                                        <td>
+                                            <a href="javascript:void(0);" class="btn-detail-jadwal"
+                                               data-nomor="<?php echo html_escape($case->getNomorPerkara()); ?>"
+                                               data-jenis="<?php echo html_escape($case->getJenisPerkara()); ?>"
+                                               data-klasifikasi="<?php echo html_escape($case->getKlasifikasi()); ?>"
+                                               data-reg="<?php echo date('d M Y', strtotime($case->getTanggalRegistrasi())); ?>"
+                                               data-putusan="<?php echo date('d M Y', strtotime($case->getTanggalPutusan())); ?>"
+                                               data-minutasi="<?php echo date('d M Y', strtotime($case->getTanggalMinutasi())); ?>"
+                                               data-durasi="<?php echo $case->getDurasiHari(); ?>"
+                                               data-status="<?php echo html_escape($case->getStatus()); ?>">
+                                                <i class="fas fa-calendar-alt me-1.5 text-primary"></i>
+                                                <span><?php echo html_escape($case->getNomorPerkara()); ?></span>
+                                            </a>
+                                        </td>
                                         <td>
                                             <span class="badge badge-jenis px-2.5 py-1.5 rounded-2 fs-11">
                                                 <?php echo html_escape($case->getJenisPerkara()); ?>
@@ -289,6 +302,79 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </tbody>
                     </table>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ===== Modal Detail Jadwal Sidang ===== -->
+<div class="modal fade" id="modalJadwalSidang" tabindex="-1" aria-labelledby="modalJadwalSidangLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 14px; overflow: hidden;">
+            <div class="modal-header modal-detail-header px-4 py-3">
+                <div class="d-flex align-items-center gap-2">
+                    <div class="p-2 rounded-3 bg-white bg-opacity-10 text-white me-2">
+                        <i class="fas fa-gavel fs-5"></i>
+                    </div>
+                    <div>
+                        <h5 class="modal-title fw-bold text-white mb-0" id="modalJadwalSidangLabel">Detail Jadwal Sidang Perkara</h5>
+                        <small class="text-white-50" id="modal-subtitle-nomor">-</small>
+                    </div>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <!-- Case Summary Card -->
+                <div class="case-summary-box">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <div class="case-summary-label">Nomor Perkara</div>
+                            <div class="case-summary-value text-primary fw-bold" id="modal-nomor-perkara">-</div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="case-summary-label">Jenis Perkara</div>
+                            <div class="case-summary-value" id="modal-jenis-perkara">-</div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="case-summary-label">Status Penyelesaian</div>
+                            <div class="case-summary-value" id="modal-status-perkara">-</div>
+                        </div>
+                        <div class="col-12 border-top pt-2 mt-2">
+                            <div class="case-summary-label">Klasifikasi / Perihal</div>
+                            <div class="case-summary-value text-dark" id="modal-klasifikasi-perkara">-</div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="case-summary-label">Tgl Registrasi</div>
+                            <div class="case-summary-value" id="modal-tgl-registrasi">-</div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="case-summary-label">Tgl Putusan</div>
+                            <div class="case-summary-value" id="modal-tgl-putusan">-</div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="case-summary-label">Lama Proses</div>
+                            <div class="case-summary-value" id="modal-durasi-hari">-</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section Header -->
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <h6 class="fw-bold text-dark mb-0">
+                        <i class="fas fa-history text-success me-2"></i>Agenda & Riwayat Persidangan
+                    </h6>
+                    <span class="badge bg-success bg-opacity-10 text-success fw-bold px-2.5 py-1.5 rounded-pill fs-11" id="modal-total-sidang">5 Sesi Sidang</span>
+                </div>
+
+                <!-- Timeline Container -->
+                <div id="modal-timeline-container" class="pt-2">
+                    <!-- Dynamic timeline items via JS -->
+                </div>
+            </div>
+            <div class="modal-footer bg-light px-4 py-3">
+                <button type="button" class="btn btn-outline-secondary px-3 rounded-2" data-bs-dismiss="modal">
+                    <i class="fas fa-times me-1.5"></i>Tutup
+                </button>
             </div>
         </div>
     </div>
@@ -361,9 +447,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     badgeStatus +
                                     '</div>';
 
+                                var nomorHtml = '<a href="javascript:void(0);" class="btn-detail-jadwal" ' +
+                                    'data-nomor="' + escapeHtml(item.nomor_perkara) + '" ' +
+                                    'data-jenis="' + escapeHtml(item.jenis_perkara) + '" ' +
+                                    'data-klasifikasi="' + escapeHtml(item.klasifikasi || '') + '" ' +
+                                    'data-reg="' + escapeHtml(item.tanggal_registrasi) + '" ' +
+                                    'data-putusan="' + escapeHtml(item.tanggal_putusan) + '" ' +
+                                    'data-minutasi="' + escapeHtml(item.tanggal_minutasi) + '" ' +
+                                    'data-durasi="' + escapeHtml(item.durasi_hari) + '" ' +
+                                    'data-status="' + escapeHtml(item.status) + '">' +
+                                    '<i class="fas fa-calendar-alt me-1.5 text-primary"></i>' +
+                                    '<span>' + escapeHtml(item.nomor_perkara) + '</span>' +
+                                    '</a>';
+
                                 table.row.add([
                                     index + 1,
-                                    '<span class="fw-medium text-dark">' + escapeHtml(item.nomor_perkara) + '</span>',
+                                    nomorHtml,
                                     badgeJenis,
                                     item.tanggal_registrasi,
                                     item.tanggal_putusan,
@@ -410,6 +509,93 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         // Trigger filter on dropdown changes automatically
         $('#jenis, #periode').on('change', function () {
             applyFilter();
+        });
+
+        // Trigger Word Report Export on btnExport click
+        $('#btnExport').on('click', function (e) {
+            e.preventDefault();
+            var jenis = $('#jenis').val();
+            var periode = $('#periode').val();
+            var exportUrl = '<?php echo site_url("indicator/export_iku_1_1"); ?>?jenis=' + encodeURIComponent(jenis) + '&periode=' + encodeURIComponent(periode);
+            window.location.href = exportUrl;
+        });
+
+        // Event listener for opening detail modal when clicking case number
+        $(document).on('click', '.btn-detail-jadwal', function (e) {
+            e.preventDefault();
+            var $this = $(this);
+            var nomor = $this.data('nomor');
+            var jenis = $this.data('jenis');
+            var klasifikasi = $this.data('klasifikasi');
+            var reg = $this.data('reg');
+            var putusan = $this.data('putusan');
+            var durasi = $this.data('durasi');
+            var status = $this.data('status');
+
+            // Populate summary card
+            $('#modal-subtitle-nomor').text('Nomor: ' + nomor);
+            $('#modal-nomor-perkara').text(nomor);
+            $('#modal-jenis-perkara').html('<span class="badge badge-jenis px-2.5 py-1.5 rounded-2 fs-11">' + escapeHtml(jenis) + '</span>');
+            
+            var badgeStatus = status === 'Tepat Waktu'
+                ? '<span class="badge badge-tepat px-2.5 py-1.5 rounded-pill fs-11">Tepat Waktu</span>'
+                : '<span class="badge badge-terlambat px-2.5 py-1.5 rounded-pill fs-11">Terlambat</span>';
+            $('#modal-status-perkara').html(badgeStatus);
+            $('#modal-klasifikasi-perkara').text(klasifikasi || 'Perkara ' + jenis);
+            $('#modal-tgl-registrasi').text(reg);
+            $('#modal-tgl-putusan').text(putusan);
+            $('#modal-durasi-hari').text(durasi + ' Hari');
+
+            // Generate realistic hearing schedule list based on dates & type
+            var isPidana = (jenis && jenis.toLowerCase().indexOf('pidana') !== -1);
+            var agendas = isPidana ? [
+                { title: 'Sidang I - Pembacaan Surat Dakwaan & Identitas', agenda: 'Pembacaan Surat Dakwaan oleh Penuntut Umum dan pemeriksaan identitas Terdakwa.', room: 'Ruang Cakra', offsetDays: 7 },
+                { title: 'Sidang II - Eksepsi Penasihat Hukum', agenda: 'Penyampaian Keberatan (Eksepsi) oleh Penasihat Hukum Terdakwa.', room: 'Ruang Cakra', offsetDays: 14 },
+                { title: 'Sidang III - Pembuktian & Saksi-saksi', agenda: 'Pemeriksaan saksi-saksi dari Penuntut Umum dan pengajuan barang bukti.', room: 'Ruang Cakra', offsetDays: 28 },
+                { title: 'Sidang IV - Pembacaan Tuntutan (Requisitoir)', agenda: 'Pembacaan surat tuntutan pidana oleh Penuntut Umum.', room: 'Ruang Cakra', offsetDays: 42 },
+                { title: 'Sidang V - Pembacaan Putusan', agenda: 'Musyawarah Majelis Hakim dan Pembacaan Putusan Akhir perkara.', room: 'Ruang Utama', offsetDays: 50 }
+            ] : [
+                { title: 'Sidang I - Pemanggilan & Mediasi', agenda: 'Pemeriksaan legalitas para pihak dan penetapan Hakim Mediasi.', room: 'Ruang Mediasi', offsetDays: 7 },
+                { title: 'Sidang II - Pembacaan Gugatan & Jawaban', agenda: 'Pembacaan Surat Gugatan Penggugat dan Penyampaian Jawaban Tergugat.', room: 'Ruang Garuda', offsetDays: 21 },
+                { title: 'Sidang III - Replik & Duplik', agenda: 'Penyampaian Replik Penggugat dan Duplik Tergugat secara tertulis.', room: 'Ruang Garuda', offsetDays: 35 },
+                { title: 'Sidang IV - Pembuktian Surat & Saksi', agenda: 'Pengesahan bukti surat serta pemeriksaan saksi-saksi para pihak.', room: 'Ruang Garuda', offsetDays: 49 },
+                { title: 'Sidang V - Pembacaan Putusan Perkara', agenda: 'Pembacaan amalan Putusan Perdata oleh Majelis Hakim.', room: 'Ruang Utama', offsetDays: 60 }
+            ];
+
+            // Parse registration date for calculations
+            var regDate = new Date(reg);
+            var isValDate = !isNaN(regDate.getTime());
+
+            var timelineHtml = '<ul class="timeline-sidang">';
+            $.each(agendas, function(i, agendaItem) {
+                var sDateStr = putusan;
+                if (isValDate && i < agendas.length - 1) {
+                    var sDate = new Date(regDate);
+                    sDate.setDate(sDate.getDate() + agendaItem.offsetDays);
+                    sDateStr = sDate.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+                }
+
+                timelineHtml += '<li class="timeline-item">' +
+                    '<div class="timeline-badge"></div>' +
+                    '<div class="timeline-content">' +
+                        '<div class="timeline-date"><i class="far fa-clock me-1"></i>' + sDateStr + ' &bull; 09:00 WIB</div>' +
+                        '<div class="timeline-agenda">' + escapeHtml(agendaItem.title) + '</div>' +
+                        '<div class="text-muted fs-12 mb-2">' + escapeHtml(agendaItem.agenda) + '</div>' +
+                        '<div class="timeline-meta">' +
+                            '<span><i class="fas fa-door-open text-muted"></i> ' + escapeHtml(agendaItem.room) + '</span>' +
+                            '<span><i class="fas fa-user-judge text-muted"></i> Majelis Hakim Ketua</span>' +
+                        '</div>' +
+                    '</div>' +
+                '</li>';
+            });
+            timelineHtml += '</ul>';
+
+            $('#modal-timeline-container').html(timelineHtml);
+            $('#modal-total-sidang').text(agendas.length + ' Sesi Sidang');
+
+            // Show Bootstrap Modal
+            var modal = new bootstrap.Modal(document.getElementById('modalJadwalSidang'));
+            modal.show();
         });
     });
 </script>

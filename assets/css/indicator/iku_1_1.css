@@ -211,3 +211,116 @@ table.dataTable tbody td {
 .catatan-list li:last-child {
     margin-bottom: 0;
 }
+
+/* Link Nomor Perkara Clickable Styling */
+.btn-detail-jadwal {
+    color: #2563eb;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+.btn-detail-jadwal:hover {
+    color: #1d4ed8;
+    text-decoration: underline;
+}
+
+/* Modal Detail Jadwal Sidang Custom Styling */
+.modal-detail-header {
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    color: #ffffff;
+    border-radius: 14px 14px 0 0;
+}
+.modal-detail-header .btn-close {
+    filter: invert(1);
+}
+.case-summary-box {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 20px;
+}
+.case-summary-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #64748b;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+}
+.case-summary-value {
+    font-size: 13px;
+    font-weight: 600;
+    color: #0f172a;
+}
+.timeline-sidang {
+    position: relative;
+    padding-left: 24px !important;
+    margin-bottom: 0;
+    list-style: none !important;
+}
+.timeline-sidang::before {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 6px;
+    bottom: 6px;
+    width: 2px;
+    background: #e2e8f0;
+}
+.timeline-item {
+    position: relative;
+    margin-bottom: 20px;
+    list-style: none !important;
+}
+.timeline-item:last-child {
+    margin-bottom: 0;
+}
+.timeline-badge {
+    position: absolute;
+    left: -24px;
+    top: 5px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #38c66c;
+    box-shadow: 0 0 0 3px #ffffff, 0 0 0 4px rgba(56, 198, 108, 0.25);
+}
+.timeline-content {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 14px 16px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+}
+.timeline-date {
+    font-size: 11px;
+    font-weight: 700;
+    color: #38c66c;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+.timeline-agenda {
+    font-size: 13px;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 6px;
+}
+.timeline-meta {
+    font-size: 12px;
+    color: #64748b;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+.timeline-meta span {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
