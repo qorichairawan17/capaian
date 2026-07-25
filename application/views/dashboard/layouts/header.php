@@ -178,7 +178,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             </a>
                         </li>
 
-                        <li class="menu-title">Manajemen Akun</li>
+                        <li class="menu-title">Navigasi Menu</li>
 
                         <li>
                             <a href="<?php echo site_url('usermanagement'); ?>" class="">
@@ -186,25 +186,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <span>Akun</span>
                             </a>
                         </li>
-
-                        <li class="menu-title">Manajemen Target</li>
-
                         <li>
-                            <a href="#" class="">
+                            <a href="<?php echo site_url('target'); ?>" class="">
                                 <i class="fas fa-calendar-alt"></i>
-                                <span>Target Tahunan</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="">
-                                <i class="fas fa-chart-pie"></i>
-                                <span>Target Triwulan</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="">
-                                <i class="fas fa-calendar-minus"></i>
-                                <span>Target Perbulan</span>
+                                <span>Pengisian Target</span>
                             </a>
                         </li>
                     </ul>
