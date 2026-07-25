@@ -75,6 +75,11 @@ class Indicator extends CI_Controller
         $this->_forward('Iku_1_11', 'index');
     }
 
+    public function iku_1_12()
+    {
+        $this->_forward('Iku_1_12', 'index');
+    }
+
     /**
      * Helper privat untuk meneruskan eksekusi ke Controller indikator yang sesuai.
      *

@@ -184,7 +184,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         ],
         [
             'code' => 'IKU 1.12',
-            'url' => site_url('dashboard/indicator/1_12'),
+            'url' => site_url('indicator/iku_1_12'),
             'icon' => 'fas fa-user-shield',
             'title' => 'Layanan perkara pidana yang diajukan secara elektronik (e-Berpadu)',
         ],
